@@ -1,12 +1,14 @@
 package com.appsxone.citisecurity.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.appsxone.citisecurity.R;
+import com.appsxone.citisecurity.activities.FacilityDetailActivity;
 import com.appsxone.citisecurity.models.FacilitiesModel;
 
 import java.util.ArrayList;
@@ -36,6 +38,16 @@ public class FacilitiesAdapter extends RecyclerView.Adapter<FacilitiesAdapter.My
         FacilitiesModel facilitiesModel = cartModelList.get(position);
         holder.tvFacilityName.setText(facilitiesModel.FacilityName);
         holder.tvFacilityAddress.setText(facilitiesModel.FacilityAddress);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FacilityDetailActivity.class);
+                intent.putExtra("facility_id", facilitiesModel.FacilityId);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override

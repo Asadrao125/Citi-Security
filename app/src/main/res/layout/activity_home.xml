@@ -41,7 +41,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_baseline_exit_to_app_24" />
+                    android:src="@drawable/ic_baseline_exit_to_app_24"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 
@@ -107,8 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="vertical"
-                    android:weightSum="2">
+                    android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv1"
@@ -126,7 +126,7 @@
                             android:layout_height="match_parent"
                             android:background="@drawable/selector"
                             android:orientation="horizontal"
-                            android:padding="8dp">
+                            android:padding="5dp">
 
                             <ImageView
                                 android:layout_width="60dp"
@@ -141,6 +141,51 @@
                                 android:layout_centerVertical="true"
                                 android:layout_margin="5dp"
                                 android:text="Facilities" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_arrow_fwd"
+                                app:tint="@color/orange" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cv2"
+                        android:layout_width="match_parent"
+                        android:layout_height="110dp"
+                        android:layout_weight="1"
+                        android:elevation="8dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="8dp"
+                        app:cardMaxElevation="8dp"
+                        app:cardUseCompatPadding="true">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/selector"
+                            android:orientation="horizontal"
+                            android:padding="5dp">
+
+                            <ImageView
+                                android:layout_width="60dp"
+                                android:layout_height="50dp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_logout" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
+                                android:layout_margin="5dp"
+                                android:text="Logout" />
 
                             <ImageView
                                 android:layout_width="wrap_content"

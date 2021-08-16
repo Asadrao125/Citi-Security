@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitiSecurity"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.FacilitiesActivity"></activity>
+        <activity android:name=".activities.FacilityDetailActivity"></activity>
+        <activity android:name=".activities.FacilitiesActivity" />
         <activity android:name=".activities.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

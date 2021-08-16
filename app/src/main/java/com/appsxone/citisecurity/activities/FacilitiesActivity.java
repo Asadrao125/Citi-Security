@@ -79,9 +79,10 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        String facilityId = jsonObject.getString("FacilityId");
-                        String facilityName = jsonObject.getString("FacilityName");
-                        String facilityAddress = jsonObject.getString("FacilityAddress");
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        String facilityId = obj.getString("FacilityId");
+                        String facilityName = obj.getString("FacilityName");
+                        String facilityAddress = obj.getString("FacilityAddress");
                         facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
                     }
                     rvFacilities.setAdapter(new FacilitiesAdapter(this, facilitiesModelArrayList));

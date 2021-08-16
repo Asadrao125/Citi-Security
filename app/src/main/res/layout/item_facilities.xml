@@ -30,8 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_user"
-                app:tint="@color/black" />
+                android:src="@drawable/ic_facility_name"
+                app:tint="@color/main_color" />
 
             <TextView
                 android:id="@+id/tvFacilityName"
@@ -59,7 +59,8 @@
                 android:layout_height="25dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_facilities" />
+                android:src="@drawable/ic_facility_address"
+                app:tint="@color/main_color" />
 
             <TextView
                 android:id="@+id/tvFacilityAddress"
