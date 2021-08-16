@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     ImageView imgLogout;
     String loginResponce;
     TextView tvUsername, tvEmail;
-    CardView cv1, cv2;
+    CardView cv1, cv2, cvTimeSheet, cvPayStub;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvEmail);
         cv1 = findViewById(R.id.cv1);
         cv2 = findViewById(R.id.cv2);
+        cvTimeSheet = findViewById(R.id.cvTimeSheet);
+        cvPayStub = findViewById(R.id.cvPayStub);
 
         try {
             JSONObject jsonObject = new JSONObject(loginResponce);
@@ -65,10 +67,25 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        cvTimeSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, TimeSheetActivity.class));
+            }
+        });
+
+        cvPayStub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, PaystubActivity.class));
+            }
+        });
+
         imgLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPref.remove("login");
+                SharedPref.remove("login_responce");
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                 finish();
             }
@@ -106,6 +123,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 SharedPref.remove("login");
+                SharedPref.remove("login_responce");
                 startActivity(new Intent(HomeActivity.this, LoginActivity.class));
                 finish();
             }
@@ -114,5 +132,4 @@ public class HomeActivity extends AppCompatActivity {
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
     }
-
 }

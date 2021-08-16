@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
                 }
             }
         });
+
     }
 
     private void Login(String email, String password) {
@@ -115,9 +116,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         Dexter.withContext(this)
                 .withPermissions(
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                        Manifest.permission.ACCESS_COARSE_LOCATION
                 ).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -139,8 +138,59 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         public void onReceive(Context context, Intent intent) {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
+            if (SharedPref.read("login", "").equals("true")) {
+                updateLocation(latitude, longitude, "Loggedin");
+            } else {
+                updateLocation(latitude, longitude, "Loggedout");
+            }
         }
     };
+
+    public static String getMacAddr() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "02:00:00:00:00:00";
+    }
+
+    private void updateLocation(String latitude, String longiTude, String comment) {
+        SharedPref.init(this);
+        String userId = null;
+        String res = SharedPref.read("login_responce", "");
+        try {
+            JSONObject jsonObject = new JSONObject(res);
+            userId = jsonObject.getString("UserID");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("UDID", getMacAddr());
+        requestParams.put("UserId", userId);
+        requestParams.put("Latitude", latitude);
+        requestParams.put("Longitude", longiTude);
+        requestParams.put("Comment", comment);
+        ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
+        apiManager.loadURL(0);
+    }
 
     @Override
     protected void onStart() {
@@ -148,5 +198,4 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         checkPermission();
         checkUserExistance();
     }
-
 }
