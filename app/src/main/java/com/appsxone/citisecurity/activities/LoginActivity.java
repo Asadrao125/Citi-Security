@@ -102,6 +102,17 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        } else if (apiName.equals(Const.UPDATE_LOCATION)) {
+            try {
+                JSONObject jsonObject = new JSONObject(apiResponce);
+                if (jsonObject.getString("Status").equals("Message")) {
+                    Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
