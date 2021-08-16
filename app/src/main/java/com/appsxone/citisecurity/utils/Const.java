@@ -8,4 +8,5 @@ public class Const {
     public static final String START_TIME_SHEET = "CitiSecurity/StartTimeSheet";
     public static final String STOP_TIME_SHEET = "CitiSecurity/StopTimeSheet";
     public static final String UPDATE_LOCATION = "CitiSecurity/LocationTracking";
+    public static final String UPDATE_OFFLINE_LOCATION = "CitiSecurity/OfflineLocationTracking";
 }

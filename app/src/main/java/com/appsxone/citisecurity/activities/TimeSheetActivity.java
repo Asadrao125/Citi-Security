@@ -11,11 +11,16 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
     ImageView imgBack;
     ApiCallback apiCallback;
+    String loginResponse, userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,17 +29,26 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
 
         imgBack = findViewById(R.id.imgBack);
         apiCallback = TimeSheetActivity.this;
+        SharedPref.init(this);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
+        try {
+            JSONObject jsonObject = new JSONObject(loginResponse);
+            userId = jsonObject.getString("UserID");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void getTimeSheetData() {
         RequestParams requestParams = new RequestParams();
-        requestParams.put("", "");
+        requestParams.put("", userId);
         ApiManager apiManager = new ApiManager(TimeSheetActivity.this, "post", Const.START_TIME_SHEET,
                 requestParams, apiCallback);
         apiManager.loadURL(1);
