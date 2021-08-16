@@ -28,7 +28,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         if (remoteMessage.getData().size() > 0) {
-            System.out.println("-- Onmessage recieve data payload :" + remoteMessage.getData());
             sendNotification(remoteMessage.getData().get("message"), remoteMessage.getData().get("title"));
         }
     }
@@ -40,15 +39,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String messageBody, String title) {
         int tempId = new Random(100).nextInt();
-        System.out.println("-- notification id: " + tempId);
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, tempId, intent, PendingIntent.FLAG_ONE_SHOT);
         String channelId = getString(R.string.default_notification_channel_id);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.drawable.logo_login)
                 .setContentTitle(title)
+                .setTicker(getResources().getString(R.string.app_name))
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

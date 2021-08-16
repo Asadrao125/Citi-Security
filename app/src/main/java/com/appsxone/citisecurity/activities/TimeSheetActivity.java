@@ -30,6 +30,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         imgBack = findViewById(R.id.imgBack);
         apiCallback = TimeSheetActivity.this;
         SharedPref.init(this);
+        loginResponse = SharedPref.read("login_responce", "");
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +44,6 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
     private void getTimeSheetData() {

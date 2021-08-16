@@ -39,7 +39,7 @@ public class Dialog_CustomProgress extends Dialog {
     private void initUI() {
         ll_progress_dialog = (LinearLayout) findViewById(R.id.ll_progress_dialog);
         progressBar2 = (ProgressBar) findViewById(R.id.progressBar2);
-        progressBar2.getIndeterminateDrawable().setColorFilter(activity.getResources().getColor(R.color.black), android.graphics.PorterDuff.Mode.MULTIPLY);
+        progressBar2.getIndeterminateDrawable().setColorFilter(activity.getResources().getColor(R.color.main_color), android.graphics.PorterDuff.Mode.MULTIPLY);
     }
 
     public void showProgressDialog() {
