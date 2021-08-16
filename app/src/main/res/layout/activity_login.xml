@@ -19,7 +19,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -33,22 +33,22 @@
                     android:layout_height="150dp">
 
                     <RelativeLayout
-                        android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
 
                         <ImageView
+                            android:id="@+id/logo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:id="@+id/logo"
                             android:layout_marginRight="5dp"
                             android:src="@drawable/logo_login" />
 
                         <LinearLayout
-                            android:layout_centerVertical="true"
-                            android:layout_toRightOf="@id/logo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/logo"
                             android:orientation="vertical">
 
                             <TextView
@@ -59,10 +59,10 @@
 
                             <TextView
                                 android:layout_width="wrap_content"
-                                android:textSize="12sp"
                                 android:layout_height="wrap_content"
                                 android:text="NYS LICENSED SECURITY GUARDS"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="12sp" />
 
                         </LinearLayout>
 
@@ -104,10 +104,10 @@
                                 android:id="@+id/edtEmail"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Email"
                                 android:drawableLeft="@drawable/ic_email_black"
-                                android:imeOptions="actionDone"
                                 android:drawablePadding="10dp"
+                                android:hint="Email"
+                                android:imeOptions="actionDone"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1"
                                 android:text="andybarlett@yopmail.com" />
@@ -157,6 +157,16 @@
                         </androidx.cardview.widget.CardView>
 
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvVersionName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_margin="10dp"
+                        android:text="Version Name: 1.0"
+                        android:textSize="12sp" />
 
                 </RelativeLayout>
 

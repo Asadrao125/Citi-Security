@@ -56,6 +56,17 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        Toast.makeText(this, "" + apiResponce, Toast.LENGTH_SHORT).show();
+        if (apiName.equals(Const.START_TIME_SHEET)) {
+            try {
+                JSONObject jsonObject = new JSONObject(apiResponce);
+                if (jsonObject.getString("Status").equals("Success")) {
+
+                } else {
+                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

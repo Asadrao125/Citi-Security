@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
     EditText edtEmail, edtPassword;
     Button btnLogin;
     String fcmToken;
+    TextView tvVersionName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +53,13 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        tvVersionName = findViewById(R.id.tvVersionName);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             fcmToken = instanceIdResult.getToken();
         });
+
+        tvVersionName.setText("Version Name: " + BuildConfig.VERSION_NAME);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,9 +155,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
             if (SharedPref.read("login", "").equals("true")) {
-                updateLocation(latitude, longitude, "Loggedin");
+                //updateLocation(latitude, longitude, "Loggedin");
             } else {
-                updateLocation(latitude, longitude, "Loggedout");
+                //updateLocation(latitude, longitude, "Loggedout");
             }
         }
     };

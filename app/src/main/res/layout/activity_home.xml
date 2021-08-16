@@ -41,7 +41,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_baseline_exit_to_app_24"
+                    android:src="@drawable/ic_exit"
                     android:visibility="gone" />
 
             </RelativeLayout>
