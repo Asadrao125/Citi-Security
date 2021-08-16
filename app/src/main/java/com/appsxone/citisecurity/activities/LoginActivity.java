@@ -62,10 +62,10 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 if (email.isEmpty()) {
-                    edtEmail.setError("Required");
+                    edtEmail.setError("Email Required");
                     edtEmail.requestFocus();
                 } else if (password.isEmpty()) {
-                    edtPassword.setError("Required");
+                    edtPassword.setError("Password Required");
                     edtPassword.requestFocus();
                 } else {
                     Login(email, password);

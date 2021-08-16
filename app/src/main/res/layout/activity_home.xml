@@ -18,9 +18,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -33,13 +33,14 @@
                     android:textSize="18sp" />
 
                 <ImageView
+                    android:id="@+id/imgLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:id="@+id/imgLogout"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="8dp"
                     android:src="@drawable/ic_baseline_exit_to_app_24" />
 
             </RelativeLayout>
@@ -58,12 +59,13 @@
                     android:src="@drawable/ic_user" />
 
                 <TextView
+                    android:id="@+id/tvUsername"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/imgUser"
                     android:layout_toRightOf="@id/imgUser"
-                    android:text="Bilal Malik"
+                    android:text="User Name"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
@@ -83,12 +85,13 @@
                     android:src="@drawable/ic_email" />
 
                 <TextView
+                    android:id="@+id/tvEmail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toEndOf="@id/imgEmail"
                     android:layout_toRightOf="@id/imgEmail"
-                    android:text="bilal@yopmail.com"
+                    android:text="someone@someone.com"
                     android:textColor="@color/white" />
 
             </RelativeLayout>
@@ -96,20 +99,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="60dp"
                 android:background="@drawable/login_white_curve"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
                     android:weightSum="2">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cv1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="110dp"
                         android:layout_weight="1"
                         android:elevation="8dp"
                         app:cardCornerRadius="8dp"
@@ -117,59 +121,37 @@
                         app:cardMaxElevation="8dp"
                         app:cardUseCompatPadding="true">
 
-                        <LinearLayout
+                        <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="vertical">
+                            android:background="@drawable/selector"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:scaleType="fitXY"
-                                android:src="@mipmap/ic_launcher" />
+                                android:layout_width="60dp"
+                                android:layout_height="50dp"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_facilities" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_centerVertical="true"
                                 android:layout_margin="5dp"
                                 android:text="Facilities" />
-
-                        </LinearLayout>
-
-                    </androidx.cardview.widget.CardView>
-
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:elevation="8dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:cardMaxElevation="8dp"
-                        app:cardUseCompatPadding="true">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:orientation="vertical">
 
                             <ImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:scaleType="fitXY"
-                                android:src="@mipmap/ic_launcher" />
-
-                            <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_margin="5dp"
-                                android:text="Facilities" />
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:src="@drawable/ic_arrow_fwd"
+                                app:tint="@color/orange" />
 
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </androidx.cardview.widget.CardView>
 
