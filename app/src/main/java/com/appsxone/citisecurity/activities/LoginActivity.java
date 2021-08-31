@@ -111,9 +111,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Message")) {
-                    Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -155,9 +155,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
             if (SharedPref.read("login", "").equals("true")) {
-                //updateLocation(latitude, longitude, "Loggedin");
+                updateLocation(latitude, longitude, "Loggedin");
             } else {
-                //updateLocation(latitude, longitude, "Loggedout");
+                updateLocation(latitude, longitude, "Loggedout");
             }
         }
     };

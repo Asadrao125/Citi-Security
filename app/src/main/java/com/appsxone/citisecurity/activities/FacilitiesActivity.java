@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
     ImageView imgBack;
     ApiCallback apiCallback;
     String loginResponse, userId;
+    Button btnGo;
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
     RecyclerView rvFacilities;
 
@@ -43,6 +45,7 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
         rvFacilities = findViewById(R.id.rvFacilities);
         rvFacilities.setLayoutManager(new LinearLayoutManager(this));
         rvFacilities.setHasFixedSize(true);
+        btnGo = findViewById(R.id.btnGo);
 
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
