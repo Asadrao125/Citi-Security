@@ -11,4 +11,5 @@ public class Const {
     public static final String UPDATE_OFFLINE_LOCATION = "CitiSecurity/OfflineLocationTracking";
     public static final String GET_TIMESHEETS_BY_GUARD_ID = "CitiSecurity/GetTimeSheetsByGuardID";
     public static final String GET_BILLS_BY_GUARD_ID = "CitiSecurity/GetBillsByGuardID";
+    public static final String GET_BILL_DETAILS_BY_ID = "CitiSecurity/GetBillDetailsByID";
 }

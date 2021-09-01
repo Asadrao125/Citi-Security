@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginBottom="16dp"
     android:elevation="8dp"
     android:orientation="vertical"
     app:cardElevation="8dp"
@@ -30,7 +29,7 @@
 
             <TextView
                 android:id="@+id/tvBillNo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Bill #"

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,10 +15,10 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
-import com.appsxone.citisecurity.adapters.BillAdapter;
+import com.appsxone.citisecurity.adapters.PayrolAdapter;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
-import com.appsxone.citisecurity.models.BillModel;
+import com.appsxone.citisecurity.models.PayrolModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.SharedPref;
@@ -44,7 +43,7 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
     String status;
     Button btnGo;
     RecyclerView rvBills;
-    ArrayList<BillModel> billModelArrayList = new ArrayList<>();
+    ArrayList<PayrolModel> payrolModelArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,7 +145,7 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
         if (apiName.equals(Const.GET_BILLS_BY_GUARD_ID)) {
             try {
-                billModelArrayList.clear();
+                payrolModelArrayList.clear();
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray jsonArray = jsonObject.getJSONArray("BillsData");
@@ -155,9 +154,9 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                         String BillHeaderID = obj.getString("BillHeaderID");
                         String BIllAmount = obj.getString("BIllAmount");
                         String BillStatus = obj.getString("BillStatus");
-                        billModelArrayList.add(new BillModel(BillHeaderID, BIllAmount, BillStatus));
+                        payrolModelArrayList.add(new PayrolModel(BillHeaderID, BIllAmount, BillStatus));
                     }
-                    rvBills.setAdapter(new BillAdapter(PayrollActivity.this, billModelArrayList));
+                    rvBills.setAdapter(new PayrolAdapter(PayrollActivity.this, payrolModelArrayList));
                     rvBills.setVisibility(View.VISIBLE);
                 } else {
                     rvBills.setVisibility(View.GONE);
@@ -172,6 +171,6 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
     @Override
     protected void onStart() {
         super.onStart();
-        getBillsData();
+        btnGo.performClick();
     }
 }

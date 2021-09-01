@@ -1,6 +1,7 @@
 package com.appsxone.citisecurity.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,18 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsxone.citisecurity.R;
-import com.appsxone.citisecurity.models.BillModel;
-import com.appsxone.citisecurity.models.TimeSheetModel;
+import com.appsxone.citisecurity.activities.PayrollDetailActivity;
+import com.appsxone.citisecurity.models.PayrolModel;
 
 import java.util.ArrayList;
 
-public class BillAdapter extends RecyclerView.Adapter<BillAdapter.MyViewHolder> {
+public class PayrolAdapter extends RecyclerView.Adapter<PayrolAdapter.MyViewHolder> {
     Context context;
-    ArrayList<BillModel> billModelArrayList;
+    ArrayList<PayrolModel> payrolModelArrayList;
 
-    public BillAdapter(Context c, ArrayList<BillModel> message) {
+    public PayrolAdapter(Context c, ArrayList<PayrolModel> message) {
         context = c;
-        billModelArrayList = message;
+        payrolModelArrayList = message;
     }
 
     @NonNull
@@ -34,15 +35,24 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        BillModel billModel = billModelArrayList.get(position);
-        holder.tvBillNo.setText(billModel.BillHeaderID);
-        holder.tvBillAmount.setText("$ " + billModel.BIllAmount);
-        holder.tvBillStatus.setText(billModel.BillStatus);
+        PayrolModel payrolModel = payrolModelArrayList.get(position);
+        holder.tvBillNo.setText(payrolModel.BillHeaderID);
+        holder.tvBillAmount.setText("$ " + payrolModel.BIllAmount);
+        holder.tvBillStatus.setText(payrolModel.BillStatus);
+
+        holder.tvBillNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PayrollDetailActivity.class);
+                intent.putExtra("bill_id", payrolModel.BillHeaderID);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return billModelArrayList.size();
+        return payrolModelArrayList.size();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
