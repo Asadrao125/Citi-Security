@@ -2,6 +2,8 @@ package com.appsxone.citisecurity.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +26,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
     ImageView imgBack;
     ApiCallback apiCallback;
     String loginResponse, userId, facility_id;
-    TextView tvFacilityName, tvFacilityAddress, tvCity, tvEmail, tvContactName;
+    TextView tvFacilityName, tvFacilityAddress, tvCity, tvEmail, tvContactName, tvState, tvZipcode, tvCountry;
     Button btnStart, btnStop;
 
     @Override
@@ -44,6 +46,9 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         tvContactName = findViewById(R.id.tvContactName);
         btnStart = findViewById(R.id.btnStart);
         btnStop = findViewById(R.id.btnStop);
+        tvState = findViewById(R.id.tvState);
+        tvZipcode = findViewById(R.id.tvZipcode);
+        tvCountry = findViewById(R.id.tvCountry);
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
             userId = jsonObject.getString("UserID");
@@ -119,12 +124,28 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                         String email = obj.getString("Email");
                         String contactName = obj.getString("ContactName");
                         String isStarted = obj.getString("IsStarted");
+                        String ZipPostalCode = obj.getString("ZipPostalCode");
+                        String Country = obj.getString("Country");
+                        String ProvinceStateID = obj.getString("ProvinceStateID");
 
                         tvFacilityName.setText(facilityName);
                         tvFacilityAddress.setText(address);
                         tvCity.setText(city);
                         tvEmail.setText(email);
                         tvContactName.setText(contactName);
+                        tvCountry.setText(country);
+                        tvZipcode.setText(ZipPostalCode);
+                        tvCountry.setText(Country);
+                        tvState.setText(ProvinceStateID);
+
+                        tvContactName.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                intent.setData(Uri.parse(contactName));
+                                startActivity(intent);
+                            }
+                        });
 
                         if (isStarted.equals("0")) {
                             btnStop.setEnabled(false);

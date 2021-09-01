@@ -31,8 +31,7 @@
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Facility Name"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvFacilityName"
@@ -41,8 +40,7 @@
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Facility Name"
-                    android:textColor="@color/main_color"
-                    android:textSize="12sp" />
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -57,12 +55,11 @@
                     android:background="@color/light_gray"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:minLines="2"
+                    android:maxLines="1"
+                    android:minLines="1"
                     android:padding="8dp"
                     android:text="Description"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvDescription"
@@ -70,27 +67,30 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:minLines="2"
+                    android:maxLines="1"
+                    android:minLines="1"
                     android:padding="8dp"
                     android:text="Description"
-                    android:textColor="@color/main_color"
-                    android:textSize="12sp" />
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@android:color/darker_gray" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layout1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -98,75 +98,83 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/light_gray"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="OT Hours"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvOTHours2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="10.00"
-                    android:textColor="@color/main_color"
-                    android:textSize="12sp" />
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layout2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_centerHorizontal="true"
+                android:layout_toStartOf="@id/layout3"
+                android:layout_toLeftOf="@id/layout3"
+                android:layout_toEndOf="@id/layout1"
+                android:layout_toRightOf="@id/layout1"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/light_gray"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Rate"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvRate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="$40.00"
-                    android:textColor="@color/main_color"
-                    android:textSize="12sp" />
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/layout3"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/light_gray"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Total"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="$-3.00"
-                    android:textColor="@color/main_color"
-                    android:textSize="12sp" />
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </LinearLayout>
 

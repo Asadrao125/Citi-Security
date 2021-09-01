@@ -139,9 +139,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/main_color"
                                 android:layout_margin="5dp"
-                                android:text="Facilities" />
+                                android:text="Facilities"
+                                android:textColor="@color/main_color"
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -185,9 +186,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
-                                android:textColor="@color/main_color"
                                 android:layout_margin="5dp"
-                                android:text="Time Sheet" />
+                                android:text="Time Sheet"
+                                android:textColor="@color/main_color"
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -229,11 +231,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/main_color"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
                                 android:layout_margin="5dp"
-                                android:text="Payroll" />
+                                android:text="Payroll"
+                                android:textColor="@color/main_color"
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -275,11 +278,12 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/main_color"
                                 android:layout_centerHorizontal="true"
                                 android:layout_centerVertical="true"
                                 android:layout_margin="5dp"
-                                android:text="Logout" />
+                                android:text="Logout"
+                                android:textColor="@color/main_color"
+                                android:textSize="18sp" />
 
                             <ImageView
                                 android:layout_width="wrap_content"

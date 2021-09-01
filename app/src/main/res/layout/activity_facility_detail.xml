@@ -56,9 +56,9 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:background="@color/blueNew"
+                    android:background="@color/light_gray"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Facility Name"
@@ -94,9 +94,9 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:background="@color/blueNew"
+                    android:background="@color/light_gray"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Facility Address"
@@ -132,9 +132,9 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:background="@color/blueNew"
+                    android:background="@color/light_gray"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="City"
@@ -170,9 +170,123 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:background="@color/blueNew"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="State"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_color" />
+
+                <TextView
+                    android:id="@+id/tvState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:padding="5dp"
+                    android:text="State"
+                    android:textColor="@color/main_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/main_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Zipcode"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_color" />
+
+                <TextView
+                    android:id="@+id/tvZipcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:padding="5dp"
+                    android:text="Zipcode"
+                    android:textColor="@color/main_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/main_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Country"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/main_color" />
+
+                <TextView
+                    android:id="@+id/tvCountry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:minLines="2"
+                    android:padding="5dp"
+                    android:text="Country"
+                    android:textColor="@color/main_color" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/main_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/light_gray"
                     android:gravity="center"
                     android:maxLines="2"
                     android:minLines="2"
@@ -210,9 +324,9 @@
                 android:layout_gravity="center">
 
                 <TextView
-                    android:layout_width="80dp"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:background="@color/blueNew"
+                    android:background="@color/light_gray"
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Contact Name"
@@ -226,9 +340,10 @@
 
                 <TextView
                     android:id="@+id/tvContactName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:autoLink="phone"
+                    android:gravity="center_vertical"
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"

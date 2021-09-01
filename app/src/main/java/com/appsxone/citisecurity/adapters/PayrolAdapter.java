@@ -37,10 +37,10 @@ public class PayrolAdapter extends RecyclerView.Adapter<PayrolAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PayrolModel payrolModel = payrolModelArrayList.get(position);
         holder.tvBillNo.setText(payrolModel.BillHeaderID);
-        holder.tvBillAmount.setText("$ " + payrolModel.BIllAmount);
+        holder.tvBillAmount.setText("$" + payrolModel.BIllAmount);
         holder.tvBillStatus.setText(payrolModel.BillStatus);
 
-        holder.tvBillNo.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PayrollDetailActivity.class);

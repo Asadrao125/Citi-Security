@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CitiSecurity"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.PayrollDetailActivity"></activity>
+        <activity android:name=".activities.PayrollDetailActivity" />
         <activity android:name=".activities.PayrollActivity" />
         <activity android:name=".activities.TimeSheetActivity" />
         <activity android:name=".activities.FacilityDetailActivity" />
