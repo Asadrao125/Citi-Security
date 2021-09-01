@@ -22,14 +22,18 @@
         <activity android:name=".activities.TimeSheetActivity" />
         <activity android:name=".activities.FacilityDetailActivity" />
         <activity android:name=".activities.FacilitiesActivity" />
-        <activity android:name=".activities.LoginActivity">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeActivity" />
+        <activity
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".MainActivity" />
 
         <meta-data
