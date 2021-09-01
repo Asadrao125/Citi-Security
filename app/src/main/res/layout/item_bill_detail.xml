@@ -31,7 +31,8 @@
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Facility Name"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvFacilityName"
@@ -40,7 +41,8 @@
                     android:gravity="center_vertical"
                     android:padding="8dp"
                     android:text="Facility Name"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -59,7 +61,8 @@
                     android:minLines="2"
                     android:padding="8dp"
                     android:text="Description"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvDescription"
@@ -71,7 +74,8 @@
                     android:minLines="2"
                     android:padding="8dp"
                     android:text="Description"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -96,7 +100,8 @@
                     android:background="@color/light_gray"
                     android:padding="8dp"
                     android:text="OT Hours"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvOTHours2"
@@ -104,7 +109,8 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="10.00"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -120,7 +126,8 @@
                     android:background="@color/light_gray"
                     android:padding="8dp"
                     android:text="Rate"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvRate"
@@ -128,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="$40.00"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -144,7 +152,8 @@
                     android:background="@color/light_gray"
                     android:padding="8dp"
                     android:text="Total"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tvTotal"
@@ -152,7 +161,8 @@
                     android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="$-3.00"
-                    android:textColor="@color/main_color" />
+                    android:textColor="@color/main_color"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
