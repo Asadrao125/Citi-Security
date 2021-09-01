@@ -138,14 +138,14 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                         tvCountry.setText(Country);
                         tvState.setText(ProvinceStateID);
 
-                        tvContactName.setOnClickListener(new View.OnClickListener() {
+                        /*tvContactName.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(Intent.ACTION_DIAL);
                                 intent.setData(Uri.parse(contactName));
                                 startActivity(intent);
                             }
-                        });
+                        });*/
 
                         if (isStarted.equals("0")) {
                             btnStop.setEnabled(false);
