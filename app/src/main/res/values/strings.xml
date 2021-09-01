@@ -2,4 +2,11 @@
     <string name="app_name">Citi Security</string>
     <string name="please_wait">Please wait...</string>
     <string name="default_notification_channel_id">channel_ID</string>
+
+    <array name="status_array">
+        <item>UNPAID</item>
+        <item>PAID</item>
+        <item>ALL</item>
+    </array>
+
 </resources>

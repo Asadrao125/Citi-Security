@@ -42,16 +42,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:orientation="horizontal"
-        android:padding="5dp"
         android:weightSum="2">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="true">
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="From:"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/edtStartDate"
@@ -59,21 +63,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/curve_border"
                 android:focusable="false"
                 android:hint="Start Date"
                 android:padding="10dp"
                 android:textSize="14sp" />
 
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
-            app:cardCornerRadius="15dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="true">
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="To:"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/edtEndDate"
@@ -81,15 +91,57 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/curve_border"
                 android:focusable="false"
                 android:hint="End Date"
                 android:padding="10dp"
                 android:textSize="14sp" />
 
-
-        </androidx.cardview.widget.CardView>
+        </LinearLayout>
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/tvSpinnerStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Status:"
+            android:textColor="@color/black" />
+
+        <Spinner
+            android:id="@+id/spinnerStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/btnGo"
+            android:layout_toRightOf="@+id/tvSpinnerStatus"
+            android:background="@drawable/curve_border"
+            android:entries="@array/status_array"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnGo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="Go" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_bill"
+        android:id="@+id/rvBills"/>
 
 </LinearLayout>
