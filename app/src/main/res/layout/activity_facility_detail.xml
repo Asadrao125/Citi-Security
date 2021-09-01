@@ -387,7 +387,6 @@
                     android:background="@drawable/btn_background"
                     android:enabled="false"
                     android:text="Start"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/white"
                     android:visibility="gone" />
 
@@ -411,8 +410,6 @@
                     android:background="@drawable/btn_background"
                     android:enabled="false"
                     android:text="Stop"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp"
                     android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
