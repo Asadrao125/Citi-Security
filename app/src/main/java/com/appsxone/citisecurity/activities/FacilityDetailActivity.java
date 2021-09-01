@@ -129,11 +129,15 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                         if (isStarted.equals("0")) {
                             btnStop.setEnabled(false);
                             btnStart.setEnabled(true);
+                            btnStop.setVisibility(View.GONE);
+                            btnStart.setVisibility(View.VISIBLE);
                         }
 
                         if (isStarted.equals("1")) {
                             btnStop.setEnabled(true);
                             btnStart.setEnabled(false);
+                            btnStop.setVisibility(View.VISIBLE);
+                            btnStart.setVisibility(View.GONE);
                         }
                     }
 
@@ -150,6 +154,10 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 if (jsonObject.getString("Status").equals("Success")) {
                     btnStart.setEnabled(false);
                     btnStop.setEnabled(true);
+
+                    btnStop.setVisibility(View.VISIBLE);
+                    btnStart.setVisibility(View.GONE);
+
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
@@ -162,6 +170,10 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 if (jsonObject.getString("Status").equals("Success")) {
                     btnStart.setEnabled(true);
                     btnStop.setEnabled(false);
+
+                    btnStop.setVisibility(View.GONE);
+                    btnStart.setVisibility(View.VISIBLE);
+
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }

@@ -78,7 +78,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     tvBillNo.setText(BillNo);
                     tvBillDate.setText(BIllDate);
                     tvBillStatus.setText(BillStatus);
-                    tvBillAmount.setText(BillAmount);
+                    tvBillAmount.setText("$" + BillAmount);
 
                     JSONArray jsonArray = jsonObject.getJSONArray("BillDetails");
                     for (int i = 0; i < jsonArray.length(); i++) {

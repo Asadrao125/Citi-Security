@@ -62,6 +62,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Facility Name"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <View
@@ -77,7 +78,8 @@
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"
-                    android:text="Name" />
+                    android:text="Name"
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -98,6 +100,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Facility Address"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <View
@@ -113,7 +116,8 @@
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"
-                    android:text="Address" />
+                    android:text="Address"
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -134,6 +138,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="City"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <View
@@ -149,7 +154,8 @@
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"
-                    android:text="City" />
+                    android:text="City"
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -172,6 +178,7 @@
                     android:minLines="2"
                     android:padding="5dp"
                     android:text="Email"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <View
@@ -187,7 +194,8 @@
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"
-                    android:text="Email" />
+                    android:text="Email"
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -208,6 +216,7 @@
                     android:gravity="center"
                     android:padding="5dp"
                     android:text="Contact Name"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <View
@@ -223,7 +232,8 @@
                     android:maxLines="2"
                     android:minLines="2"
                     android:padding="5dp"
-                    android:text="Contact Name" />
+                    android:text="Contact Name"
+                    android:textColor="@color/main_color" />
 
             </LinearLayout>
 
@@ -249,7 +259,7 @@
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cvBtnSearch"
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="4dp"
@@ -257,18 +267,19 @@
 
                 <Button
                     android:id="@+id/btnStart"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_background"
                     android:enabled="false"
                     android:text="Start"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
@@ -278,7 +289,7 @@
 
                 <Button
                     android:id="@+id/btnStop"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -286,7 +297,8 @@
                     android:enabled="false"
                     android:text="Stop"
                     android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
             </androidx.cardview.widget.CardView>
 

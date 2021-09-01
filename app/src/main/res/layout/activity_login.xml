@@ -40,7 +40,7 @@
                         <ImageView
                             android:id="@+id/logo"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="45dp"
                             android:layout_marginRight="5dp"
                             android:src="@drawable/logo_login" />
 
@@ -55,7 +55,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="CITI SECURITY"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
