@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.appsxone.citisecurity.BuildConfig;
 import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.utils.SharedPref;
 
@@ -20,7 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity {
-    ImageView imgLogout;
+    ImageView imgLogout, imgShare;
     String loginResponce;
     TextView tvUsername, tvEmail;
     CardView cv1, cv2, cvTimeSheet, cvPayStub;
@@ -40,6 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         cv2 = findViewById(R.id.cv2);
         cvTimeSheet = findViewById(R.id.cvTimeSheet);
         cvPayStub = findViewById(R.id.cvPayStub);
+        imgShare = findViewById(R.id.imgShare);
 
         try {
             JSONObject jsonObject = new JSONObject(loginResponce);
@@ -88,6 +90,22 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        imgShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareIntent();
+            }
+        });
+    }
+
+    public void shareIntent() {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Let me recommed you " + getString(R.string.app_name) + " application" +
+                "\nhttps://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 
     public void logoutDialog() {

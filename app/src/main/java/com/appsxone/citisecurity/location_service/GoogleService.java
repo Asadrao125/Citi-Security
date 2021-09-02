@@ -74,11 +74,10 @@ public class GoogleService extends Service implements LocationListener {
         locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
         isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
         if (!isGPSEnable && !isNetworkEnable) {
-
+            Toast.makeText(this, "Please enable location", Toast.LENGTH_SHORT).show();
+            fn_update(location, 0);
         } else {
-
             if (isNetworkEnable && isGPSEnable) {
                 location = null;
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, notify_interval, 0, this);
@@ -91,7 +90,7 @@ public class GoogleService extends Service implements LocationListener {
 
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-                        fn_update(location);
+                        fn_update(location, 1);
                     }
                 }
             }
@@ -115,10 +114,16 @@ public class GoogleService extends Service implements LocationListener {
         }
     }
 
-    private void fn_update(Location location) {
+    private void fn_update(Location location, int i) {
         //Toast.makeText(this, "Lat: " + location.getLatitude() + "\nLng: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-        intent.putExtra("latutide", location.getLatitude() + "");
-        intent.putExtra("longitude", location.getLongitude() + "");
-        sendBroadcast(intent);
+        if (i == 1) {
+            intent.putExtra("latutide", location.getLatitude() + "");
+            intent.putExtra("longitude", location.getLongitude() + "");
+            sendBroadcast(intent);
+        } else {
+            intent.putExtra("latutide", "no");
+            intent.putExtra("longitude", "no");
+            sendBroadcast(intent);
+        }
     }
 }

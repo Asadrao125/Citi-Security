@@ -1,13 +1,21 @@
 package com.appsxone.citisecurity.activities;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.IntentSender;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,6 +28,17 @@ import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.location_service.GoogleService;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.karumi.dexter.BuildConfig;
 import com.karumi.dexter.Dexter;
@@ -36,12 +55,13 @@ import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements ApiCallback {
+public class LoginActivity extends AppCompatActivity implements ApiCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     ApiCallback apiCallback;
     EditText edtEmail, edtPassword;
     Button btnLogin;
     String fcmToken;
     TextView tvVersionName;
+    public int REQUEST_CHECK_SETTING = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +131,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Message")) {
-                    //Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
+
                 } else {
-                    //Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -124,7 +144,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
     private void checkUserExistance() {
         if (SharedPref.read("login", "").equals("true")) {
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            finish();
         }
     }
 
@@ -154,13 +173,66 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         public void onReceive(Context context, Intent intent) {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
-            if (SharedPref.read("login", "").equals("true")) {
-                updateLocation(latitude, longitude, "Loggedin");
+            if (latitude.equals("no")) {
+                enableLocationPopup();
             } else {
-                updateLocation(latitude, longitude, "Loggedout");
+                if (SharedPref.read("login", "").equals("true")) {
+                    updateLocation(latitude, longitude, "Loggedin");
+                } else {
+                    updateLocation(latitude, longitude, "Loggedout");
+                }
             }
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        if (states.isNetworkLocationPresent()) {
+            Log.d("gps_tag", "onActivityResult: RESULT_OK");
+        } else {
+            enableLocationPopup();
+        }
+    }
+
+    GoogleApiClient googleApiClient;
+
+    public void enableLocationPopup() {
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this).build();
+        googleApiClient.connect();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(30 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build());
+        result.setResultCallback(new ResultCallback<LocationSettingsResult>() {
+            @Override
+            public void onResult(LocationSettingsResult result) {
+                final Status status = result.getStatus();
+                final LocationSettingsStates state = result.getLocationSettingsStates();
+                switch (status.getStatusCode()) {
+                    case LocationSettingsStatusCodes.SUCCESS:
+                        break;
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        try {
+                            status.startResolutionForResult(LoginActivity.this, REQUEST_CHECK_SETTING);
+                        } catch (IntentSender.SendIntentException e) {
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        break;
+                }
+            }
+        });
+    }
 
     public static String getMacAddr() {
         try {
@@ -213,5 +285,20 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback {
         super.onStart();
         checkPermission();
         checkUserExistance();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
