@@ -197,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     GoogleApiClient googleApiClient;
+
     public void enableLocationPopup() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
