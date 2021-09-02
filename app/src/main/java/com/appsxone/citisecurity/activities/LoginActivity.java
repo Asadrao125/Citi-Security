@@ -131,9 +131,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Message")) {
-
+                    //Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
                 } else {
-
+                    //Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -197,7 +197,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     GoogleApiClient googleApiClient;
-
     public void enableLocationPopup() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
