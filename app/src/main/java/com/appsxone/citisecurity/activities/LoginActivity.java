@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
-        if (states.isNetworkLocationPresent()) {
+        if (states.isNetworkLocationPresent() && states.isGpsPresent() && states.isLocationPresent()) {
             Log.d("gps_tag", "onActivityResult: RESULT_OK");
         } else {
             enableLocationPopup();
