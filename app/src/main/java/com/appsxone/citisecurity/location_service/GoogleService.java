@@ -80,7 +80,7 @@ public class GoogleService extends Service implements LocationListener {
         } else {
             if (isNetworkEnable && isGPSEnable) {
                 location = null;
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, notify_interval, 0, this);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
                 if (locationManager != null) {
                     location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                     if (location != null) {
@@ -105,17 +105,16 @@ public class GoogleService extends Service implements LocationListener {
     private class TimerTaskToGetLocation extends TimerTask {
         @Override
         public void run() {
-            mHandler.post(new Runnable() {
+            mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     fn_getlocation();
                 }
-            });
+            }, notify_interval);
         }
     }
 
     private void fn_update(Location location, int i) {
-        //Toast.makeText(this, "Lat: " + location.getLatitude() + "\nLng: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
         if (i == 1) {
             intent.putExtra("latutide", location.getLatitude() + "");
             intent.putExtra("longitude", location.getLongitude() + "");

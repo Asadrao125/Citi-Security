@@ -55,7 +55,8 @@
         </service>
         <service
             android:name=".location_service.GoogleService"
-            android:enabled="true" />
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

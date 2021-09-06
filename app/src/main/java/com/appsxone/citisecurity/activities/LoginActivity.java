@@ -7,12 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -155,9 +157,18 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
                 ).withListener(new MultiplePermissionsListener() {
             @Override
             public void onPermissionsChecked(MultiplePermissionsReport report) {
-                if (report.areAllPermissionsGranted()) {
-                    startService(new Intent(getApplicationContext(), GoogleService.class));
-                    registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                if (isMyServiceRunning(GoogleService.class)) {
+
+                } else {
+                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+                        Toast.makeText(LoginActivity.this, "Android Oreo If", Toast.LENGTH_SHORT).show();
+                        startForegroundService(new Intent(getApplicationContext(), GoogleService.class));
+                        registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Android Oreo Else", Toast.LENGTH_SHORT).show();
+                        startService(new Intent(getApplicationContext(), GoogleService.class));
+                        registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                    }
                 }
             }
 
@@ -168,11 +179,22 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         }).check();
     }
 
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
+            Toast.makeText(context, "Api Calling", Toast.LENGTH_SHORT).show();
             if (latitude.equals("no")) {
                 enableLocationPopup();
             } else {
@@ -260,6 +282,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     private void updateLocation(String latitude, String longiTude, String comment) {
+        Toast.makeText(this, "Update Location Method", Toast.LENGTH_SHORT).show();
         SharedPref.init(this);
         String userId = null;
         String res = SharedPref.read("login_responce", "");
