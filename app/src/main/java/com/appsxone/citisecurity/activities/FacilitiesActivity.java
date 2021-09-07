@@ -100,10 +100,3 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
 
     }
 }
-
-
-
-
-
-
-

@@ -138,25 +138,12 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                         tvCountry.setText(Country);
                         tvState.setText(ProvinceStateID);
 
-                        /*tvContactName.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(Intent.ACTION_DIAL);
-                                intent.setData(Uri.parse(contactName));
-                                startActivity(intent);
-                            }
-                        });*/
-
                         if (isStarted.equals("0")) {
-                            btnStop.setEnabled(false);
-                            btnStart.setEnabled(true);
                             btnStop.setVisibility(View.GONE);
                             btnStart.setVisibility(View.VISIBLE);
                         }
 
                         if (isStarted.equals("1")) {
-                            btnStop.setEnabled(true);
-                            btnStart.setEnabled(false);
                             btnStop.setVisibility(View.VISIBLE);
                             btnStart.setVisibility(View.GONE);
                         }
@@ -173,9 +160,6 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
-                    btnStart.setEnabled(false);
-                    btnStop.setEnabled(true);
-
                     btnStop.setVisibility(View.VISIBLE);
                     btnStart.setVisibility(View.GONE);
 
@@ -189,9 +173,6 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
-                    btnStart.setEnabled(true);
-                    btnStop.setEnabled(false);
-
                     btnStop.setVisibility(View.GONE);
                     btnStart.setVisibility(View.VISIBLE);
 
