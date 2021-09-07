@@ -133,9 +133,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Message")) {
-                    //Toast.makeText(this, "" + jsonObject.getString("Status"), Toast.LENGTH_SHORT).show();
+
                 } else {
-                    //Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -161,11 +161,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
 
                 } else {
                     if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
-                        Toast.makeText(LoginActivity.this, "Android Oreo If", Toast.LENGTH_SHORT).show();
                         startForegroundService(new Intent(getApplicationContext(), GoogleService.class));
                         registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
                     } else {
-                        Toast.makeText(LoginActivity.this, "Android Oreo Else", Toast.LENGTH_SHORT).show();
                         startService(new Intent(getApplicationContext(), GoogleService.class));
                         registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
                     }
@@ -194,7 +192,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         public void onReceive(Context context, Intent intent) {
             String latitude = intent.getStringExtra("latutide");
             String longitude = intent.getStringExtra("longitude");
-            Toast.makeText(context, "Api Calling", Toast.LENGTH_SHORT).show();
             if (latitude.equals("no")) {
                 enableLocationPopup();
             } else {
@@ -228,8 +225,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         googleApiClient.connect();
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(30 * 1000);
-        locationRequest.setFastestInterval(5 * 1000);
+        locationRequest.setInterval(30000);
+        locationRequest.setFastestInterval(30000);
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
         builder.setAlwaysShow(true);
         PendingResult<LocationSettingsResult> result =
@@ -282,7 +279,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     private void updateLocation(String latitude, String longiTude, String comment) {
-        Toast.makeText(this, "Update Location Method", Toast.LENGTH_SHORT).show();
         SharedPref.init(this);
         String userId = null;
         String res = SharedPref.read("login_responce", "");
