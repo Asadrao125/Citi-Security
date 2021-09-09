@@ -29,6 +29,7 @@ import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.location_service.GoogleService;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -99,6 +100,15 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
                 }
             }
         });
+
+        GPSTracker gpsTracker = new GPSTracker(this);
+        if (gpsTracker.canGetLocation()) {
+            String lat = String.valueOf(gpsTracker.getLatitude());
+            String lng = String.valueOf(gpsTracker.getLongitude());
+            updateLocation(lat, lng, "Loggedout");
+        } else {
+            Toast.makeText(this, "Can't get location", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
