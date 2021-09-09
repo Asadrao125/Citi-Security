@@ -42,6 +42,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp"
+        android:visibility="gone"
         android:weightSum="2">
 
         <TextView
