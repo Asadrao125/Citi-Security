@@ -385,7 +385,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:background="@drawable/btn_background"
-                    android:enabled="false"
                     android:text="Start"
                     android:textColor="@color/white"
                     android:visibility="gone" />
@@ -408,7 +407,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:background="@drawable/btn_background"
-                    android:enabled="false"
                     android:text="Stop"
                     android:visibility="gone" />
 
