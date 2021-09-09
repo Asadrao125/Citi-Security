@@ -104,10 +104,10 @@
                                 android:drawableLeft="@drawable/ic_email_black"
                                 android:drawablePadding="10dp"
                                 android:hint="Email"
-                                android:imeOptions="actionDone"
+                                android:imeOptions="actionNext"
                                 android:inputType="textEmailAddress"
-                                android:maxLines="1"
-                                android:text="andybarlett@yopmail.com" />
+                                android:maxLines="1" />
+                            <!-- android:text="andybarlett@yopmail.com" -->
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,8 +126,8 @@
                                 android:hint="Password"
                                 android:imeOptions="actionDone"
                                 android:inputType="textPassword"
-                                android:maxLines="1"
-                                android:text="Global81" />
+                                android:maxLines="1" />
+                            <!-- android:text="Global81" -->
 
                         </com.google.android.material.textfield.TextInputLayout>
 
