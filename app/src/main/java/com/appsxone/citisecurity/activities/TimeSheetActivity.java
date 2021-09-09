@@ -49,6 +49,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
     Spinner spinnerFacility;
     String facilityId;
+    TextView tvTotalTimeDuration;
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
     ArrayList<String> stringArrayList = new ArrayList<>();
     Button btnGo;
@@ -72,6 +73,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         spinnerFacility = findViewById(R.id.spinnerFacility);
         btnGo = findViewById(R.id.btnGo);
         tvSpinner = findViewById(R.id.tvSpinner);
+        tvTotalTimeDuration = findViewById(R.id.tvTotalTimeDuration);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,10 +160,8 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray jsonArray = jsonObject.getJSONArray("TimeSheet");
-
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-
                         String TimeSheetID = obj.getString("TimeSheetID");
                         String GuardID = obj.getString("GuardID");
                         String FacilityID = obj.getString("FacilityID");
@@ -170,13 +170,13 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         String EndDateTime = obj.getString("EndDateTime");
                         String TotalHours = obj.getString("TotalHours");
                         String TotalOverTimeHours = obj.getString("TotalOverTimeHours");
-
                         timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
                                 EndDateTime, TotalHours, TotalOverTimeHours));
                     }
+                    //String TotalTimeDuration = jsonObject.getString("TotalTimeDuration");
+                    //tvTotalTimeDuration.setText(TotalTimeDuration + " hrs");
                     rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
                     rvTimeSheet.setVisibility(View.VISIBLE);
-
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                     rvTimeSheet.setVisibility(View.GONE);
