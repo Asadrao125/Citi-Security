@@ -109,7 +109,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         } else {
             Toast.makeText(this, "Can't get location", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     private void Login(String email, String password) {
