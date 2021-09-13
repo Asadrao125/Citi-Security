@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             String lat = String.valueOf(gpsTracker.getLatitude());
             String lng = String.valueOf(gpsTracker.getLongitude());
             updateLocation(lat, lng, "Loggedout");
+        } else {
+            enableLocationPopup();
         }
     }
 
@@ -216,6 +218,13 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
         if (states.isNetworkLocationPresent() && states.isGpsPresent() && states.isLocationPresent()) {
             Log.d("gps_tag", "onActivityResult: RESULT_OK");
+
+            GPSTracker gpsTracker = new GPSTracker(this);
+            if (gpsTracker.canGetLocation()) {
+                String lat = String.valueOf(gpsTracker.getLatitude());
+                String lng = String.valueOf(gpsTracker.getLongitude());
+                updateLocation(lat, lng, "Loggedout");
+            }
         } else {
             enableLocationPopup();
         }
