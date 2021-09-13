@@ -2,6 +2,7 @@ package com.appsxone.citisecurity.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,16 @@ public class PayrolDetailAdapter extends RecyclerView.Adapter<PayrolDetailAdapte
         holder.tvRate.setText("$" + payrolDetailModel.BasicRate);
         holder.tvOTHours1.setText(payrolDetailModel.HoursType);
         holder.tvOTHours2.setText(payrolDetailModel.Qty);
+
+        int lineCount = holder.tvDescription.getLineCount();
+        if (lineCount > 1) {
+            holder.tvDescription.setMinLines(2);
+            holder.tvDescLabel.setMinLines(2);
+        } else if (lineCount == 2 || lineCount > 2) {
+            holder.tvDescription.setMinLines(2);
+            holder.tvDescLabel.setMinLines(2);
+            holder.tvDescription.setEllipsize(TextUtils.TruncateAt.END);
+        }
     }
 
     @Override
@@ -51,7 +62,7 @@ public class PayrolDetailAdapter extends RecyclerView.Adapter<PayrolDetailAdapte
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvFacilityName, tvDescription, tvRate, tvTotal, tvOTHours1, tvOTHours2;
+        TextView tvFacilityName, tvDescription, tvRate, tvTotal, tvOTHours1, tvOTHours2, tvDescLabel;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +72,7 @@ public class PayrolDetailAdapter extends RecyclerView.Adapter<PayrolDetailAdapte
             tvRate = itemView.findViewById(R.id.tvRate);
             tvOTHours1 = itemView.findViewById(R.id.tvOTHours1);
             tvOTHours2 = itemView.findViewById(R.id.tvOTHours2);
+            tvDescLabel = itemView.findViewById(R.id.tvDescLabel);
         }
     }
 }
