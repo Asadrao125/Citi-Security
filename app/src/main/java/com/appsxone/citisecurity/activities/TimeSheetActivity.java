@@ -63,9 +63,9 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_sheet);
 
+        SharedPref.init(this);
         imgBack = findViewById(R.id.imgBack);
         apiCallback = TimeSheetActivity.this;
-        SharedPref.init(this);
         loginResponse = SharedPref.read("login_responce", "");
         edtStartDate = findViewById(R.id.edtStartDate);
         edtEndDate = findViewById(R.id.edtEndDate);
