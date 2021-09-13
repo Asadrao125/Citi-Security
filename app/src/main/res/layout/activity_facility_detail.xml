@@ -48,7 +48,7 @@
                             android:padding="10dp"
                             android:text="Facility Detail"
                             android:textColor="@color/white"
-                            android:textSize="16sp" />
+                            android:textSize="18sp" />
 
                     </RelativeLayout>
 
