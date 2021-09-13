@@ -165,7 +165,7 @@
 
                         </RelativeLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView> <!-- Facilities -->
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvTimeSheet"
@@ -212,7 +212,7 @@
 
                         </RelativeLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView> <!-- Time Sheet -->
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cvPayStub"
@@ -259,7 +259,7 @@
 
                         </RelativeLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView> <!-- Payroll -->
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cv2"
@@ -306,7 +306,7 @@
 
                         </RelativeLayout>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView> <!-- Logout -->
 
                 </LinearLayout>
 
