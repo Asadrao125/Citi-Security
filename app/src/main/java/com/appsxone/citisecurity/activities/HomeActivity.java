@@ -21,7 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity {
-    ImageView imgLogout, imgShare;
+    ImageView imgShare;
     String loginResponce;
     TextView tvUsername, tvEmail;
     CardView cv1, cv2, cvTimeSheet, cvPayStub;
@@ -32,7 +32,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         setTitle("Dashboard");
-        imgLogout = findViewById(R.id.imgLogout);
         SharedPref.init(this);
         loginResponce = SharedPref.read("login_responce", "");
         tvUsername = findViewById(R.id.tvUsername);
@@ -78,16 +77,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, PayrollActivity.class));
-            }
-        });
-
-        imgLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPref.remove("login");
-                SharedPref.remove("login_responce");
-                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
-                finish();
             }
         });
 
