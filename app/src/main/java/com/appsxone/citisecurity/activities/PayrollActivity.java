@@ -123,6 +123,8 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
 
         status = spinnerStatus.getSelectedItem().toString().trim();
 
+        getBillsData();
+
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,11 +188,5 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                 e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getBillsData();
     }
 }
