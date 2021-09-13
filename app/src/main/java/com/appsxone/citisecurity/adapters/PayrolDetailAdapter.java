@@ -46,10 +46,10 @@ public class PayrolDetailAdapter extends RecyclerView.Adapter<PayrolDetailAdapte
         holder.tvOTHours2.setText(payrolDetailModel.Qty);
 
         int lineCount = holder.tvDescription.getLineCount();
-        if (lineCount > 1) {
+        if (lineCount == 2) {
             holder.tvDescription.setMinLines(2);
             holder.tvDescLabel.setMinLines(2);
-        } else if (lineCount == 2 || lineCount > 2) {
+        } else if (lineCount > 2) {
             holder.tvDescription.setMinLines(2);
             holder.tvDescLabel.setMinLines(2);
             holder.tvDescription.setEllipsize(TextUtils.TruncateAt.END);
