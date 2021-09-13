@@ -30,6 +30,7 @@ import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.location_service.GoogleService;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.GPSTracker;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -111,13 +112,17 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     private void Login(String email, String password) {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("UserName", email);
-        requestParams.put("Password", password);
-        requestParams.put("AppVersion", BuildConfig.VERSION_NAME);
-        requestParams.put("FCMTokenId", fcmToken);
-        ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.LOGIN_SERVICE, requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(LoginActivity.this)) {
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("UserName", email);
+            requestParams.put("Password", password);
+            requestParams.put("AppVersion", BuildConfig.VERSION_NAME);
+            requestParams.put("FCMTokenId", fcmToken);
+            ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.LOGIN_SERVICE, requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
