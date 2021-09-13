@@ -84,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         });
 
         tvVersionName.setText("Version Name: " + BuildConfig.VERSION_NAME);
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
