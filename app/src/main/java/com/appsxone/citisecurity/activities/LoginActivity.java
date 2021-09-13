@@ -17,9 +17,12 @@ import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,6 +66,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     Button btnLogin;
     String fcmToken;
     TextView tvVersionName;
+    CheckBox cbShowPassword;
     ApiCallback apiCallback;
     EditText edtEmail, edtPassword;
     public int REQUEST_CHECK_SETTING = 123;
@@ -78,9 +82,21 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         edtPassword = findViewById(R.id.edtPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvVersionName = findViewById(R.id.tvVersionName);
+        cbShowPassword = findViewById(R.id.cbShowPassword);
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             fcmToken = instanceIdResult.getToken();
+        });
+
+        cbShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
+                } else {
+                    edtPassword.setTransformationMethod(null);
+                }
+            }
         });
 
         tvVersionName.setText("Version Name: " + BuildConfig.VERSION_NAME);
