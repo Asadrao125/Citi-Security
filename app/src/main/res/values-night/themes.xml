@@ -8,16 +8,18 @@
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
+    <!-- Popup Animation -->
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_bottom</item>
     </style>
 
+    <!-- Date Picker Dialog Theme -->
     <style name="my_dialog_theme" parent="ThemeOverlay.AppCompat.Dialog">
-        <item name="colorAccent">@color/main_color</item>                   <!--header background-->
-        <item name="android:windowBackground">@color/white</item>     <!--calendar background-->
-        <item name="android:textColorPrimary">@color/black</item> <!--days of the month-->
-        <item name="android:textColorSecondary">@color/orange</item>    <!--days of the week-->
+        <item name="colorAccent">@color/main_color</item>             <!-- Header Background -->
+        <item name="android:windowBackground">@color/white</item>     <!-- Calendar Background -->
+        <item name="android:textColorPrimary">@color/black</item>     <!-- Days of the Month -->
+        <item name="android:textColorSecondary">@color/orange</item>  <!-- Days of the Week -->
     </style>
 
 </resources>
