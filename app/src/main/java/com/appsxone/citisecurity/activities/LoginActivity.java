@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             RequestParams requestParams = new RequestParams();
             requestParams.put("UserName", email);
             requestParams.put("Password", password);
-            requestParams.put("AppVersion", BuildConfig.VERSION_NAME);
+            requestParams.put("AppVersion", com.appsxone.citisecurity.BuildConfig.VERSION_NAME);
             requestParams.put("FCMTokenId", fcmToken);
             ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.LOGIN_SERVICE, requestParams, apiCallback);
             apiManager.loadURL(1);

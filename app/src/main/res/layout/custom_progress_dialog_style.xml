@@ -7,31 +7,32 @@
     <LinearLayout
         android:id="@+id/ll_progress_dialog"
         android:layout_width="wrap_content"
-        android:padding="10dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_progress_drawable">
+        android:background="@drawable/custom_progress_drawable"
+        android:padding="10dp">
 
         <ProgressBar
             android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleInverse"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            style="?android:attr/progressBarStyleInverse"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp" />
 
         <TextView
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
-            android:textStyle="italic|bold"
-            android:text="@string/please_wait"
-            android:textSize="12sp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
-            android:textColor="@android:color/black"
             android:alpha="0.7"
-            android:fontFamily="serif" />
+            android:fontFamily="serif"
+            android:text="@string/please_wait"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            android:textStyle="italic|bold" />
+        
     </LinearLayout>
 
 </LinearLayout>
