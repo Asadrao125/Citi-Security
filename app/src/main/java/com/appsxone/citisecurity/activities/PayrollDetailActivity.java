@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,7 @@ import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolDetailModel;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -26,9 +29,11 @@ import java.util.ArrayList;
 
 public class PayrollDetailActivity extends AppCompatActivity implements ApiCallback {
     String BillId;
+    Button btnRetry;
     ImageView imgBack;
     RecyclerView rvBills;
     ApiCallback apiCallback;
+    LinearLayout mainContainer, noInternetLayout;
     TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
     ArrayList<PayrolDetailModel> payrolDetailModelArrayList = new ArrayList<>();
 
@@ -47,21 +52,40 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         rvBills.setLayoutManager(new LinearLayoutManager(this));
         rvBills.setHasFixedSize(true);
         BillId = getIntent().getStringExtra("bill_id");
-        getBillDetails(BillId);
+        mainContainer = findViewById(R.id.mainContainer);
+        noInternetLayout = findViewById(R.id.noInternetLayout);
+        btnRetry = findViewById(R.id.btnRetry);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+
+        getBillDetails(BillId);
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getBillDetails(BillId);
+            }
+        });
+
     }
 
     private void getBillDetails(String BillId) {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("BillID", BillId);
-        ApiManager apiManager = new ApiManager(PayrollDetailActivity.this, "post", Const.GET_BILL_DETAILS_BY_ID,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(PayrollDetailActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("BillID", BillId);
+            ApiManager apiManager = new ApiManager(PayrollDetailActivity.this, "post", Const.GET_BILL_DETAILS_BY_ID,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            mainContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override

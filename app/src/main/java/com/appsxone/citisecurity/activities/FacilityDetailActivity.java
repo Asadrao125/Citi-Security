@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
 
@@ -25,7 +27,8 @@ import org.json.JSONObject;
 public class FacilityDetailActivity extends AppCompatActivity implements ApiCallback {
     ImageView imgBack;
     ApiCallback apiCallback;
-    Button btnStart, btnStop;
+    Button btnStart, btnStop, btnRetry;
+    LinearLayout noInternetLayout, mainContainer;
     String loginResponse, userId, facility_id;
     TextView tvFacilityName, tvFacilityAddress, tvCity, tvEmail, tvContactName, tvState, tvZipcode, tvCountry;
 
@@ -49,6 +52,9 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         tvState = findViewById(R.id.tvState);
         tvZipcode = findViewById(R.id.tvZipcode);
         tvCountry = findViewById(R.id.tvCountry);
+        noInternetLayout = findViewById(R.id.noInternetLayout);
+        mainContainer = findViewById(R.id.mainContainer);
+        btnRetry = findViewById(R.id.btnRetry);
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
             userId = jsonObject.getString("UserID");
@@ -57,6 +63,13 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         }
 
         getFacilityDetailsById();
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFacilityDetailsById();
+            }
+        });
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,12 +94,19 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
     }
 
     private void getFacilityDetailsById() {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("GuardId", userId);
-        requestParams.put("FacilityId", facility_id);
-        ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post", Const.GetFacilityDetailsById,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(FacilityDetailActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("GuardId", userId);
+            requestParams.put("FacilityId", facility_id);
+            ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post", Const.GetFacilityDetailsById,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            mainContainer.setVisibility(View.GONE);
+        }
     }
 
     private void startTimeSheet() {

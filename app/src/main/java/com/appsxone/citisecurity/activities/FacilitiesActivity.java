@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
@@ -16,6 +17,7 @@ import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
 
@@ -27,10 +29,12 @@ import java.util.ArrayList;
 
 public class FacilitiesActivity extends AppCompatActivity implements ApiCallback {
     Button btnGo;
+    Button btnRetry;
     ImageView imgBack;
     ApiCallback apiCallback;
     RecyclerView rvFacilities;
     String loginResponse, userId;
+    LinearLayout noInternetLayout;
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
 
     @Override
@@ -46,6 +50,8 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
         rvFacilities.setLayoutManager(new LinearLayoutManager(this));
         rvFacilities.setHasFixedSize(true);
         btnGo = findViewById(R.id.btnGo);
+        noInternetLayout = findViewById(R.id.noInternetLayout);
+        btnRetry = findViewById(R.id.btnRetry);
 
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
@@ -62,15 +68,29 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
                 onBackPressed();
             }
         });
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetFacilityByGuardId();
+            }
+        });
     }
 
     private void GetFacilityByGuardId() {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("GuardId", userId);
-        requestParams.put("Search", "");
-        ApiManager apiManager = new ApiManager(FacilitiesActivity.this, "post", Const.GetFacilitiesByGuardId,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(FacilitiesActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            rvFacilities.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("GuardId", userId);
+            requestParams.put("Search", "");
+            ApiManager apiManager = new ApiManager(FacilitiesActivity.this, "post", Const.GetFacilitiesByGuardId,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            rvFacilities.setVisibility(View.GONE);
+        }
     }
 
     @Override

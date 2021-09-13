@@ -44,4 +44,9 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_facilities" />
 
+    <include
+        android:id="@+id/noInternetLayout"
+        layout="@layout/no_internet_layout"
+        android:visibility="gone" />
+
 </LinearLayout>

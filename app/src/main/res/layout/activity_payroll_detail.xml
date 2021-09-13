@@ -39,6 +39,7 @@
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -183,5 +184,10 @@
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/noInternetLayout"
+        layout="@layout/no_internet_layout"
+        android:visibility="gone" />
 
 </LinearLayout>

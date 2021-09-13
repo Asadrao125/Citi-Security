@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.models.TimeSheetModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
 
@@ -42,15 +44,16 @@ import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
     int j = 0;
-    Button btnGo;
     ImageView imgBack;
     String facilityId;
+    Button btnGo, btnRetry;
     ApiCallback apiCallback;
     Spinner spinnerFacility;
     RecyclerView rvTimeSheet;
     String loginResponse, userId;
     EditText edtStartDate, edtEndDate;
     TextView tvTotalTimeDuration, tvSpinner;
+    LinearLayout noInternetLayout, mainContainer;
     ArrayList<String> stringArrayList = new ArrayList<>();
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
@@ -73,10 +76,24 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         btnGo = findViewById(R.id.btnGo);
         tvSpinner = findViewById(R.id.tvSpinner);
         tvTotalTimeDuration = findViewById(R.id.tvTotalTimeDuration);
+        btnRetry = findViewById(R.id.btnRetry);
+        noInternetLayout = findViewById(R.id.noInternetLayout);
+        mainContainer = findViewById(R.id.mainContainer);
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetFacilityByGuardId();
+                getTimeSheetData("");
+                j = 0;
+                tvSpinner.setText("Select Facility");
             }
         });
 
@@ -141,14 +158,37 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     }
 
     private void getTimeSheetData(String facilityId) {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("GuardId", userId);
-        requestParams.put("FacilityID", facilityId);
-        requestParams.put("ToStartDate", edtStartDate.getText().toString().trim());
-        requestParams.put("FromStartDate", edtEndDate.getText().toString().trim());
-        ApiManager apiManager = new ApiManager(TimeSheetActivity.this, "post", Const.GET_TIMESHEETS_BY_GUARD_ID,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(TimeSheetActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("GuardId", userId);
+            requestParams.put("FacilityID", facilityId);
+            requestParams.put("ToStartDate", edtStartDate.getText().toString().trim());
+            requestParams.put("FromStartDate", edtEndDate.getText().toString().trim());
+            ApiManager apiManager = new ApiManager(TimeSheetActivity.this, "post", Const.GET_TIMESHEETS_BY_GUARD_ID,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            mainContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void GetFacilityByGuardId() {
+        if (InternetConnection.isNetworkConnected(TimeSheetActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("GuardId", userId);
+            requestParams.put("Search", "");
+            ApiManager apiManager = new ApiManager(TimeSheetActivity.this, "post", Const.GetFacilitiesByGuardId,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            mainContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -184,8 +224,9 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                 e.printStackTrace();
             }
         } else if (apiName.equals(Const.GetFacilitiesByGuardId)) {
-            facilitiesModelArrayList.clear();
             try {
+                facilitiesModelArrayList.clear();
+                stringArrayList.clear();
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
@@ -233,14 +274,5 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         super.onStart();
         GetFacilityByGuardId();
         getTimeSheetData("");
-    }
-
-    private void GetFacilityByGuardId() {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("GuardId", userId);
-        requestParams.put("Search", "");
-        ApiManager apiManager = new ApiManager(TimeSheetActivity.this, "post", Const.GetFacilitiesByGuardId,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
     }
 }

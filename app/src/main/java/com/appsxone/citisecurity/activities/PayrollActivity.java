@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
+import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
 
@@ -35,13 +37,14 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PayrollActivity extends AppCompatActivity implements ApiCallback {
-    Button btnGo;
+    Button btnGo, btnRetry;
     ImageView imgBack;
     RecyclerView rvBills;
     Spinner spinnerStatus;
     ApiCallback apiCallback;
     EditText edtStartDate, edtEndDate;
     String loginResponse, userId, status;
+    LinearLayout noInternetLayout, mainContainer;
     ArrayList<PayrolModel> payrolModelArrayList = new ArrayList<>();
 
     @Override
@@ -60,6 +63,9 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
         rvBills = findViewById(R.id.rvBills);
         rvBills.setLayoutManager(new LinearLayoutManager(this));
         rvBills.setHasFixedSize(true);
+        noInternetLayout = findViewById(R.id.noInternetLayout);
+        mainContainer = findViewById(R.id.mainContainer);
+        btnRetry = findViewById(R.id.btnRetry);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,17 +133,32 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                 getBillsData();
             }
         });
+
+        btnRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btnGo.performClick();
+            }
+        });
+
     }
 
     private void getBillsData() {
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("GuardId", userId);
-        requestParams.put("Status", status);
-        requestParams.put("ToDate", edtEndDate.getText().toString().trim());
-        requestParams.put("FromDate", edtStartDate.getText().toString().trim());
-        ApiManager apiManager = new ApiManager(PayrollActivity.this, "post", Const.GET_BILLS_BY_GUARD_ID,
-                requestParams, apiCallback);
-        apiManager.loadURL(1);
+        if (InternetConnection.isNetworkConnected(PayrollActivity.this)) {
+            noInternetLayout.setVisibility(View.GONE);
+            mainContainer.setVisibility(View.VISIBLE);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("GuardId", userId);
+            requestParams.put("Status", status);
+            requestParams.put("ToDate", edtEndDate.getText().toString().trim());
+            requestParams.put("FromDate", edtStartDate.getText().toString().trim());
+            ApiManager apiManager = new ApiManager(PayrollActivity.this, "post", Const.GET_BILLS_BY_GUARD_ID,
+                    requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            noInternetLayout.setVisibility(View.VISIBLE);
+            mainContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -170,6 +191,6 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
     @Override
     protected void onStart() {
         super.onStart();
-        btnGo.performClick();
+        getBillsData();
     }
 }

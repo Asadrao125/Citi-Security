@@ -38,46 +38,36 @@ public class ApiManager {
     }
 
     public void loadURL(int loader) {
-        if (isNetworkConnected()) {
-            if (loader == 1) {
-                customProgressDialog.showProgressDialog();
-            }
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.setTimeout(DEFAULT_TIMEOUT);
-            client.post(Const.BASE_URL + apiName, params, new AsyncHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                            try {
-                                customProgressDialog.dismissProgressDialog();
-                                String content = new String(responseBody);
-                                apiCallback.onApiResponce(statusCode, 1, apiName, content);
-                                Log.d("onSuccess", "Success: " + content);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                            try {
-                                customProgressDialog.dismissProgressDialog();
-                                String content = new String(responseBody);
-                                Log.d("onFailure", "Failure: " + content);
-                                apiCallback.onApiResponce(statusCode, 0, apiName, content);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+        if (loader == 1) {
+            customProgressDialog.showProgressDialog();
+        }
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.setTimeout(DEFAULT_TIMEOUT);
+        client.post(Const.BASE_URL + apiName, params, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        try {
+                            customProgressDialog.dismissProgressDialog();
+                            String content = new String(responseBody);
+                            apiCallback.onApiResponce(statusCode, 1, apiName, content);
+                            Log.d("onSuccess", "Success: " + content);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
-            );
-        } else {
-            Toast.makeText(activity, "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        try {
+                            customProgressDialog.dismissProgressDialog();
+                            String content = new String(responseBody);
+                            Log.d("onFailure", "Failure: " + content);
+                            apiCallback.onApiResponce(statusCode, 0, apiName, content);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
     }
-
 }
