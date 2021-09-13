@@ -105,8 +105,6 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             String lat = String.valueOf(gpsTracker.getLatitude());
             String lng = String.valueOf(gpsTracker.getLongitude());
             updateLocation(lat, lng, "Loggedout");
-        } else {
-            Toast.makeText(this, "Can't get location", Toast.LENGTH_SHORT).show();
         }
     }
 
