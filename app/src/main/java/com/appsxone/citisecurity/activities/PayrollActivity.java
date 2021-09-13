@@ -35,14 +35,13 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PayrollActivity extends AppCompatActivity implements ApiCallback {
-    ImageView imgBack;
-    ApiCallback apiCallback;
-    String loginResponse, userId;
-    EditText edtStartDate, edtEndDate;
-    Spinner spinnerStatus;
-    String status;
     Button btnGo;
+    ImageView imgBack;
     RecyclerView rvBills;
+    Spinner spinnerStatus;
+    ApiCallback apiCallback;
+    EditText edtStartDate, edtEndDate;
+    String loginResponse, userId, status;
     ArrayList<PayrolModel> payrolModelArrayList = new ArrayList<>();
 
     @Override

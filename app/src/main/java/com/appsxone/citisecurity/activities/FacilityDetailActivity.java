@@ -25,9 +25,9 @@ import org.json.JSONObject;
 public class FacilityDetailActivity extends AppCompatActivity implements ApiCallback {
     ImageView imgBack;
     ApiCallback apiCallback;
+    Button btnStart, btnStop;
     String loginResponse, userId, facility_id;
     TextView tvFacilityName, tvFacilityAddress, tvCity, tvEmail, tvContactName, tvState, tvZipcode, tvCountry;
-    Button btnStart, btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

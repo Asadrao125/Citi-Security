@@ -26,12 +26,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class FacilitiesActivity extends AppCompatActivity implements ApiCallback {
+    Button btnGo;
     ImageView imgBack;
     ApiCallback apiCallback;
-    String loginResponse, userId;
-    Button btnGo;
-    ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
     RecyclerView rvFacilities;
+    String loginResponse, userId;
+    ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

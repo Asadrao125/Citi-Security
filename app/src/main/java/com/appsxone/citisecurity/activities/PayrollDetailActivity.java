@@ -25,11 +25,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class PayrollDetailActivity extends AppCompatActivity implements ApiCallback {
-    ImageView imgBack;
-    ApiCallback apiCallback;
     String BillId;
-    TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
+    ImageView imgBack;
     RecyclerView rvBills;
+    ApiCallback apiCallback;
+    TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
     ArrayList<PayrolDetailModel> payrolDetailModelArrayList = new ArrayList<>();
 
     @Override

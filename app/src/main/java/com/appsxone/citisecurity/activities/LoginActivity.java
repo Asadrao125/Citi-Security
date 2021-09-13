@@ -59,11 +59,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements ApiCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    ApiCallback apiCallback;
-    EditText edtEmail, edtPassword;
     Button btnLogin;
     String fcmToken;
     TextView tvVersionName;
+    ApiCallback apiCallback;
+    EditText edtEmail, edtPassword;
     public int REQUEST_CHECK_SETTING = 123;
 
     @Override

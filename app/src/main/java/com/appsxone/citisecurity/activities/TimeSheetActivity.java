@@ -41,20 +41,19 @@ import java.util.Date;
 import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
+    int j = 0;
+    Button btnGo;
     ImageView imgBack;
+    String facilityId;
     ApiCallback apiCallback;
+    Spinner spinnerFacility;
+    RecyclerView rvTimeSheet;
     String loginResponse, userId;
     EditText edtStartDate, edtEndDate;
-    RecyclerView rvTimeSheet;
-    ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
-    Spinner spinnerFacility;
-    String facilityId;
-    TextView tvTotalTimeDuration;
-    ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
+    TextView tvTotalTimeDuration, tvSpinner;
     ArrayList<String> stringArrayList = new ArrayList<>();
-    Button btnGo;
-    TextView tvSpinner;
-    int j = 0;
+    ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
+    ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
