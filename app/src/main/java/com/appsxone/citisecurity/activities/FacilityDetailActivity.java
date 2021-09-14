@@ -16,6 +16,7 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.loopj.android.http.RequestParams;
@@ -23,6 +24,10 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
 
 public class FacilityDetailActivity extends AppCompatActivity implements ApiCallback {
     ImageView imgBack;
@@ -82,6 +87,12 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
             @Override
             public void onClick(View v) {
                 startTimeSheet();
+                GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
+                if (gpsTracker.canGetLocation()) {
+                    String lat = String.valueOf(gpsTracker.getLatitude());
+                    String lng = String.valueOf(gpsTracker.getLongitude());
+                    updateLocation(lat, lng, "Loggedin");
+                }
             }
         });
 
@@ -91,6 +102,53 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 stopTimeSheet();
             }
         });
+    }
+
+    private void updateLocation(String latitude, String longitude, String comment) {
+        SharedPref.init(this);
+        String userId = null;
+        String res = SharedPref.read("login_responce", "");
+        try {
+            JSONObject jsonObject = new JSONObject(res);
+            userId = jsonObject.getString("UserID");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("UDID", getMacAddr());
+        requestParams.put("UserId", userId);
+        requestParams.put("Latitude", latitude);
+        requestParams.put("Longitude", longitude);
+        requestParams.put("Comment", comment);
+        ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
+        apiManager.loadURL(0);
+    }
+
+    public static String getMacAddr() {
+        try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception ex) {
+        }
+        return "02:00:00:00:00:00";
     }
 
     private void getFacilityDetailsById() {
@@ -198,6 +256,17 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
 
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (apiName.equals(Const.UPDATE_LOCATION)) {
+            try {
+                JSONObject jsonObject = new JSONObject(apiResponce);
+                if (jsonObject.getString("Status").equals("Message")) {
+
+                } else {
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
