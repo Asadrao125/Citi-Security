@@ -246,7 +246,6 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 if (jsonObject.getString("Status").equals("Success")) {
                     btnStop.setVisibility(View.VISIBLE);
                     btnStart.setVisibility(View.GONE);
-
                 } else {
                     DialogClass.showEmergencyDialog(FacilityDetailActivity.this, jsonObject.getString("Message"));
                 }
@@ -259,7 +258,6 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 if (jsonObject.getString("Status").equals("Success")) {
                     btnStop.setVisibility(View.GONE);
                     btnStart.setVisibility(View.VISIBLE);
-
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
