@@ -20,6 +20,7 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.DialogClass;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
@@ -90,15 +91,14 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
+                GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
                 if (gpsTracker.canGetLocation()) {
                     String lat = String.valueOf(gpsTracker.getLatitude());
                     String lng = String.valueOf(gpsTracker.getLongitude());
                     updateLocation(lat, lng, "Loggedin");
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Enable Location To Start", Toast.LENGTH_SHORT).show();
-                }*/
-                premisesDialog("You are not in the premises of facility");
+                }
             }
         });
 
