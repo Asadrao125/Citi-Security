@@ -90,14 +90,15 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
+                /*GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
                 if (gpsTracker.canGetLocation()) {
                     String lat = String.valueOf(gpsTracker.getLatitude());
                     String lng = String.valueOf(gpsTracker.getLongitude());
                     updateLocation(lat, lng, "Loggedin");
                 } else {
                     Toast.makeText(getApplicationContext(), "Please Enable Location To Start", Toast.LENGTH_SHORT).show();
-                }
+                }*/
+                premisesDialog("You are not in the premises of facility");
             }
         });
 
@@ -289,7 +290,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
 
         ImageView imgClose = dialogView.findViewById(R.id.imgClose);
-        Button btnClose = dialogView.findViewById(R.id.tvClose);
+        Button btnClose = dialogView.findViewById(R.id.btnClose);
         TextView tvInfo = dialogView.findViewById(R.id.tvInfo);
 
         imgClose.setOnClickListener(new View.OnClickListener() {
