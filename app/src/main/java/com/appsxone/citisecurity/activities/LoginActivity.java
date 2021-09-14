@@ -78,9 +78,9 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
 
         SharedPref.init(this);
         apiCallback = LoginActivity.this;
+        btnLogin = findViewById(R.id.btnLogin);
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
-        btnLogin = findViewById(R.id.btnLogin);
         tvVersionName = findViewById(R.id.tvVersionName);
         cbShowPassword = findViewById(R.id.cbShowPassword);
 
