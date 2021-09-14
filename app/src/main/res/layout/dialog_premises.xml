@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:padding="10dp"
-                android:text="Information Popup"
+                android:text="Information"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -46,39 +46,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="25dp">
+            android:orientation="horizontal"
+            android:padding="20dp">
 
             <ImageView
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_no_wifi" />
+                android:src="@drawable/ic_info"
+                app:tint="@color/main_color" />
 
             <TextView
-                android:id="@+id/tvText"
+                android:id="@+id/tvInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="No Internet Connection"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Please Check Your Internet Connection" />
+                android:text="You are not in the premises of facility" />
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btnClose"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:text="Retry" />
+            android:text="Close" />
 
     </LinearLayout>
 
