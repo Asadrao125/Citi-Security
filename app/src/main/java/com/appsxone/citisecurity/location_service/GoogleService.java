@@ -75,7 +75,6 @@ public class GoogleService extends Service implements LocationListener {
         isGPSEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         isNetworkEnable = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         if (!isGPSEnable && !isNetworkEnable) {
-            Toast.makeText(this, "Please enable location", Toast.LENGTH_SHORT).show();
             fn_update(location, 0);
         } else {
             if (isNetworkEnable && isGPSEnable) {

@@ -86,12 +86,13 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startTimeSheet();
                 GPSTracker gpsTracker = new GPSTracker(FacilityDetailActivity.this);
                 if (gpsTracker.canGetLocation()) {
                     String lat = String.valueOf(gpsTracker.getLatitude());
                     String lng = String.valueOf(gpsTracker.getLongitude());
                     updateLocation(lat, lng, "Loggedin");
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please Enable Location To Start", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -122,7 +123,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         requestParams.put("Longitude", longitude);
         requestParams.put("Comment", comment);
         ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
-        apiManager.loadURL(0);
+        apiManager.loadURL(1);
     }
 
     public static String getMacAddr() {
@@ -263,8 +264,8 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         } else if (apiName.equals(Const.UPDATE_LOCATION)) {
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Message")) {
-
+                if (jsonObject.getString("Status").equals("Success")) {
+                    startTimeSheet();
                 } else {
 
                 }
