@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:padding="10dp"
-                android:text="Information"
+                android:text="Alert"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 

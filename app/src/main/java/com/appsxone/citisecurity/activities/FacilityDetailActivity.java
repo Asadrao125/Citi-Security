@@ -248,7 +248,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                     btnStart.setVisibility(View.GONE);
 
                 } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                    DialogClass.showEmergencyDialog(FacilityDetailActivity.this, jsonObject.getString("Message"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
