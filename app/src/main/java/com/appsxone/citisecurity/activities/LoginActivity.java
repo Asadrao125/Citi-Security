@@ -315,7 +315,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         return "02:00:00:00:00:00";
     }
 
-    private void updateLocation(String latitude, String longiTude, String comment) {
+    private void updateLocation(String latitude, String longitude, String comment) {
         SharedPref.init(this);
         String userId = null;
         String res = SharedPref.read("login_responce", "");
@@ -325,11 +325,12 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         RequestParams requestParams = new RequestParams();
         requestParams.put("UDID", getMacAddr());
         requestParams.put("UserId", userId);
         requestParams.put("Latitude", latitude);
-        requestParams.put("Longitude", longiTude);
+        requestParams.put("Longitude", longitude);
         requestParams.put("Comment", comment);
         ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
         apiManager.loadURL(0);
