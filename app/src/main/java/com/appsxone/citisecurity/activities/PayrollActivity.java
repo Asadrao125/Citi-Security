@@ -37,10 +37,10 @@ import java.util.Date;
 import java.util.Locale;
 
 public class PayrollActivity extends AppCompatActivity implements ApiCallback {
-    Button btnGo, btnRetry;
     ImageView imgBack;
     RecyclerView rvBills;
     Spinner spinnerStatus;
+    Button btnGo, btnRetry;
     ApiCallback apiCallback;
     EditText edtStartDate, edtEndDate;
     String loginResponse, userId, status;

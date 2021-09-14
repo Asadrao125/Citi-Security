@@ -38,8 +38,8 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
     ImageView imgBack;
     ApiCallback apiCallback;
     Button btnStart, btnStop, btnRetry;
-    LinearLayout noInternetLayout, mainContainer;
     String loginResponse, userId, facility_id;
+    LinearLayout noInternetLayout, mainContainer;
     TextView tvFacilityName, tvFacilityAddress, tvCity, tvEmail, tvContactName, tvState, tvZipcode, tvCountry;
 
     @Override
