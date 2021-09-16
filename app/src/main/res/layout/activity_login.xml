@@ -178,7 +178,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_margin="10dp"
-                        android:text="Version Name: 1.0"
+                        android:text="Version Name:"
                         android:textSize="12sp" />
 
                 </RelativeLayout>
