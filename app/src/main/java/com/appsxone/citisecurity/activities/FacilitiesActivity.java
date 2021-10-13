@@ -19,6 +19,7 @@ import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;

@@ -24,6 +24,7 @@ import com.appsxone.citisecurity.utils.DialogClass;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -159,8 +160,8 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
 
     private void getFacilityDetailsById() {
         if (InternetConnection.isNetworkConnected(FacilityDetailActivity.this)) {
+            mainContainer.setVisibility(View.GONE);
             noInternetLayout.setVisibility(View.GONE);
-            mainContainer.setVisibility(View.VISIBLE);
             RequestParams requestParams = new RequestParams();
             requestParams.put("GuardId", userId);
             requestParams.put("FacilityId", facility_id);
@@ -197,6 +198,9 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
+
+                    mainContainer.setVisibility(View.VISIBLE);
+
                     JSONArray jsonArray = jsonObject.getJSONArray("FacilityDetail");
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -234,6 +238,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                     }
 
                 } else {
+                    mainContainer.setVisibility(View.VISIBLE);
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
 
