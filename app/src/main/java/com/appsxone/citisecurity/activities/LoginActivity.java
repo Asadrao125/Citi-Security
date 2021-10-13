@@ -100,6 +100,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         });
 
         tvVersionName.setText("Version Name: " + BuildConfig.VERSION_NAME);
+        edtEmail.setText(SharedPref.read("email", ""));
+        edtPassword.setText(SharedPref.read("pass", ""));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,6 +151,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     SharedPref.write("login_responce", apiResponce);
+                    SharedPref.write("email", edtEmail.getText().toString().trim());
+                    SharedPref.write("pass", edtPassword.getText().toString().trim());
                     SharedPref.write("login", "true");
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                     finish();
