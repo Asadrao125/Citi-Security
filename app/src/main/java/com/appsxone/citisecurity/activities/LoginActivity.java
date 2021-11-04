@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             }
         });
 
-        tvVersionName.setText("Version Name: " + BuildConfig.VERSION_NAME);
+        tvVersionName.setText("Version No: " + BuildConfig.VERSION_NAME);
         edtEmail.setText(SharedPref.read("email", ""));
         edtPassword.setText(SharedPref.read("pass", ""));
 
