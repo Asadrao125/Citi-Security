@@ -247,10 +247,10 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             facilityId = facilitiesModelArrayList.get(position).FacilityId;
-                            if (j > 0) {
-                                tvSpinner.setText(facilitiesModelArrayList.get(position).FacilityName);
-                            }
-                            j++;
+                            //if (j > 0) {
+                            tvSpinner.setText(facilitiesModelArrayList.get(position).FacilityName);
+                            //}
+                            //j++;
                         }
 
                         @Override
