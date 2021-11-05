@@ -205,12 +205,15 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         String GuardID = obj.getString("GuardID");
                         String FacilityID = obj.getString("FacilityID");
                         String FacilityName = obj.getString("FacilityName");
-                        String StartDateTime = obj.getString("StartDateTime");
-                        String EndDateTime = obj.getString("EndDateTime");
+                        String StartDateTime = obj.getString("StartTime");
+                        String EndDateTime = obj.getString("EndTime");
                         String TotalHours = obj.getString("TotalHours");
                         String TotalOverTimeHours = obj.getString("TotalOverTimeHours");
+                        String date = obj.getString("Date");
+                        String break_hours = obj.getString("BreakHours");
+                        String rg_hours = obj.getString("TotalRGHours");
                         timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
-                                EndDateTime, TotalHours, TotalOverTimeHours));
+                                EndDateTime, TotalHours, TotalOverTimeHours, date, break_hours, rg_hours));
                     }
                     //String TotalTimeDuration = jsonObject.getString("TotalTimeDuration");
                     //tvTotalTimeDuration.setText(TotalTimeDuration + " hrs");

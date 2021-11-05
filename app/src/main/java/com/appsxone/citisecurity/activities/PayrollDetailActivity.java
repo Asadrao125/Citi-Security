@@ -14,9 +14,13 @@ import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.adapters.PayrolDetailAdapter;
+import com.appsxone.citisecurity.adapters.PayrolDetailEarningsAdapter;
+import com.appsxone.citisecurity.adapters.PayrolDetailTaxesAdapter;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolDetailModel;
+import com.appsxone.citisecurity.models.PayrollDetailEarningModel;
+import com.appsxone.citisecurity.models.PayrollDetailTaxesModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.loopj.android.http.RequestParams;
@@ -37,6 +41,14 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
     TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
     ArrayList<PayrolDetailModel> payrolDetailModelArrayList = new ArrayList<>();
 
+    //
+    RecyclerView rvBillDetailEarning, rvBillDetailTaxes;
+    ArrayList<PayrollDetailEarningModel> payrollDetailEarningModelArrayList = new ArrayList<>();
+    ArrayList<PayrollDetailTaxesModel> payrollDetailTaxesModelArrayList = new ArrayList<>();
+    TextView tvEmploye, tvSSN, tvDepartment, tvClockNo, tvPayType;
+    TextView tvGrossPay, tvYTDGross;
+    TextView tvAmount, tvYearToDate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +67,29 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         mainContainer = findViewById(R.id.mainContainer);
         noInternetLayout = findViewById(R.id.noInternetLayout);
         btnRetry = findViewById(R.id.btnRetry);
+
+        //
+        tvEmploye = findViewById(R.id.tvEmploye);
+        tvSSN = findViewById(R.id.tvSSN);
+        tvDepartment = findViewById(R.id.tvDepartment);
+        tvClockNo = findViewById(R.id.tvClockNo);
+        tvPayType = findViewById(R.id.tvPayType);
+
+        tvGrossPay = findViewById(R.id.tvGrossPay);
+        tvYTDGross = findViewById(R.id.tvYTDGross);
+        tvAmount = findViewById(R.id.tvAmount);
+        tvYearToDate = findViewById(R.id.tvYearToDate);
+
+        rvBillDetailEarning = findViewById(R.id.rvBillDetailEarning);
+        rvBillDetailTaxes = findViewById(R.id.rvBillDetailTaxes);
+
+        rvBillDetailEarning.setLayoutManager(new LinearLayoutManager(this));
+        rvBillDetailTaxes.setLayoutManager(new LinearLayoutManager(this));
+
+        rvBillDetailEarning.setHasFixedSize(true);
+        rvBillDetailTaxes.setHasFixedSize(true);
+        //
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +113,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             mainContainer.setVisibility(View.VISIBLE);
             RequestParams requestParams = new RequestParams();
             requestParams.put("BillID", BillId);
-            ApiManager apiManager = new ApiManager(PayrollDetailActivity.this, "post", Const.GET_BILL_DETAILS_BY_ID,
+            ApiManager apiManager = new ApiManager(PayrollDetailActivity.this, "post", Const.GET_BILL_DETAILS_BY_ID_V2,
                     requestParams, apiCallback);
             apiManager.loadURL(1);
         } else {
@@ -89,39 +124,44 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GET_BILL_DETAILS_BY_ID)) {
+        if (apiName.equals(Const.GET_BILL_DETAILS_BY_ID_V2)) {
             try {
                 JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    String BillNo = jsonObject.getString("BillNo");
-                    String BIllDate = jsonObject.getString("BIllDate");
-                    String BillStatus = jsonObject.getString("BillStatus");
-                    String BillAmount = jsonObject.getString("BillAmount");
+                String EmployeeNo = jsonObject.getString("EmployeeNo");
+                String SSNNo = jsonObject.getString("SSNNo");
+                String ClockNo = jsonObject.getString("ClockNo");
+                String PayType = jsonObject.getString("PayType");
 
-                    tvBillNo.setText(BillNo);
-                    tvBillDate.setText(BIllDate);
-                    tvBillStatus.setText(BillStatus);
-                    tvBillAmount.setText("$" + BillAmount);
+                tvEmploye.setText(EmployeeNo);
+                tvSSN.setText(SSNNo);
+                tvClockNo.setText(ClockNo);
+                tvPayType.setText(PayType);
 
-                    JSONArray jsonArray = jsonObject.getJSONArray("BillDetails");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String FacilityName = obj.getString("FacilityName");
-                        String Description = obj.getString("Description");
-                        String Qty = obj.getString("Qty");
-                        String BasicRate = obj.getString("BasicRate");
-                        String DetailTotalAmount = obj.getString("DetailTotalAmount");
-                        String CurrentTotal = obj.getString("CurrentTotal");
-                        String HoursType = obj.getString("HoursType");
-                        payrolDetailModelArrayList.add(new PayrolDetailModel(FacilityName, Description, Qty, BasicRate, DetailTotalAmount,
-                                CurrentTotal, HoursType));
-                    }
-                    rvBills.setAdapter(new PayrolDetailAdapter(PayrollDetailActivity.this, payrolDetailModelArrayList));
-                    rvBills.setVisibility(View.VISIBLE);
-                } else {
-                    rvBills.setVisibility(View.GONE);
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = jsonArray.getJSONObject(i);
+                    String Earnings = obj.getString("Earnings");
+                    String Department = obj.getString("Department");
+                    String Rate = obj.getString("Rate");
+                    String TotalHours = obj.getString("TotalHours");
+                    String Amount = obj.getString("Amount");
+                    payrollDetailEarningModelArrayList.add(new PayrollDetailEarningModel(Earnings, Department, Rate,
+                            TotalHours, Amount));
                 }
+                rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
+
+                JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList"); //"CheckDeductionModelList
+                for (int i = 0; i < jsonArray2.length(); i++) {
+                    JSONObject obj = jsonArray2.getJSONObject(i);
+                    String TaxType = obj.getString("TaxType");
+                    String Amount = obj.getString("Amount");
+                    String YTD = obj.getString("YTD");
+                    String Exemption = obj.getString("Exemption");
+                    String AddlAmount = obj.getString("AddlAmount");
+                    payrollDetailTaxesModelArrayList.add(new PayrollDetailTaxesModel(TaxType, Amount, YTD, Exemption, AddlAmount));
+                }
+                rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
