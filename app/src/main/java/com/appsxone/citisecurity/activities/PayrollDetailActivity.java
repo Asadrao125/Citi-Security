@@ -70,7 +70,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                 getBillDetails(BillId);
             }
         });
-
     }
 
     private void getBillDetails(String BillId) {
