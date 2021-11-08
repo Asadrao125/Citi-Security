@@ -9,7 +9,8 @@ public class Const {
     public static final String STOP_TIME_SHEET = "CitiSecurity/StopTimeSheet";
     public static final String UPDATE_LOCATION = "CitiSecurity/LocationTracking";
     public static final String UPDATE_OFFLINE_LOCATION = "CitiSecurity/OfflineLocationTracking";
-    public static final String GET_TIMESHEETS_BY_GUARD_ID = "CitiSecurity/GetTimeSheetsByGuardID";
+    //public static final String GET_TIMESHEETS_BY_GUARD_ID = "CitiSecurity/GetTimeSheetsByGuardID";
+    public static final String GET_TIMESHEETS_BY_GUARD_ID = "CitiSecurity/GetTimeSheetsByGuardID_V2";
     public static final String GET_BILLS_BY_GUARD_ID = "CitiSecurity/GetBillsByGuardID";
     public static final String GET_BILL_DETAILS_BY_ID = "CitiSecurity/GetBillDetailsByID";
     public static final String GET_BILL_DETAILS_BY_ID_V2 = "CitiSecurity/GetBillDetailsByID_V2";

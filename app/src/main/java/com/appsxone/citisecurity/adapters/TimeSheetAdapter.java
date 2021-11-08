@@ -1,7 +1,6 @@
 package com.appsxone.citisecurity.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.appsxone.citisecurity.R;
-import com.appsxone.citisecurity.activities.FacilityDetailActivity;
-import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.models.TimeSheetModel;
 
 import java.util.ArrayList;
@@ -30,18 +27,22 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_time_sheet, parent, false);
+        View view = inflater.inflate(R.layout.item_timesheet_2, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TimeSheetModel timeSheetModel = timeSheetModelArrayList.get(position);
-        holder.tvFacilityName.setText(timeSheetModel.FacilityName);
+        String[] d = timeSheetModel.date.split(" ");
+        holder.tvDate.setText("" + d[0]);
         holder.tvStartDateTime.setText(timeSheetModel.StartDateTime);
         holder.tvEndDateTime.setText(timeSheetModel.EndDateTime);
-        holder.tvTotalHours.setText(timeSheetModel.TotalHours);
+        holder.tvBreakHours.setText(timeSheetModel.breakHours);
+        holder.tvRgHours.setText(timeSheetModel.rgHours);
         holder.tvOverTimeHours.setText(timeSheetModel.TotalOverTimeHours);
+        holder.tvTotalHours.setText(timeSheetModel.TotalHours);
+        holder.tvFacilityName.setText(timeSheetModel.FacilityName);
     }
 
     @Override
@@ -50,15 +51,18 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvFacilityName, tvStartDateTime, tvOverTimeHours, tvEndDateTime, tvTotalHours;
+        TextView tvDate, tvStartDateTime, tvEndDateTime, tvBreakHours, tvRgHours, tvOverTimeHours, tvTotalHours, tvFacilityName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvFacilityName = itemView.findViewById(R.id.tvFacilityName);
+            tvDate = itemView.findViewById(R.id.tvDate);
             tvStartDateTime = itemView.findViewById(R.id.tvStartDateTime);
             tvEndDateTime = itemView.findViewById(R.id.tvEndDateTime);
-            tvTotalHours = itemView.findViewById(R.id.tvTotalHours);
+            tvBreakHours = itemView.findViewById(R.id.tvBreakHours);
+            tvRgHours = itemView.findViewById(R.id.tvRgHours);
             tvOverTimeHours = itemView.findViewById(R.id.tvOverTimeHours);
+            tvTotalHours = itemView.findViewById(R.id.tvTotalHours);
+            tvFacilityName = itemView.findViewById(R.id.tvFacilityName);
         }
     }
 }

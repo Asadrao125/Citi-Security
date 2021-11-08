@@ -1,46 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:weightSum="5">
 
     <TextView
         android:id="@+id/tvTaxes"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="8dp"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="Taxes" />
 
     <TextView
         android:id="@+id/tvExemptions"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="8dp"
-        android:text="Exemptions" />
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Exemption" />
 
     <TextView
         android:id="@+id/tvAddl"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="8dp"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="Addl." />
 
     <TextView
         android:id="@+id/tvAmount"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="8dp"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="Amount" />
 
     <TextView
         android:id="@+id/tvYearToDate"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:padding="8dp"
+        android:gravity="center"
+        android:padding="5dp"
         android:text="Year-To-Date" />
 
 </LinearLayout>

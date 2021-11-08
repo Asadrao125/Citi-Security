@@ -2,48 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:weightSum="5">
+    android:weightSum="3">
 
     <TextView
-        android:id="@+id/tvEarning"
+        android:id="@+id/tvType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Earnings" />
-
-    <TextView
-        android:id="@+id/tvDepartment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Dept" />
-
-    <TextView
-        android:id="@+id/tvRate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Rate" />
-
-    <TextView
-        android:id="@+id/tvHours"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Hours" />
+        android:text="Type" />
 
     <TextView
         android:id="@+id/tvAmount"
@@ -54,5 +23,15 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="Amount" />
+
+    <TextView
+        android:id="@+id/tvYearToDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="Year-To-Date" />
 
 </LinearLayout>

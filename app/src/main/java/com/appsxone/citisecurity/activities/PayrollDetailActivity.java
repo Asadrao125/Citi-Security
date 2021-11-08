@@ -5,20 +5,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
-import com.appsxone.citisecurity.adapters.PayrolDetailAdapter;
+import com.appsxone.citisecurity.adapters.PayrolDetailDeductionAdapter;
 import com.appsxone.citisecurity.adapters.PayrolDetailEarningsAdapter;
 import com.appsxone.citisecurity.adapters.PayrolDetailTaxesAdapter;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolDetailModel;
+import com.appsxone.citisecurity.models.PayrollDetailDeductionsModel;
 import com.appsxone.citisecurity.models.PayrollDetailEarningModel;
 import com.appsxone.citisecurity.models.PayrollDetailTaxesModel;
 import com.appsxone.citisecurity.utils.Const;
@@ -42,12 +43,17 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
     ArrayList<PayrolDetailModel> payrolDetailModelArrayList = new ArrayList<>();
 
     //
-    RecyclerView rvBillDetailEarning, rvBillDetailTaxes;
+    RecyclerView rvBillDetailEarning, rvBillDetailTaxes, rvBillDetailDeduction;
     ArrayList<PayrollDetailEarningModel> payrollDetailEarningModelArrayList = new ArrayList<>();
     ArrayList<PayrollDetailTaxesModel> payrollDetailTaxesModelArrayList = new ArrayList<>();
+    ArrayList<PayrollDetailDeductionsModel> payrollDetailDeductionsModelArrayList = new ArrayList<>();
     TextView tvEmploye, tvSSN, tvDepartment, tvClockNo, tvPayType;
     TextView tvGrossPay, tvYTDGross;
     TextView tvAmount, tvYearToDate;
+    TextView tvAmountDeduction, tvYearToDateDeduction;
+    TextView tvNetPay;
+    LinearLayout taxes_layout, deduction_layout;
+    TextView tvTaxes, tvDeduction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,27 +73,38 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         mainContainer = findViewById(R.id.mainContainer);
         noInternetLayout = findViewById(R.id.noInternetLayout);
         btnRetry = findViewById(R.id.btnRetry);
+        taxes_layout = findViewById(R.id.taxes_layout);
+        deduction_layout = findViewById(R.id.deduction_layout);
 
         //
+        tvTaxes = findViewById(R.id.tvTaxes);
+        tvDeduction = findViewById(R.id.tvDeduction);
         tvEmploye = findViewById(R.id.tvEmploye);
         tvSSN = findViewById(R.id.tvSSN);
         tvDepartment = findViewById(R.id.tvDepartment);
         tvClockNo = findViewById(R.id.tvClockNo);
         tvPayType = findViewById(R.id.tvPayType);
+        tvAmountDeduction = findViewById(R.id.tvAmountDeduction);
+        tvYearToDateDeduction = findViewById(R.id.tvYearToDateDeduction);
 
         tvGrossPay = findViewById(R.id.tvGrossPay);
         tvYTDGross = findViewById(R.id.tvYTDGross);
         tvAmount = findViewById(R.id.tvAmount);
         tvYearToDate = findViewById(R.id.tvYearToDate);
 
+        tvNetPay = findViewById(R.id.tvNetPay);
+
         rvBillDetailEarning = findViewById(R.id.rvBillDetailEarning);
         rvBillDetailTaxes = findViewById(R.id.rvBillDetailTaxes);
+        rvBillDetailDeduction = findViewById(R.id.rvBillDetailDeduction);
 
         rvBillDetailEarning.setLayoutManager(new LinearLayoutManager(this));
         rvBillDetailTaxes.setLayoutManager(new LinearLayoutManager(this));
+        rvBillDetailDeduction.setLayoutManager(new LinearLayoutManager(this));
 
         rvBillDetailEarning.setHasFixedSize(true);
         rvBillDetailTaxes.setHasFixedSize(true);
+        rvBillDetailDeduction.setHasFixedSize(true);
         //
 
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -131,11 +148,13 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                 String SSNNo = jsonObject.getString("SSNNo");
                 String ClockNo = jsonObject.getString("ClockNo");
                 String PayType = jsonObject.getString("PayType");
+                String NetPay = jsonObject.getString("NetTotal");
 
                 tvEmploye.setText(EmployeeNo);
                 tvSSN.setText(SSNNo);
                 tvClockNo.setText(ClockNo);
                 tvPayType.setText(PayType);
+                tvNetPay.setText("$" + NetPay);
 
                 JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -145,10 +164,13 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     String Rate = obj.getString("Rate");
                     String TotalHours = obj.getString("TotalHours");
                     String Amount = obj.getString("Amount");
+                    String YTDGross = obj.getString("YTD");
                     payrollDetailEarningModelArrayList.add(new PayrollDetailEarningModel(Earnings, Department, Rate,
-                            TotalHours, Amount));
+                            TotalHours, Amount, YTDGross));
                 }
                 rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
+                tvGrossPay.setText("" + sumEarningAmount(payrollDetailEarningModelArrayList));
+                tvYTDGross.setText("" + sumYTDGross(payrollDetailEarningModelArrayList));
 
                 JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList"); //"CheckDeductionModelList
                 for (int i = 0; i < jsonArray2.length(); i++) {
@@ -158,13 +180,110 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     String YTD = obj.getString("YTD");
                     String Exemption = obj.getString("Exemption");
                     String AddlAmount = obj.getString("AddlAmount");
-                    payrollDetailTaxesModelArrayList.add(new PayrollDetailTaxesModel(TaxType, Amount, YTD, Exemption, AddlAmount));
+                    payrollDetailTaxesModelArrayList.add(new PayrollDetailTaxesModel(TaxType, Exemption, AddlAmount, Amount, YTD));
                 }
+                tvAmount.setText("" + sumTaxAmount(payrollDetailTaxesModelArrayList));
+                tvYearToDate.setText("" + sumYTD(payrollDetailTaxesModelArrayList));
                 rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
+
+                if (jsonArray2.length() == 0) {
+                    taxes_layout.setVisibility(View.GONE);
+                    tvTaxes.setVisibility(View.GONE);
+                } else {
+                    taxes_layout.setVisibility(View.VISIBLE);
+                    tvTaxes.setVisibility(View.VISIBLE);
+                }
+
+                JSONArray jsonArray3 = jsonObject.getJSONArray("CheckDeductionModelList");
+                for (int i = 0; i < jsonArray3.length(); i++) {
+                    JSONObject obj = jsonArray3.getJSONObject(i);
+                    String DeductionType = obj.getString("DeductionType");
+                    String Amount = obj.getString("Amount");
+                    String YTD = obj.getString("YTD");
+                    payrollDetailDeductionsModelArrayList.add(new PayrollDetailDeductionsModel(DeductionType, Amount, YTD));
+                }
+
+                if (jsonArray3.length() == 0) {
+                    deduction_layout.setVisibility(View.GONE);
+                    tvDeduction.setVisibility(View.GONE);
+                } else {
+                    deduction_layout.setVisibility(View.VISIBLE);
+                    tvDeduction.setVisibility(View.VISIBLE);
+                }
+
+                tvAmountDeduction.setText("" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
+                tvYearToDateDeduction.setText("" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
+                rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public double sumTaxAmount(ArrayList<PayrollDetailTaxesModel> list) {
+        double sum = 0.0;
+        double amnt;
+        for (PayrollDetailTaxesModel j : list) {
+            amnt = Double.parseDouble(j.amount);
+            sum += amnt;
+            Log.d("SUM", "sumTaxAmount: " + sum);
+        }
+        return sum;
+    }
+
+    public double sumYTD(ArrayList<PayrollDetailTaxesModel> list) {
+        double sum = 0.0;
+        double YTD;
+        for (PayrollDetailTaxesModel j : list) {
+            YTD = Double.parseDouble(j.year_to_date);
+            sum += YTD;
+            Log.d("SUM", "sumYTD: " + sum);
+        }
+        return sum;
+    }
+
+    public double sumEarningAmount(ArrayList<PayrollDetailEarningModel> list) {
+        double sum = 0.0;
+        double YTD;
+        for (PayrollDetailEarningModel j : list) {
+            YTD = Double.parseDouble(j.amount);
+            sum += YTD;
+            Log.d("SUM", "sumYTD: " + sum);
+        }
+        return sum;
+    }
+
+    public double sumYTDGross(ArrayList<PayrollDetailEarningModel> list) {
+        double sum = 0.0;
+        double YTD;
+        for (PayrollDetailEarningModel j : list) {
+            YTD = Double.parseDouble(j.amount);
+            sum += YTD;
+            Log.d("SUM", "sumYTD: " + sum);
+        }
+        return sum;
+    }
+
+    public double sumDeductionAmount(ArrayList<PayrollDetailDeductionsModel> list) {
+        double sum = 0.0;
+        double YTD;
+        for (PayrollDetailDeductionsModel j : list) {
+            YTD = Double.parseDouble(j.Amount);
+            sum += YTD;
+            Log.d("SUM", "sumYTD: " + sum);
+        }
+        return sum;
+    }
+
+    public double sumYTDAmountDeduction(ArrayList<PayrollDetailDeductionsModel> list) {
+        double sum = 0.0;
+        double YTD;
+        for (PayrollDetailDeductionsModel j : list) {
+            YTD = Double.parseDouble(j.Year_To_Date);
+            sum += YTD;
+            Log.d("SUM", "sumYTD: " + sum);
+        }
+        return sum;
     }
 }

@@ -5,10 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -21,10 +24,12 @@ import android.widget.Toast;
 import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.adapters.FacilitiesAdapter;
 import com.appsxone.citisecurity.adapters.TimeSheetAdapter;
+import com.appsxone.citisecurity.adapters.TimeSheetAdapterMain;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.models.TimeSheetModel;
+import com.appsxone.citisecurity.models.TimeSheetModelMain;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
@@ -43,16 +48,15 @@ import java.util.Date;
 import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
-    int j = 0;
     ImageView imgBack;
     String facilityId;
     Button btnGo, btnRetry;
     ApiCallback apiCallback;
-    Spinner spinnerFacility;
     RecyclerView rvTimeSheet;
     String loginResponse, userId;
     EditText edtStartDate, edtEndDate;
-    TextView tvTotalTimeDuration, tvSpinner;
+    AutoCompleteTextView actvFacility;
+    TextView tvTotalTimeDuration, tvReset;
     LinearLayout noInternetLayout, mainContainer;
     ArrayList<String> stringArrayList = new ArrayList<>();
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
@@ -72,13 +76,13 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         rvTimeSheet = findViewById(R.id.rvTimeSheet);
         rvTimeSheet.setLayoutManager(new LinearLayoutManager(this));
         rvTimeSheet.setHasFixedSize(true);
-        spinnerFacility = findViewById(R.id.spinnerFacility);
         btnGo = findViewById(R.id.btnGo);
-        tvSpinner = findViewById(R.id.tvSpinner);
         tvTotalTimeDuration = findViewById(R.id.tvTotalTimeDuration);
         btnRetry = findViewById(R.id.btnRetry);
         noInternetLayout = findViewById(R.id.noInternetLayout);
         mainContainer = findViewById(R.id.mainContainer);
+        tvReset = findViewById(R.id.tvReset);
+        actvFacility = findViewById(R.id.actvFacility);
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,13 +91,19 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
             }
         });
 
+        tvReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), TimeSheetActivity.class));
+                finish();
+            }
+        });
+
         btnRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GetFacilityByGuardId();
                 getTimeSheetData("");
-                j = 0;
-                tvSpinner.setText("Select Facility");
             }
         });
 
@@ -104,8 +114,8 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
             e.printStackTrace();
         }
 
-        edtStartDate.setText(HandleDate.startDate());
-        edtEndDate.setText(HandleDate.endDate());
+        edtStartDate.setText(HandleDate.endDate());
+        edtEndDate.setText(HandleDate.startDate());
 
         edtStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +158,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinnerFacility.getSelectedItem().equals("")) {
+                if (actvFacility.getText().toString().isEmpty()) {
                     getTimeSheetData("");
                 } else {
                     getTimeSheetData(facilityId);
@@ -194,38 +204,85 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
         if (apiName.equals(Const.GET_TIMESHEETS_BY_GUARD_ID)) {
+            /*try {
+                timeSheetModelMainArrayList.clear();
+                timeSheetModelArrayList.clear();
+                JSONObject mainObj = new JSONObject(apiResponce);
+                if (mainObj.getString("Status").equals("Success")) {
+                    JSONArray list = mainObj.getJSONArray("Timesheet");
+                    for (int i = 0; i < list.length(); i++) {
+                        JSONObject elem = list.getJSONObject(i);
+                        String BatchStartDate = elem.getString("BatchStartDate");
+                        String BatchEndDate = elem.getString("BatchEndDate");
+                        String RGTotalHours = elem.getString("RGTotalHours");
+                        String OTTotalHours = elem.getString("OTTotalHours");
+                        String BreakHours = elem.getString("BreakHours");
+                        String TotalHourss = elem.getString("TotalHours");
+
+                        timeSheetModelMainArrayList.add(new TimeSheetModelMain(BatchStartDate, BatchEndDate, BreakHours, RGTotalHours,
+                                OTTotalHours, TotalHourss));
+
+                        JSONArray prods = elem.getJSONArray("TimesheetDetail");
+
+                        for (int j = 0; j < prods.length(); j++) {
+                            JSONObject innerElem = prods.getJSONObject(j);
+
+                            String TimeSheetID = innerElem.getString("TimeSheetID");
+                            String GuardID = innerElem.getString("GuardID");
+                            String FacilityID = innerElem.getString("FacilityID");
+                            String FacilityName = innerElem.getString("FacilityName");
+                            String StartDateTime = innerElem.getString("StartTime");
+                            String EndDateTime = innerElem.getString("EndTime");
+                            String TotalHours = innerElem.getString("TotalHours");
+                            String TotalOverTimeHours = innerElem.getString("TotalOverTimeHours");
+                            String date = innerElem.getString("Date");
+                            String break_hours = innerElem.getString("BreakHours");
+                            String rg_hours = innerElem.getString("TotalRGHours");
+                            timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
+                                    EndDateTime, TotalHours, TotalOverTimeHours, date, break_hours, rg_hours));
+                        }
+                    }
+                    rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
+                    rvTimeSheet.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(this, "" + mainObj.getString("Message"), Toast.LENGTH_SHORT).show();
+                    rvTimeSheet.setVisibility(View.GONE);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
             try {
                 timeSheetModelArrayList.clear();
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
-                    JSONArray jsonArray = jsonObject.getJSONArray("TimeSheet");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String TimeSheetID = obj.getString("TimeSheetID");
-                        String GuardID = obj.getString("GuardID");
-                        String FacilityID = obj.getString("FacilityID");
-                        String FacilityName = obj.getString("FacilityName");
-                        String StartDateTime = obj.getString("StartTime");
-                        String EndDateTime = obj.getString("EndTime");
-                        String TotalHours = obj.getString("TotalHours");
-                        String TotalOverTimeHours = obj.getString("TotalOverTimeHours");
-                        String date = obj.getString("Date");
-                        String break_hours = obj.getString("BreakHours");
-                        String rg_hours = obj.getString("TotalRGHours");
+                    JSONArray prods = jsonObject.getJSONArray("Timesheet");
+                    for (int j = 0; j < prods.length(); j++) {
+                        JSONObject innerElem = prods.getJSONObject(j);
+                        String TimeSheetID = innerElem.getString("TimeSheetID");
+                        String GuardID = innerElem.getString("GuardID");
+                        String FacilityID = innerElem.getString("FacilityID");
+                        String FacilityName = innerElem.getString("FacilityName");
+                        String StartDateTime = innerElem.getString("StartTime");
+                        String EndDateTime = innerElem.getString("EndTime");
+                        String TotalHours = innerElem.getString("TotalHours");
+                        String TotalOverTimeHours = innerElem.getString("TotalOverTimeHours");
+                        String date = innerElem.getString("Date");
+                        String break_hours = innerElem.getString("BreakHours");
+                        String rg_hours = innerElem.getString("TotalRGHours");
                         timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
                                 EndDateTime, TotalHours, TotalOverTimeHours, date, break_hours, rg_hours));
                     }
-                    //String TotalTimeDuration = jsonObject.getString("TotalTimeDuration");
-                    //tvTotalTimeDuration.setText(TotalTimeDuration + " hrs");
                     rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
                     rvTimeSheet.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                     rvTimeSheet.setVisibility(View.GONE);
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         } else if (apiName.equals(Const.GetFacilitiesByGuardId)) {
             try {
                 facilitiesModelArrayList.clear();
@@ -242,23 +299,20 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
                     }
 
-                    ArrayAdapter aa = new ArrayAdapter(this, android.R.layout.simple_spinner_item, stringArrayList);
-                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spinnerFacility.setAdapter(aa);
-
-                    spinnerFacility.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
+                    actvFacility.setAdapter(adapter);
+                    actvFacility.setOnTouchListener(new View.OnTouchListener() {
                         @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            facilityId = facilitiesModelArrayList.get(position).FacilityId;
-                            //if (j > 0) {
-                            tvSpinner.setText(facilitiesModelArrayList.get(position).FacilityName);
-                            //}
-                            //j++;
+                        public boolean onTouch(View v, MotionEvent event) {
+                            actvFacility.showDropDown();
+                            return false;
                         }
+                    });
 
+                    actvFacility.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            facilityId = facilitiesModelArrayList.get(position).FacilityId;
                         }
                     });
 
