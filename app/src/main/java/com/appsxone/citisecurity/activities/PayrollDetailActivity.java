@@ -41,20 +41,15 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
     ApiCallback apiCallback;
     LinearLayout mainContainer, noInternetLayout;
     TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
-    ArrayList<PayrolDetailModel> payrolDetailModelArrayList = new ArrayList<>();
 
-    //
-    RecyclerView rvBillDetailEarning, rvBillDetailTaxes, rvBillDetailDeduction;
-    ArrayList<PayrollDetailEarningModel> payrollDetailEarningModelArrayList = new ArrayList<>();
-    ArrayList<PayrollDetailTaxesModel> payrollDetailTaxesModelArrayList = new ArrayList<>();
-    ArrayList<PayrollDetailDeductionsModel> payrollDetailDeductionsModelArrayList = new ArrayList<>();
-    TextView tvEmploye, tvSSN, tvDepartment, tvClockNo, tvPayType;
-    TextView tvGrossPay, tvYTDGross;
-    TextView tvAmount, tvYearToDate;
-    TextView tvAmountDeduction, tvYearToDateDeduction;
-    TextView tvNetPay;
-    LinearLayout taxes_layout, deduction_layout;
     TextView tvTaxes, tvDeduction;
+    LinearLayout taxes_layout, deduction_layout;
+    TextView tvEmploye, tvSSN, tvDepartment, tvClockNo, tvPayType;
+    RecyclerView rvBillDetailEarning, rvBillDetailTaxes, rvBillDetailDeduction;
+    ArrayList<PayrollDetailTaxesModel> payrollDetailTaxesModelArrayList = new ArrayList<>();
+    ArrayList<PayrollDetailEarningModel> payrollDetailEarningModelArrayList = new ArrayList<>();
+    ArrayList<PayrollDetailDeductionsModel> payrollDetailDeductionsModelArrayList = new ArrayList<>();
+    TextView tvGrossPay, tvYTDGross, tvAmount, tvYearToDate, tvAmountDeduction, tvYearToDateDeduction, tvNetPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +72,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         taxes_layout = findViewById(R.id.taxes_layout);
         deduction_layout = findViewById(R.id.deduction_layout);
 
-        //
         tvTaxes = findViewById(R.id.tvTaxes);
         tvDeduction = findViewById(R.id.tvDeduction);
         tvEmploye = findViewById(R.id.tvEmploye);
@@ -106,7 +100,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         rvBillDetailEarning.setHasFixedSize(true);
         rvBillDetailTaxes.setHasFixedSize(true);
         rvBillDetailDeduction.setHasFixedSize(true);
-        //
 
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,6 +215,11 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         }
     }
 
+    public String currencyFormatter(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+        return formatter.format(Double.parseDouble(amount));
+    }
+
     public String sumTaxAmount(ArrayList<PayrollDetailTaxesModel> list) {
         double sum = 0.0;
         double amnt;
@@ -253,11 +251,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             Log.d("SUM", "sumYTD: " + sum);
         }
         return currencyFormatter(String.valueOf(sum));
-    }
-
-    public String currencyFormatter(String amount) {
-        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
-        return formatter.format(Double.parseDouble(amount));
     }
 
     public String sumYTDGross(ArrayList<PayrollDetailEarningModel> list) {
