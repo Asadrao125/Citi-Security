@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.models.PayrollDetailDeductionsModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PayrolDetailDeductionAdapter extends RecyclerView.Adapter<PayrolDetailDeductionAdapter.MyViewHolder> {
@@ -35,8 +36,13 @@ public class PayrolDetailDeductionAdapter extends RecyclerView.Adapter<PayrolDet
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PayrollDetailDeductionsModel payrolDetailModel = payrollDetailDeductionsModelArrayList.get(position);
         holder.tvType.setText(payrolDetailModel.Type);
-        holder.tvAmount.setText(payrolDetailModel.Amount);
-        holder.tvYearToDate.setText(payrolDetailModel.Year_To_Date);
+        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.Amount));
+        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.Year_To_Date));
+    }
+
+    public String currencyFormatter(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+        return formatter.format(Double.parseDouble(amount));
     }
 
     @Override

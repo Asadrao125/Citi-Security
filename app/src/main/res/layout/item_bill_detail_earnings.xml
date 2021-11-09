@@ -13,7 +13,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Earnings" />
+        android:text="Earnings"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvDepartment"
@@ -23,7 +24,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Dept" />
+        android:text="Dept"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvRate"
@@ -33,7 +35,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Rate" />
+        android:text="Rate"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvHours"
@@ -43,7 +46,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Hours" />
+        android:text="Hours"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvAmount"
@@ -53,6 +57,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Amount" />
+        android:text="Amount"
+        android:textSize="12sp" />
 
 </LinearLayout>

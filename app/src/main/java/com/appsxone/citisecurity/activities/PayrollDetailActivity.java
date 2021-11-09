@@ -30,6 +30,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PayrollDetailActivity extends AppCompatActivity implements ApiCallback {
@@ -154,7 +155,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                 tvSSN.setText(SSNNo);
                 tvClockNo.setText(ClockNo);
                 tvPayType.setText(PayType);
-                tvNetPay.setText("$" + NetPay);
+                tvNetPay.setText("$" + currencyFormatter(NetPay));
 
                 JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -169,8 +170,8 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                             TotalHours, Amount, YTDGross));
                 }
                 rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
-                tvGrossPay.setText("" + sumEarningAmount(payrollDetailEarningModelArrayList));
-                tvYTDGross.setText("" + sumYTDGross(payrollDetailEarningModelArrayList));
+                tvGrossPay.setText("$" + sumEarningAmount(payrollDetailEarningModelArrayList));
+                tvYTDGross.setText("$" + sumYTDGross(payrollDetailEarningModelArrayList));
 
                 JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList"); //"CheckDeductionModelList
                 for (int i = 0; i < jsonArray2.length(); i++) {
@@ -182,8 +183,8 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     String AddlAmount = obj.getString("AddlAmount");
                     payrollDetailTaxesModelArrayList.add(new PayrollDetailTaxesModel(TaxType, Exemption, AddlAmount, Amount, YTD));
                 }
-                tvAmount.setText("" + sumTaxAmount(payrollDetailTaxesModelArrayList));
-                tvYearToDate.setText("" + sumYTD(payrollDetailTaxesModelArrayList));
+                tvAmount.setText("$" + sumTaxAmount(payrollDetailTaxesModelArrayList));
+                tvYearToDate.setText("$" + sumYTD(payrollDetailTaxesModelArrayList));
                 rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
 
                 if (jsonArray2.length() == 0) {
@@ -211,8 +212,8 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     tvDeduction.setVisibility(View.VISIBLE);
                 }
 
-                tvAmountDeduction.setText("" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
-                tvYearToDateDeduction.setText("" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
+                tvAmountDeduction.setText("$" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
+                tvYearToDateDeduction.setText("$" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
                 rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
 
             } catch (JSONException e) {
@@ -221,7 +222,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         }
     }
 
-    public double sumTaxAmount(ArrayList<PayrollDetailTaxesModel> list) {
+    public String sumTaxAmount(ArrayList<PayrollDetailTaxesModel> list) {
         double sum = 0.0;
         double amnt;
         for (PayrollDetailTaxesModel j : list) {
@@ -229,10 +230,10 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += amnt;
             Log.d("SUM", "sumTaxAmount: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 
-    public double sumYTD(ArrayList<PayrollDetailTaxesModel> list) {
+    public String sumYTD(ArrayList<PayrollDetailTaxesModel> list) {
         double sum = 0.0;
         double YTD;
         for (PayrollDetailTaxesModel j : list) {
@@ -240,10 +241,10 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 
-    public double sumEarningAmount(ArrayList<PayrollDetailEarningModel> list) {
+    public String sumEarningAmount(ArrayList<PayrollDetailEarningModel> list) {
         double sum = 0.0;
         double YTD;
         for (PayrollDetailEarningModel j : list) {
@@ -251,10 +252,15 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 
-    public double sumYTDGross(ArrayList<PayrollDetailEarningModel> list) {
+    public String currencyFormatter(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+        return formatter.format(Double.parseDouble(amount));
+    }
+
+    public String sumYTDGross(ArrayList<PayrollDetailEarningModel> list) {
         double sum = 0.0;
         double YTD;
         for (PayrollDetailEarningModel j : list) {
@@ -262,10 +268,10 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 
-    public double sumDeductionAmount(ArrayList<PayrollDetailDeductionsModel> list) {
+    public String sumDeductionAmount(ArrayList<PayrollDetailDeductionsModel> list) {
         double sum = 0.0;
         double YTD;
         for (PayrollDetailDeductionsModel j : list) {
@@ -273,10 +279,10 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 
-    public double sumYTDAmountDeduction(ArrayList<PayrollDetailDeductionsModel> list) {
+    public String sumYTDAmountDeduction(ArrayList<PayrollDetailDeductionsModel> list) {
         double sum = 0.0;
         double YTD;
         for (PayrollDetailDeductionsModel j : list) {
@@ -284,6 +290,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
-        return sum;
+        return currencyFormatter(String.valueOf(sum));
     }
 }

@@ -149,9 +149,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="A603"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:text="A603" />
 
                 <View
                     android:layout_width="1px"
@@ -165,9 +163,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="123-45-6789"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:text="123-45-6789" />
 
                 <View
                     android:layout_width="1px"
@@ -181,9 +177,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="00"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:text="00" />
 
                 <View
                     android:layout_width="1px"
@@ -197,9 +191,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:text="" />
 
                 <View
                     android:layout_width="1px"
@@ -213,9 +205,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:padding="8dp"
-                    android:text="Hourly"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:text="Hourly" />
 
                 <View
                     android:layout_width="1px"
@@ -231,22 +221,22 @@
 
         </LinearLayout> <!-- HEADER -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Earnings"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:id="@+id/earning_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Earnings"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -269,7 +259,7 @@
                     android:padding="5dp"
                     android:text="Earnings"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -281,7 +271,7 @@
                     android:padding="5dp"
                     android:text="Dept"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -293,7 +283,7 @@
                     android:padding="5dp"
                     android:text="Rate"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -305,7 +295,7 @@
                     android:padding="5dp"
                     android:text="Hours"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -317,7 +307,7 @@
                     android:padding="5dp"
                     android:text="Amount"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -355,9 +345,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="Gross Pay"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -366,9 +357,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="$1026.00"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
@@ -387,9 +379,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="YTD Gross"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -398,9 +391,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="$1026.00"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                 </RelativeLayout>
@@ -414,23 +408,23 @@
 
         </LinearLayout> <!-- EARNINGS -->
 
-        <TextView
-            android:id="@+id/tvTaxes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Taxes"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:id="@+id/taxes_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTaxes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Taxes"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -446,51 +440,61 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="Taxes"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="Exemptions"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="Addl."
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="Amount"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="Year-To-Date"
+                    android:padding="5dp"
+                    android:text="Year-To-\nDate"
                     android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -524,9 +528,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:text="Total Taxes"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -541,9 +546,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="$195.28"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -552,9 +558,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:padding="8dp"
+                        android:padding="5dp"
                         android:text="$195.28"
                         android:textColor="@color/black"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -568,23 +575,23 @@
 
         </LinearLayout> <!-- TAXES -->
 
-        <TextView
-            android:id="@+id/tvDeduction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Deductions"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:id="@+id/deduction_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDeduction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Deductions"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
@@ -605,6 +612,7 @@
                     android:padding="5dp"
                     android:text="Type"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -615,6 +623,7 @@
                     android:padding="5dp"
                     android:text="Amount"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -625,6 +634,7 @@
                     android:padding="5dp"
                     android:text="Year-To-Date"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -658,9 +668,10 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:text="Total Deduction"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -670,9 +681,10 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:text="$195.28"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -682,9 +694,10 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:padding="8dp"
+                    android:padding="5dp"
                     android:text="$195.28"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -715,9 +728,11 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:padding="5dp"
                     android:text="Net Pay"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -726,9 +741,11 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
                     android:padding="5dp"
                     android:text="$104.5"
                     android:textColor="@color/black"
+                    android:textSize="11sp"
                     android:textStyle="bold" />
 
             </RelativeLayout>

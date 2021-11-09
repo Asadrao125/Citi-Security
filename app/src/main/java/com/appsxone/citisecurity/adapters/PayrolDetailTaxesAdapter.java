@@ -13,6 +13,7 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.models.PayrollDetailEarningModel;
 import com.appsxone.citisecurity.models.PayrollDetailTaxesModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PayrolDetailTaxesAdapter extends RecyclerView.Adapter<PayrolDetailTaxesAdapter.MyViewHolder> {
@@ -37,9 +38,14 @@ public class PayrolDetailTaxesAdapter extends RecyclerView.Adapter<PayrolDetailT
         PayrollDetailTaxesModel payrolDetailModel = payrolDetailTaxesArrayList.get(position);
         holder.tvTaxes.setText(payrolDetailModel.taxes);
         holder.tvExemptions.setText(payrolDetailModel.exemptions);
-        holder.tvAddl.setText(payrolDetailModel.addl);
-        holder.tvAmount.setText(payrolDetailModel.amount);
-        holder.tvYearToDate.setText(payrolDetailModel.year_to_date);
+        holder.tvAddl.setText("$" + currencyFormatter(payrolDetailModel.addl));
+        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.amount));
+        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.year_to_date));
+    }
+
+    public String currencyFormatter(String amount) {
+        DecimalFormat formatter = new DecimalFormat("###,###,##0.00");
+        return formatter.format(Double.parseDouble(amount));
     }
 
     @Override
