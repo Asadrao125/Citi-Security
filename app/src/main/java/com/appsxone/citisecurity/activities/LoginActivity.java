@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
                     SharedPref.write("pass", edtPassword.getText().toString().trim());
                     SharedPref.write("login", "true");
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                    //finish();
+                    finish();
                 } else {
                     Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                 }
