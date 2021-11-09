@@ -60,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:padding="8dp"
                     android:text="Emp#"
                     android:textColor="@color/black"
@@ -75,6 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:padding="8dp"
                     android:text="SS#"
                     android:textColor="@color/black"
@@ -90,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:padding="8dp"
                     android:text="Dept"
                     android:textColor="@color/black"
@@ -105,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:padding="8dp"
                     android:text="Clock No."
                     android:textColor="@color/black"
@@ -120,6 +124,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:padding="8dp"
                     android:text="Pay Type"
                     android:textColor="@color/black"
@@ -148,7 +153,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="A603" />
 
                 <View
@@ -162,7 +168,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="123-45-6789" />
 
                 <View
@@ -176,7 +183,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="00" />
 
                 <View
@@ -190,7 +198,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="" />
 
                 <View
@@ -204,7 +213,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:padding="8dp"
+                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="Hourly" />
 
                 <View
