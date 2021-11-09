@@ -56,7 +56,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     String loginResponse, userId;
     EditText edtStartDate, edtEndDate;
     AutoCompleteTextView actvFacility;
-    TextView tvTotalTimeDuration, tvReset;
+    TextView tvReset;
     LinearLayout noInternetLayout, mainContainer;
     ArrayList<String> stringArrayList = new ArrayList<>();
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
@@ -77,7 +77,6 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         rvTimeSheet.setLayoutManager(new LinearLayoutManager(this));
         rvTimeSheet.setHasFixedSize(true);
         btnGo = findViewById(R.id.btnGo);
-        tvTotalTimeDuration = findViewById(R.id.tvTotalTimeDuration);
         btnRetry = findViewById(R.id.btnRetry);
         noInternetLayout = findViewById(R.id.noInternetLayout);
         mainContainer = findViewById(R.id.mainContainer);
