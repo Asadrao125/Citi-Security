@@ -1,10 +1,12 @@
 package com.appsxone.citisecurity.location_service;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -77,20 +79,18 @@ public class GoogleService extends Service implements LocationListener {
         if (!isGPSEnable && !isNetworkEnable) {
             fn_update(location, 0);
         } else {
-            if (isNetworkEnable && isGPSEnable) {
-                location = null;
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-                if (locationManager != null) {
-                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                    if (location != null) {
+            location = null;
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            if (locationManager != null) {
+                location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if (location != null) {
 
-                        Log.e("latitude", location.getLatitude() + "");
-                        Log.e("longitude", location.getLongitude() + "");
+                    Log.e("latitude", location.getLatitude() + "");
+                    Log.e("longitude", location.getLongitude() + "");
 
-                        latitude = location.getLatitude();
-                        longitude = location.getLongitude();
-                        fn_update(location, 1);
-                    }
+                    latitude = location.getLatitude();
+                    longitude = location.getLongitude();
+                    fn_update(location, 1);
                 }
             }
         }

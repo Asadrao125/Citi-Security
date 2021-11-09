@@ -35,6 +35,7 @@ import com.appsxone.citisecurity.location_service.GoogleService;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
+import com.appsxone.citisecurity.utils.Permissons;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -106,16 +107,21 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = edtEmail.getText().toString().trim();
-                String password = edtPassword.getText().toString().trim();
-                if (email.isEmpty()) {
-                    edtEmail.setError("Email Required");
-                    edtEmail.requestFocus();
-                } else if (password.isEmpty()) {
-                    edtPassword.setError("Password Required");
-                    edtPassword.requestFocus();
+                if (Permissons.Check_FINE_LOCATION(LoginActivity.this)) {
+                    String email = edtEmail.getText().toString().trim();
+                    String password = edtPassword.getText().toString().trim();
+                    if (email.isEmpty()) {
+                        edtEmail.setError("Email Required");
+                        edtEmail.requestFocus();
+                    } else if (password.isEmpty()) {
+                        edtPassword.setError("Password Required");
+                        edtPassword.requestFocus();
+                    } else {
+                        Login(email, password);
+                    }
                 } else {
-                    Login(email, password);
+                    Toast.makeText(LoginActivity.this, "Please enable permission", Toast.LENGTH_SHORT).show();
+                    checkPermission();
                 }
             }
         });
@@ -194,12 +200,16 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
                 if (isMyServiceRunning(GoogleService.class)) {
 
                 } else {
-                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
-                        startForegroundService(new Intent(getApplicationContext(), GoogleService.class));
-                        registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                    if (Permissons.Check_FINE_LOCATION(LoginActivity.this)) {
+                        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
+                            startForegroundService(new Intent(getApplicationContext(), GoogleService.class));
+                            registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                        } else {
+                            startService(new Intent(getApplicationContext(), GoogleService.class));
+                            registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                        }
                     } else {
-                        startService(new Intent(getApplicationContext(), GoogleService.class));
-                        registerReceiver(broadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+                        Toast.makeText(LoginActivity.this, "Please enable permission", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -224,16 +234,21 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String latitude = intent.getStringExtra("latutide");
-            String longitude = intent.getStringExtra("longitude");
-            if (latitude.equals("no")) {
-                enableLocationPopup();
-            } else {
-                if (SharedPref.read("login", "").equals("true")) {
-                    updateLocation(latitude, longitude, "Loggedin");
+            if (Permissons.Check_FINE_LOCATION(LoginActivity.this)) {
+                String latitude = intent.getStringExtra("latutide");
+                String longitude = intent.getStringExtra("longitude");
+                if (latitude.equals("no")) {
+                    enableLocationPopup();
                 } else {
-                    updateLocation(latitude, longitude, "Loggedout");
+                    if (SharedPref.read("login", "").equals("true")) {
+                        updateLocation(latitude, longitude, "Loggedin");
+                    } else {
+                        updateLocation(latitude, longitude, "Loggedout");
+                    }
                 }
+            } else {
+                checkPermission();
+                Toast.makeText(context, "Please enable permission", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -320,24 +335,26 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     }
 
     private void updateLocation(String latitude, String longitude, String comment) {
-        SharedPref.init(this);
-        String userId = null;
-        String res = SharedPref.read("login_responce", "");
-        try {
-            JSONObject jsonObject = new JSONObject(res);
-            userId = jsonObject.getString("UserID");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if (Permissons.Check_FINE_LOCATION(LoginActivity.this)) {
+            SharedPref.init(this);
+            String userId = null;
+            String res = SharedPref.read("login_responce", "");
+            try {
+                JSONObject jsonObject = new JSONObject(res);
+                userId = jsonObject.getString("UserID");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("UDID", getMacAddr());
-        requestParams.put("UserId", userId);
-        requestParams.put("Latitude", latitude);
-        requestParams.put("Longitude", longitude);
-        requestParams.put("Comment", comment);
-        ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
-        apiManager.loadURL(0);
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("UDID", getMacAddr());
+            requestParams.put("UserId", userId);
+            requestParams.put("Latitude", latitude);
+            requestParams.put("Longitude", longitude);
+            requestParams.put("Comment", comment);
+            ApiManager apiManager = new ApiManager(LoginActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
+            apiManager.loadURL(0);
+        }
     }
 
     @Override
