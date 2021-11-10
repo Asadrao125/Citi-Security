@@ -61,6 +61,8 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     ArrayList<String> stringArrayList = new ArrayList<>();
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
+    int y1, m1, d1;
+    int y2, m2, d2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,48 +118,48 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         edtStartDate.setText(HandleDate.endDate());
         edtEndDate.setText(HandleDate.startDate());
 
+        Calendar myCalendar = Calendar.getInstance();
+        y1 = myCalendar.get(Calendar.YEAR);
+        m1 = myCalendar.get(Calendar.MONTH);
+        d1 = myCalendar.get(Calendar.DAY_OF_MONTH);
+
         edtStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar myCalendar = Calendar.getInstance();
-                myCalendar.setTime(new Date());
                 DatePickerDialog mdiDialog = new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "MM/dd/yyyy";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                edtStartDate.setText(sdf.format(myCalendar.getTime()));
+                                y1 = year;
+                                m1 = monthOfYear;
+                                d1 = dayOfMonth;
+                                edtStartDate.setText(m1 + 1 + "/" + d1 + "/" + y1);
                             }
-                        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                        }, y1, m1, d1);
                 mdiDialog.getDatePicker().setMaxDate(myCalendar.getTimeInMillis());
                 mdiDialog.show();
             }
         });
 
+        Calendar myCal = Calendar.getInstance();
+        y2 = myCal.get(Calendar.YEAR);
+        myCal.add(Calendar.MONTH, -1);
+        m2 = myCal.get(Calendar.MONTH);
+        d2 = myCal.get(Calendar.DAY_OF_MONTH);
+
         edtEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar myCalendar = Calendar.getInstance();
-                myCalendar.setTime(new Date());
                 DatePickerDialog mdiDialog = new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                myCalendar.set(Calendar.YEAR, year);
-                                myCalendar.set(Calendar.MONTH, monthOfYear);
-                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                                String myFormat = "MM/dd/yyyy";
-                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                                edtEndDate.setText(sdf.format(myCalendar.getTime()));
+                                y2 = year;
+                                m2 = monthOfYear;
+                                d2 = dayOfMonth;
+                                edtEndDate.setText(m2 + 1 + "/" + d2 + "/" + y2);
                             }
-                        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-                mdiDialog.getDatePicker().setMaxDate(myCalendar.getTimeInMillis());
+                        }, y2, m2, d2);
                 mdiDialog.show();
             }
         });
