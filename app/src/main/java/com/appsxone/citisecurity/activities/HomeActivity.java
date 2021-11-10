@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
     ImageView imgShare;
     String loginResponce;
     TextView tvUsername, tvEmail;
-    CardView cv1, cv2, cvTimeSheet, cvPayStub;
+    CardView cv1, cv2, cvTimeSheet, cvPayrol;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
         cv1 = findViewById(R.id.cv1);
         cv2 = findViewById(R.id.cv2);
         cvTimeSheet = findViewById(R.id.cvTimeSheet);
-        cvPayStub = findViewById(R.id.cvPayStub);
+        cvPayrol = findViewById(R.id.cvPayrol);
         imgShare = findViewById(R.id.imgShare);
 
         try {
@@ -73,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        cvPayStub.setOnClickListener(new View.OnClickListener() {
+        cvPayrol.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, PayrollActivity.class));
