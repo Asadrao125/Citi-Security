@@ -121,17 +121,17 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
             public void onClick(View v) {
                 Calendar myCalendar = Calendar.getInstance();
                 myCalendar.setTime(new Date());
-                new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        myCalendar.set(Calendar.YEAR, year);
-                        myCalendar.set(Calendar.MONTH, monthOfYear);
-                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "MM/dd/yyyy";
-                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                        edtStartDate.setText(sdf.format(myCalendar.getTime()));
-                    }
-                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog mdiDialog = new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                String myFormat = "MM/dd/yyyy";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                edtStartDate.setText(sdf.format(myCalendar.getTime()));
+                            }
+                        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                mdiDialog.getDatePicker().setMaxDate(myCalendar.getTimeInMillis());
+                mdiDialog.show();
             }
         });
 
@@ -140,17 +140,17 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
             public void onClick(View v) {
                 Calendar myCalendar = Calendar.getInstance();
                 myCalendar.setTime(new Date());
-                new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        myCalendar.set(Calendar.YEAR, year);
-                        myCalendar.set(Calendar.MONTH, monthOfYear);
-                        myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        String myFormat = "MM/dd/yyyy";
-                        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                        edtEndDate.setText(sdf.format(myCalendar.getTime()));
-                    }
-                }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                DatePickerDialog mdiDialog = new DatePickerDialog(TimeSheetActivity.this, R.style.my_dialog_theme,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                String myFormat = "MM/dd/yyyy";
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                edtEndDate.setText(sdf.format(myCalendar.getTime()));
+                            }
+                        }, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                mdiDialog.getDatePicker().setMaxDate(myCalendar.getTimeInMillis());
+                mdiDialog.show();
             }
         });
 

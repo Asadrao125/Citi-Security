@@ -81,10 +81,10 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:id="@+id/edtStartDate"
+                    android:id="@+id/edtEndDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/curve_border"
                     android:focusable="false"
@@ -109,10 +109,10 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:id="@+id/edtEndDate"
+                    android:id="@+id/edtStartDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/curve_border"
                     android:focusable="false"
