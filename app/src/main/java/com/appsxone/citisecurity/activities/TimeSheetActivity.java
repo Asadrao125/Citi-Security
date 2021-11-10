@@ -125,6 +125,10 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                                 String myFormat = "MM/dd/yyyy";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 edtStartDate.setText(sdf.format(myCalendar.getTime()));
@@ -144,6 +148,10 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                                 String myFormat = "MM/dd/yyyy";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 edtEndDate.setText(sdf.format(myCalendar.getTime()));

@@ -80,8 +80,8 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
             e.printStackTrace();
         }
 
-        edtStartDate.setText(HandleDate.startDate());
-        edtEndDate.setText(HandleDate.endDate());
+        edtStartDate.setText(HandleDate.endDate());
+        edtEndDate.setText(HandleDate.startDate());
 
         edtStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +92,10 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                                 String myFormat = "MM/dd/yyyy";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 edtStartDate.setText(sdf.format(myCalendar.getTime()));
@@ -111,6 +115,10 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                myCalendar.set(Calendar.YEAR, year);
+                                myCalendar.set(Calendar.MONTH, monthOfYear);
+                                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
                                 String myFormat = "MM/dd/yyyy";
                                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                                 edtEndDate.setText(sdf.format(myCalendar.getTime()));
@@ -151,8 +159,8 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
             RequestParams requestParams = new RequestParams();
             requestParams.put("GuardId", userId);
             requestParams.put("Status", status);
-            requestParams.put("ToDate", edtEndDate.getText().toString().trim());
-            requestParams.put("FromDate", edtStartDate.getText().toString().trim());
+            requestParams.put("ToDate", edtStartDate.getText().toString().trim());
+            requestParams.put("FromDate", edtEndDate.getText().toString().trim());
             ApiManager apiManager = new ApiManager(PayrollActivity.this, "post", Const.GET_BILLS_BY_GUARD_ID,
                     requestParams, apiCallback);
             apiManager.loadURL(1);
