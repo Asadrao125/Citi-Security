@@ -34,8 +34,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TimeSheetModel timeSheetModel = timeSheetModelArrayList.get(position);
-        String[] d = timeSheetModel.date.split(" ");
-        holder.tvDate.setText("" + d[0]);
+        holder.tvDate.setText(timeSheetModel.date);
         holder.tvStartDateTime.setText(timeSheetModel.StartDateTime);
         holder.tvEndDateTime.setText(timeSheetModel.EndDateTime);
         holder.tvBreakHours.setText(timeSheetModel.breakHours);
