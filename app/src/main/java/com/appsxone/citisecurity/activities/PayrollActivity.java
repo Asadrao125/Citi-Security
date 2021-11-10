@@ -142,7 +142,6 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                 btnGo.performClick();
             }
         });
-
     }
 
     private void getBillsData() {
