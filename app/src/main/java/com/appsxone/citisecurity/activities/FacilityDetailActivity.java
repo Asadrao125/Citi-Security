@@ -1,14 +1,8 @@
 package com.appsxone.citisecurity.activities;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,11 +14,10 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
-import com.appsxone.citisecurity.utils.DialogClass;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
-import com.facebook.shimmer.ShimmerFrameLayout;
+import com.appsxone.citisecurity.utils.ShowSnackbar;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -37,6 +30,7 @@ import java.util.List;
 
 public class FacilityDetailActivity extends AppCompatActivity implements ApiCallback {
     ImageView imgBack;
+    LinearLayout layout;
     ApiCallback apiCallback;
     Button btnStart, btnStop, btnRetry;
     String loginResponse, userId, facility_id;
@@ -66,6 +60,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         noInternetLayout = findViewById(R.id.noInternetLayout);
         mainContainer = findViewById(R.id.mainContainer);
         btnRetry = findViewById(R.id.btnRetry);
+        layout = findViewById(R.id.layout);
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
             userId = jsonObject.getString("UserID");
@@ -111,27 +106,6 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
         });
     }
 
-    private void updateLocation(String latitude, String longitude, String comment) {
-        SharedPref.init(this);
-        String userId = null;
-        String res = SharedPref.read("login_responce", "");
-        try {
-            JSONObject jsonObject = new JSONObject(res);
-            userId = jsonObject.getString("UserID");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        RequestParams requestParams = new RequestParams();
-        requestParams.put("UDID", getMacAddr());
-        requestParams.put("UserId", userId);
-        requestParams.put("Latitude", latitude);
-        requestParams.put("Longitude", longitude);
-        requestParams.put("Comment", comment);
-        ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post", Const.UPDATE_LOCATION, requestParams, apiCallback);
-        apiManager.loadURL(1);
-    }
-
     public static String getMacAddr() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -154,8 +128,33 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                 return res1.toString();
             }
         } catch (Exception ex) {
+
         }
         return "02:00:00:00:00:00";
+    }
+
+    private void updateLocation(String latitude, String longitude, String comment) {
+        if (latitude.isEmpty() && longitude.isEmpty()) {
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("UDID", getMacAddr());
+            requestParams.put("UserId", userId);
+            requestParams.put("Latitude", "0.0");
+            requestParams.put("Longitude", "0.0");
+            requestParams.put("Comment", comment);
+            ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post",
+                    Const.UPDATE_LOCATION, requestParams, apiCallback);
+            apiManager.loadURL(1);
+        } else {
+            RequestParams requestParams = new RequestParams();
+            requestParams.put("UDID", getMacAddr());
+            requestParams.put("UserId", userId);
+            requestParams.put("Latitude", latitude);
+            requestParams.put("Longitude", longitude);
+            requestParams.put("Comment", comment);
+            ApiManager apiManager = new ApiManager(FacilityDetailActivity.this, "post",
+                    Const.UPDATE_LOCATION, requestParams, apiCallback);
+            apiManager.loadURL(1);
+        }
     }
 
     private void getFacilityDetailsById() {
@@ -194,126 +193,94 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GetFacilityDetailsById)) {
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
+        if (successOrFail == 1) {
+            if (apiName.equals(Const.GetFacilityDetailsById)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        mainContainer.setVisibility(View.VISIBLE);
+                        JSONArray jsonArray = jsonObject.getJSONArray("FacilityDetail");
 
-                    mainContainer.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            String facilityName = obj.getString("FacilityName");
+                            String address = obj.getString("Address");
+                            String country = obj.getString("Country");
+                            String city = obj.getString("City");
+                            String email = obj.getString("Email");
+                            String contactName = obj.getString("ContactName");
+                            String isStarted = obj.getString("IsStarted");
+                            String ZipPostalCode = obj.getString("ZipPostalCode");
+                            String Country = obj.getString("Country");
+                            String ProvinceStateID = obj.getString("ProvinceStateID");
 
-                    JSONArray jsonArray = jsonObject.getJSONArray("FacilityDetail");
+                            tvFacilityName.setText(facilityName);
+                            tvFacilityAddress.setText(address);
+                            tvCity.setText(city);
+                            tvEmail.setText(email);
+                            tvContactName.setText(contactName);
+                            tvCountry.setText(country);
+                            tvZipcode.setText(ZipPostalCode);
+                            tvCountry.setText(Country);
+                            tvState.setText(ProvinceStateID);
 
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String facilityName = obj.getString("FacilityName");
-                        String address = obj.getString("Address");
-                        String country = obj.getString("Country");
-                        String city = obj.getString("City");
-                        String email = obj.getString("Email");
-                        String contactName = obj.getString("ContactName");
-                        String isStarted = obj.getString("IsStarted");
-                        String ZipPostalCode = obj.getString("ZipPostalCode");
-                        String Country = obj.getString("Country");
-                        String ProvinceStateID = obj.getString("ProvinceStateID");
+                            if (isStarted.equals("0")) {
+                                btnStop.setVisibility(View.GONE);
+                                btnStart.setVisibility(View.VISIBLE);
+                            }
 
-                        tvFacilityName.setText(facilityName);
-                        tvFacilityAddress.setText(address);
-                        tvCity.setText(city);
-                        tvEmail.setText(email);
-                        tvContactName.setText(contactName);
-                        tvCountry.setText(country);
-                        tvZipcode.setText(ZipPostalCode);
-                        tvCountry.setText(Country);
-                        tvState.setText(ProvinceStateID);
-
-                        if (isStarted.equals("0")) {
-                            btnStop.setVisibility(View.GONE);
-                            btnStart.setVisibility(View.VISIBLE);
+                            if (isStarted.equals("1")) {
+                                btnStop.setVisibility(View.VISIBLE);
+                                btnStart.setVisibility(View.GONE);
+                            }
                         }
 
-                        if (isStarted.equals("1")) {
-                            btnStop.setVisibility(View.VISIBLE);
-                            btnStart.setVisibility(View.GONE);
-                        }
+                    } else {
+                        mainContainer.setVisibility(View.VISIBLE);
+                        ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
                     }
 
-                } else {
-                    mainContainer.setVisibility(View.VISIBLE);
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (apiName.equals(Const.START_TIME_SHEET)) {
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    btnStop.setVisibility(View.VISIBLE);
-                    btnStart.setVisibility(View.GONE);
-                } else {
-                    DialogClass.showEmergencyDialog(FacilityDetailActivity.this, jsonObject.getString("Message"));
+            } else if (apiName.equals(Const.START_TIME_SHEET)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        btnStop.setVisibility(View.VISIBLE);
+                        btnStart.setVisibility(View.GONE);
+                    } else {
+                        ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (apiName.equals(Const.STOP_TIME_SHEET)) {
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    btnStop.setVisibility(View.GONE);
-                    btnStart.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+            } else if (apiName.equals(Const.STOP_TIME_SHEET)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        btnStop.setVisibility(View.GONE);
+                        btnStart.setVisibility(View.VISIBLE);
+                    } else {
+                        ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else if (apiName.equals(Const.UPDATE_LOCATION)) {
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    startTimeSheet();
-                } else {
-
+            } else if (apiName.equals(Const.UPDATE_LOCATION)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        startTimeSheet();
+                    } else {
+                        ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } else {
+            ShowSnackbar.snackbar(layout, "Something went wrong, Please try again later");
         }
     }
-
-    public void premisesDialog(String msg) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_premises, null);
-        dialogBuilder.setView(dialogView);
-        AlertDialog alertDialog = dialogBuilder.create();
-
-        alertDialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-
-        ImageView imgClose = dialogView.findViewById(R.id.imgClose);
-        Button btnClose = dialogView.findViewById(R.id.btnClose);
-        TextView tvInfo = dialogView.findViewById(R.id.tvInfo);
-
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
-
-        tvInfo.setText(msg);
-
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alertDialog.dismiss();
-            }
-        });
-
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
-    }
-
 }
