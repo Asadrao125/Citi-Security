@@ -20,7 +20,8 @@ import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
 import com.appsxone.citisecurity.utils.ShowSnackbar;
-import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FacilitiesActivity extends AppCompatActivity implements ApiCallback {
     Button btnGo;
@@ -106,18 +108,12 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
                     JSONObject jsonObject = new JSONObject(apiResponce);
                     if (jsonObject.getString("Status").equals("Success")) {
                         JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject obj = jsonArray.getJSONObject(i);
-                            String facilityId = obj.getString("FacilityId");
-                            String facilityName = obj.getString("FacilityName");
-                            String facilityAddress = obj.getString("FacilityAddress");
-                            facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
-                        }
+                        facilitiesModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<FacilitiesModel>>() {
+                        }.getType());
                         rvFacilities.setAdapter(new FacilitiesAdapter(this, facilitiesModelArrayList));
                     } else {
                         Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
