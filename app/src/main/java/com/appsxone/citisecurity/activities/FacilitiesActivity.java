@@ -19,6 +19,7 @@ import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.appsxone.citisecurity.utils.ShowSnackbar;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.loopj.android.http.RequestParams;
 
@@ -32,6 +33,7 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
     Button btnGo;
     Button btnRetry;
     ImageView imgBack;
+    LinearLayout layout;
     ApiCallback apiCallback;
     RecyclerView rvFacilities;
     String loginResponse, userId;
@@ -43,9 +45,9 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facilities);
 
+        SharedPref.init(this);
         imgBack = findViewById(R.id.imgBack);
         apiCallback = FacilitiesActivity.this;
-        SharedPref.init(this);
         loginResponse = SharedPref.read("login_responce", "");
         rvFacilities = findViewById(R.id.rvFacilities);
         rvFacilities.setLayoutManager(new LinearLayoutManager(this));
@@ -53,6 +55,7 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
         btnGo = findViewById(R.id.btnGo);
         noInternetLayout = findViewById(R.id.noInternetLayout);
         btnRetry = findViewById(R.id.btnRetry);
+        layout = findViewById(R.id.layout);
 
         try {
             JSONObject jsonObject = new JSONObject(loginResponse);
@@ -96,28 +99,31 @@ public class FacilitiesActivity extends AppCompatActivity implements ApiCallback
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GetFacilitiesByGuardId)) {
-            facilitiesModelArrayList.clear();
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String facilityId = obj.getString("FacilityId");
-                        String facilityName = obj.getString("FacilityName");
-                        String facilityAddress = obj.getString("FacilityAddress");
-                        facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
+        if (successOrFail == 1) {
+            if (apiName.equals(Const.GetFacilitiesByGuardId)) {
+                facilitiesModelArrayList.clear();
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            String facilityId = obj.getString("FacilityId");
+                            String facilityName = obj.getString("FacilityName");
+                            String facilityAddress = obj.getString("FacilityAddress");
+                            facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
+                        }
+                        rvFacilities.setAdapter(new FacilitiesAdapter(this, facilitiesModelArrayList));
+                    } else {
+                        Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
                     }
-                    rvFacilities.setAdapter(new FacilitiesAdapter(this, facilitiesModelArrayList));
-                } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } else {
+            ShowSnackbar.snackbar(layout, "Something went wrong, Please try again later");
         }
-
     }
 }
