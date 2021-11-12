@@ -36,11 +36,11 @@ public class PayrolDetailTaxesAdapter extends RecyclerView.Adapter<PayrolDetailT
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PayrollDetailTaxesModel payrolDetailModel = payrolDetailTaxesArrayList.get(position);
-        holder.tvTaxes.setText(payrolDetailModel.taxes);
-        holder.tvExemptions.setText(payrolDetailModel.exemptions);
-        holder.tvAddl.setText("$" + currencyFormatter(payrolDetailModel.addl));
-        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.amount));
-        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.year_to_date));
+        holder.tvTaxes.setText(payrolDetailModel.TaxType);
+        holder.tvExemptions.setText(payrolDetailModel.Exemption);
+        holder.tvAddl.setText("$" + currencyFormatter(payrolDetailModel.AddlAmount));
+        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.Amount));
+        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.YTD));
     }
 
     public String currencyFormatter(String amount) {

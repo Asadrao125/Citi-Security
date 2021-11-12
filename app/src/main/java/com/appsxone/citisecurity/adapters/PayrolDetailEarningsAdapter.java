@@ -37,11 +37,11 @@ public class PayrolDetailEarningsAdapter extends RecyclerView.Adapter<PayrolDeta
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PayrollDetailEarningModel payrolDetailModel = payrollDetailEarningModelArrayList.get(position);
-        holder.tvEarning.setText(payrolDetailModel.earnings);
-        holder.tvDepartment.setText(payrolDetailModel.department);
-        holder.tvRate.setText("$" + currencyFormatter(payrolDetailModel.rate));
-        holder.tvHours.setText(payrolDetailModel.hours);
-        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.amount));
+        holder.tvEarning.setText(payrolDetailModel.Earnings);
+        holder.tvDepartment.setText(payrolDetailModel.Department);
+        holder.tvRate.setText("$" + currencyFormatter(payrolDetailModel.Rate));
+        holder.tvHours.setText(payrolDetailModel.TotalHours);
+        holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.Amount));
     }
 
     public String currencyFormatter(String amount) {

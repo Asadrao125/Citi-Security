@@ -35,9 +35,9 @@ public class PayrolDetailDeductionAdapter extends RecyclerView.Adapter<PayrolDet
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         PayrollDetailDeductionsModel payrolDetailModel = payrollDetailDeductionsModelArrayList.get(position);
-        holder.tvType.setText(payrolDetailModel.Type);
+        holder.tvType.setText(payrolDetailModel.DeductionType);
         holder.tvAmount.setText("$" + currencyFormatter(payrolDetailModel.Amount));
-        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.Year_To_Date));
+        holder.tvYearToDate.setText("$" + currencyFormatter(payrolDetailModel.YTD));
     }
 
     public String currencyFormatter(String amount) {

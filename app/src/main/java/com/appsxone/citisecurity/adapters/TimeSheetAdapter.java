@@ -34,11 +34,11 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TimeSheetModel timeSheetModel = timeSheetModelArrayList.get(position);
-        holder.tvDate.setText(timeSheetModel.date);
-        holder.tvStartDateTime.setText(timeSheetModel.StartDateTime);
-        holder.tvEndDateTime.setText(timeSheetModel.EndDateTime);
-        holder.tvBreakHours.setText(timeSheetModel.breakHours);
-        holder.tvRgHours.setText(timeSheetModel.rgHours);
+        holder.tvDate.setText(timeSheetModel.Date);
+        holder.tvStartDateTime.setText(timeSheetModel.StartTime);
+        holder.tvEndDateTime.setText(timeSheetModel.EndTime);
+        holder.tvBreakHours.setText(timeSheetModel.BreakHours);
+        holder.tvRgHours.setText(timeSheetModel.TotalRGHours);
         holder.tvOverTimeHours.setText(timeSheetModel.TotalOverTimeHours);
         holder.tvTotalHours.setText(timeSheetModel.TotalHours);
         holder.tvFacilityName.setText(timeSheetModel.FacilityName);

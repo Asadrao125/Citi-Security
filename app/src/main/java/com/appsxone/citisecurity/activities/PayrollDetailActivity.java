@@ -19,11 +19,14 @@ import com.appsxone.citisecurity.adapters.PayrolDetailTaxesAdapter;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolDetailModel;
+import com.appsxone.citisecurity.models.PayrolModel;
 import com.appsxone.citisecurity.models.PayrollDetailDeductionsModel;
 import com.appsxone.citisecurity.models.PayrollDetailEarningModel;
 import com.appsxone.citisecurity.models.PayrollDetailTaxesModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -32,6 +35,7 @@ import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PayrollDetailActivity extends AppCompatActivity implements ApiCallback {
     String BillId;
@@ -150,36 +154,21 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                 tvPayType.setText(PayType);
                 tvNetPay.setText("$" + currencyFormatter(NetPay));
 
+                /* EARNINGS */
                 JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject obj = jsonArray.getJSONObject(i);
-                    String Earnings = obj.getString("Earnings");
-                    String Department = obj.getString("Department");
-                    String Rate = obj.getString("Rate");
-                    String TotalHours = obj.getString("TotalHours");
-                    String Amount = obj.getString("Amount");
-                    String YTDGross = obj.getString("YTD");
-                    payrollDetailEarningModelArrayList.add(new PayrollDetailEarningModel(Earnings, Department, Rate,
-                            TotalHours, Amount, YTDGross));
-                }
+                payrollDetailEarningModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrollDetailEarningModel>>() {
+                }.getType());
                 rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
                 tvGrossPay.setText("$" + sumEarningAmount(payrollDetailEarningModelArrayList));
                 tvYTDGross.setText("$" + sumYTDGross(payrollDetailEarningModelArrayList));
 
-                JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList"); //"CheckDeductionModelList
-                for (int i = 0; i < jsonArray2.length(); i++) {
-                    JSONObject obj = jsonArray2.getJSONObject(i);
-                    String TaxType = obj.getString("TaxType");
-                    String Amount = obj.getString("Amount");
-                    String YTD = obj.getString("YTD");
-                    String Exemption = obj.getString("Exemption");
-                    String AddlAmount = obj.getString("AddlAmount");
-                    payrollDetailTaxesModelArrayList.add(new PayrollDetailTaxesModel(TaxType, Exemption, AddlAmount, Amount, YTD));
-                }
+                /* TAXES */
+                JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList");
+                payrollDetailTaxesModelArrayList = new Gson().fromJson(jsonArray2 + "", new TypeToken<List<PayrollDetailTaxesModel>>() {
+                }.getType());
                 tvAmount.setText("$" + sumTaxAmount(payrollDetailTaxesModelArrayList));
                 tvYearToDate.setText("$" + sumYTD(payrollDetailTaxesModelArrayList));
                 rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
-
                 if (jsonArray2.length() == 0) {
                     taxes_layout.setVisibility(View.GONE);
                     tvTaxes.setVisibility(View.GONE);
@@ -188,15 +177,13 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     tvTaxes.setVisibility(View.VISIBLE);
                 }
 
+                /* DEDUCTIONS */
                 JSONArray jsonArray3 = jsonObject.getJSONArray("CheckDeductionModelList");
-                for (int i = 0; i < jsonArray3.length(); i++) {
-                    JSONObject obj = jsonArray3.getJSONObject(i);
-                    String DeductionType = obj.getString("DeductionType");
-                    String Amount = obj.getString("Amount");
-                    String YTD = obj.getString("YTD");
-                    payrollDetailDeductionsModelArrayList.add(new PayrollDetailDeductionsModel(DeductionType, Amount, YTD));
-                }
-
+                payrollDetailDeductionsModelArrayList = new Gson().fromJson(jsonArray3 + "", new TypeToken<List<PayrollDetailDeductionsModel>>() {
+                }.getType());
+                tvAmountDeduction.setText("$" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
+                tvYearToDateDeduction.setText("$" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
+                rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
                 if (jsonArray3.length() == 0) {
                     deduction_layout.setVisibility(View.GONE);
                     tvDeduction.setVisibility(View.GONE);
@@ -204,10 +191,6 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
                     deduction_layout.setVisibility(View.VISIBLE);
                     tvDeduction.setVisibility(View.VISIBLE);
                 }
-
-                tvAmountDeduction.setText("$" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
-                tvYearToDateDeduction.setText("$" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
-                rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -224,7 +207,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         double sum = 0.0;
         double amnt;
         for (PayrollDetailTaxesModel j : list) {
-            amnt = Double.parseDouble(j.amount);
+            amnt = Double.parseDouble(j.Amount);
             sum += amnt;
             Log.d("SUM", "sumTaxAmount: " + sum);
         }
@@ -235,7 +218,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         double sum = 0.0;
         double YTD;
         for (PayrollDetailTaxesModel j : list) {
-            YTD = Double.parseDouble(j.year_to_date);
+            YTD = Double.parseDouble(j.YTD);
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
@@ -246,7 +229,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         double sum = 0.0;
         double YTD;
         for (PayrollDetailEarningModel j : list) {
-            YTD = Double.parseDouble(j.amount);
+            YTD = Double.parseDouble(j.Amount);
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
@@ -257,7 +240,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         double sum = 0.0;
         double YTD;
         for (PayrollDetailEarningModel j : list) {
-            YTD = Double.parseDouble(j.amount);
+            YTD = Double.parseDouble(j.Amount);
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }
@@ -279,7 +262,7 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
         double sum = 0.0;
         double YTD;
         for (PayrollDetailDeductionsModel j : list) {
-            YTD = Double.parseDouble(j.Year_To_Date);
+            YTD = Double.parseDouble(j.YTD);
             sum += YTD;
             Log.d("SUM", "sumYTD: " + sum);
         }

@@ -20,10 +20,13 @@ import com.appsxone.citisecurity.adapters.PayrolAdapter;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.PayrolModel;
+import com.appsxone.citisecurity.models.TimeSheetModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -34,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class PayrollActivity extends AppCompatActivity implements ApiCallback {
@@ -180,13 +184,8 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray jsonArray = jsonObject.getJSONArray("BillsData");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String BillHeaderID = obj.getString("BillHeaderID");
-                        String BIllAmount = obj.getString("BIllAmount");
-                        String BillStatus = obj.getString("BillStatus");
-                        payrolModelArrayList.add(new PayrolModel(BillHeaderID, BIllAmount, BillStatus));
-                    }
+                    payrolModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrolModel>>() {
+                    }.getType());
                     rvBills.setAdapter(new PayrolAdapter(PayrollActivity.this, payrolModelArrayList));
                     rvBills.setVisibility(View.VISIBLE);
                 } else {

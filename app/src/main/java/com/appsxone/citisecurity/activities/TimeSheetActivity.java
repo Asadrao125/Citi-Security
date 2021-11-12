@@ -34,6 +34,8 @@ import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONArray;
@@ -45,6 +47,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
@@ -265,22 +268,8 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
                 JSONObject jsonObject = new JSONObject(apiResponce);
                 if (jsonObject.getString("Status").equals("Success")) {
                     JSONArray prods = jsonObject.getJSONArray("Timesheet");
-                    for (int j = 0; j < prods.length(); j++) {
-                        JSONObject innerElem = prods.getJSONObject(j);
-                        String TimeSheetID = innerElem.getString("TimeSheetID");
-                        String GuardID = innerElem.getString("GuardID");
-                        String FacilityID = innerElem.getString("FacilityID");
-                        String FacilityName = innerElem.getString("FacilityName");
-                        String StartDateTime = innerElem.getString("StartTime");
-                        String EndDateTime = innerElem.getString("EndTime");
-                        String TotalHours = innerElem.getString("TotalHours");
-                        String TotalOverTimeHours = innerElem.getString("TotalOverTimeHours");
-                        String date = innerElem.getString("Date");
-                        String break_hours = innerElem.getString("BreakHours");
-                        String rg_hours = innerElem.getString("TotalRGHours");
-                        timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
-                                EndDateTime, TotalHours, TotalOverTimeHours, date, break_hours, rg_hours));
-                    }
+                    timeSheetModelArrayList = new Gson().fromJson(prods + "", new TypeToken<List<TimeSheetModel>>() {
+                    }.getType());
                     rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
                     rvTimeSheet.setVisibility(View.VISIBLE);
                 } else {

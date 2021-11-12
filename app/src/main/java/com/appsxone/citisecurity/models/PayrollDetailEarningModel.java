@@ -1,19 +1,19 @@
 package com.appsxone.citisecurity.models;
 
 public class PayrollDetailEarningModel {
-    public String earnings;
-    public String department;
-    public String rate;
-    public String hours;
-    public String amount;
-    public String YTDGross;
+    public String Earnings;
+    public String Department;
+    public String Rate;
+    public String TotalHours;
+    public String Amount;
+    public String YTD;
 
-    public PayrollDetailEarningModel(String earnings, String department, String rate, String hours, String amount, String YTDGross) {
-        this.earnings = earnings;
-        this.department = department;
-        this.rate = rate;
-        this.hours = hours;
-        this.amount = amount;
-        this.YTDGross = YTDGross;
+    public PayrollDetailEarningModel(String earnings, String department, String rate, String totalHours, String amount, String YTD) {
+        Earnings = earnings;
+        Department = department;
+        Rate = rate;
+        TotalHours = totalHours;
+        Amount = amount;
+        this.YTD = YTD;
     }
 }
