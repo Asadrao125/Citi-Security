@@ -93,7 +93,7 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                     String lng = String.valueOf(gpsTracker.getLongitude());
                     updateLocation(lat, lng, "Loggedin");
                 } else {
-                    Toast.makeText(getApplicationContext(), "Please Enable Location To Start", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please enable location to start", Toast.LENGTH_SHORT).show();
                 }
             }
         });
