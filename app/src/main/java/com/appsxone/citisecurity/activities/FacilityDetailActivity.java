@@ -225,18 +225,15 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                                 btnStop.setVisibility(View.GONE);
                                 btnStart.setVisibility(View.VISIBLE);
                             }
-
                             if (isStarted.equals("1")) {
                                 btnStop.setVisibility(View.VISIBLE);
                                 btnStart.setVisibility(View.GONE);
                             }
                         }
-
                     } else {
                         mainContainer.setVisibility(View.VISIBLE);
                         ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
