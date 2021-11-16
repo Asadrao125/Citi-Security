@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class DateFunctions {
     public static String getCompleteDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss", Locale.getDefault());
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime;
     }
