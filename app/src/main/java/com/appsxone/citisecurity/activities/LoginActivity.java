@@ -31,8 +31,11 @@ import com.appsxone.citisecurity.BuildConfig;
 import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
+import com.appsxone.citisecurity.database.Database;
 import com.appsxone.citisecurity.location_service.GoogleService;
+import com.appsxone.citisecurity.models.OfflineLocationModel;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.DateFunctions;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.Permissons;
@@ -60,12 +63,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements ApiCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     Button btnLogin;
     String fcmToken;
+    Database database;
     TextView tvVersionName;
     CheckBox cbShowPassword;
     ApiCallback apiCallback;
@@ -84,6 +89,8 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
         edtPassword = findViewById(R.id.edtPassword);
         tvVersionName = findViewById(R.id.tvVersionName);
         cbShowPassword = findViewById(R.id.cbShowPassword);
+        database = new Database(this);
+        database.createDatabase();
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             fcmToken = instanceIdResult.getToken();
@@ -126,14 +133,58 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
             }
         });
 
-        GPSTracker gpsTracker = new GPSTracker(this);
+        /*GPSTracker gpsTracker = new GPSTracker(this);
         if (gpsTracker.canGetLocation()) {
             String lat = String.valueOf(gpsTracker.getLatitude());
             String lng = String.valueOf(gpsTracker.getLongitude());
             updateLocation(lat, lng, "Loggedout");
         } else {
             enableLocationPopup();
+        }*/
+
+        GPSTracker gpsTracker = new GPSTracker(this);
+        if (gpsTracker.canGetLocation()) {
+            String lat = String.valueOf(gpsTracker.getLatitude());
+            String lng = String.valueOf(gpsTracker.getLongitude());
+            String Uid = null;
+
+            if (InternetConnection.isNetworkConnected(this)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(SharedPref.read("login_responce", ""));
+                    Uid = jsonObject.getString("UserID");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                if (SharedPref.read("login", "").equals("true")) {
+                    updateLocation(lat, lng, "Loggedin");
+                } else {
+                    updateLocation(lat, lng, "Loggedout");
+                }
+
+                if (database.getAllLocations() != null) {
+                    updateOfflineLocation(Uid, getMacAddr());
+                }
+
+            } else {
+                String lat_lng_date_time = lat + "{|}" + lng + "{|}" + DateFunctions.getCompleteDate();
+                database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
+            }
         }
+    }
+
+    public void updateOfflineLocation(String userId, String udid) {
+        ArrayList<OfflineLocationModel> offlineLocationModelArrayList = database.getAllLocations();
+        String[] locationArray = new String[offlineLocationModelArrayList.size()];
+        for (int i = 0; i < locationArray.length; i++) {
+            locationArray[i] = offlineLocationModelArrayList.get(i).lat_lng_date_time;
+        }
+        RequestParams requestParams = new RequestParams();
+        requestParams.put("UserId", userId);
+        requestParams.put("UDID", udid);
+        requestParams.put("OfflineLocRecord", locationArray);
+        ApiManager apiManager = new ApiManager(this, "post", Const.UPDATE_OFFLINE_LOCATION, requestParams, apiCallback);
+        apiManager.loadURL(0);
     }
 
     private void Login(String email, String password) {
@@ -176,6 +227,15 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
 
                 } else {
 
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (apiName.equals(Const.UPDATE_OFFLINE_LOCATION)) {
+            try {
+                JSONObject jsonObject = new JSONObject(apiResponce);
+                if (jsonObject.getString("Status").equals("Success")) {
+                    database.deleteData();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -234,16 +294,40 @@ public class LoginActivity extends AppCompatActivity implements ApiCallback, Goo
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            String Uid = null;
             if (Permissons.Check_FINE_LOCATION(LoginActivity.this)) {
                 String latitude = intent.getStringExtra("latutide");
                 String longitude = intent.getStringExtra("longitude");
                 if (latitude.equals("no")) {
                     enableLocationPopup();
                 } else {
-                    if (SharedPref.read("login", "").equals("true")) {
+                    /*if (SharedPref.read("login", "").equals("true")) {
                         updateLocation(latitude, longitude, "Loggedin");
                     } else {
                         updateLocation(latitude, longitude, "Loggedout");
+                    }*/
+                    if (InternetConnection.isNetworkConnected(LoginActivity.this)) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(SharedPref.read("login_responce", ""));
+                            Uid = jsonObject.getString("UserID");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (Uid != null) {
+                            if (SharedPref.read("login", "").equals("true")) {
+                                updateLocation(latitude, longitude, "Loggedin");
+                            }
+                        } else {
+                            updateLocation(latitude, longitude, "Loggedout");
+                        }
+
+                        if (database.getAllLocations() != null) {
+                            updateOfflineLocation(Uid, getMacAddr());
+                        }
+                    } else {
+                        String lat_lng_date_time = latitude + "{|}" + longitude + "{|}" + DateFunctions.getCompleteDate();
+                        database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
                     }
                 }
             } else {
