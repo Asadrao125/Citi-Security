@@ -67,7 +67,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity implements ApiCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements
+        ApiCallback,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
+
     Button btnLogin;
     String fcmToken;
     Database database;
