@@ -14,6 +14,7 @@ import com.appsxone.citisecurity.R;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.utils.Const;
+import com.appsxone.citisecurity.utils.DialogClass;
 import com.appsxone.citisecurity.utils.GPSTracker;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
@@ -244,7 +245,8 @@ public class FacilityDetailActivity extends AppCompatActivity implements ApiCall
                         btnStop.setVisibility(View.VISIBLE);
                         btnStart.setVisibility(View.GONE);
                     } else {
-                        ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
+                        //ShowSnackbar.snackbar(layout, jsonObject.getString("Message"));
+                        DialogClass.showEmergencyDialog(this, jsonObject.getString("Message"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
