@@ -101,7 +101,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:layout_marginRight="20dp"
-                            android:layout_marginBottom="20dp">
+                            android:layout_marginBottom="20dp"
+                            app:endIconMode="clear_text">
 
                             <EditText
                                 android:id="@+id/edtEmail"
@@ -113,7 +114,6 @@
                                 android:imeOptions="actionNext"
                                 android:inputType="textEmailAddress"
                                 android:maxLines="1" />
-                            <!-- android:text="andybarlett@yopmail.com" -->
 
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -135,18 +135,8 @@
                                 android:imeOptions="actionDone"
                                 android:inputType="textPassword"
                                 android:maxLines="1" />
-                            <!-- android:text="Global81" -->
 
                         </com.google.android.material.textfield.TextInputLayout>
-
-                        <CheckBox
-                            android:id="@+id/cbShowPassword"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginRight="20dp"
-                            android:text="Show Password"
-                            android:visibility="gone" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cvBtnSearch"

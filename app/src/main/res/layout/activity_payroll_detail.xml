@@ -8,6 +8,7 @@
     tools:context=".activities.PayrollDetailActivity">
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -155,7 +156,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="A603" />
+                    android:text="0000" />
 
                 <View
                     android:layout_width="1px"
@@ -170,7 +171,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="123-45-6789" />
+                    android:text="000-00-0000" />
 
                 <View
                     android:layout_width="1px"
@@ -215,7 +216,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Hourly" />
+                    android:text="Type" />
 
                 <View
                     android:layout_width="1px"
@@ -368,7 +369,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:padding="5dp"
-                        android:text="$1026.00"
+                        android:text="$00.00"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -402,7 +403,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:padding="5dp"
-                        android:text="$1026.00"
+                        android:text="$00.00"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -557,7 +558,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:text="$195.28"
+                        android:text="$00.00"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -569,7 +570,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:padding="5dp"
-                        android:text="$195.28"
+                        android:text="$00.00"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -692,7 +693,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="$195.28"
+                    android:text="$00.00"
                     android:textColor="@color/black"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -705,7 +706,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="$195.28"
+                    android:text="$00.00"
                     android:textColor="@color/black"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -753,7 +754,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:padding="5dp"
-                    android:text="$104.5"
+                    android:text="$00.00"
                     android:textColor="@color/black"
                     android:textSize="11sp"
                     android:textStyle="bold" />

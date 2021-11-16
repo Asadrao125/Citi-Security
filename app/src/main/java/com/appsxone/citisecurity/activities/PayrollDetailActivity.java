@@ -25,6 +25,7 @@ import com.appsxone.citisecurity.models.PayrollDetailEarningModel;
 import com.appsxone.citisecurity.models.PayrollDetailTaxesModel;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.InternetConnection;
+import com.appsxone.citisecurity.utils.ShowSnackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -41,25 +42,21 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
     String BillId;
     Button btnRetry;
     ImageView imgBack;
-    RecyclerView rvBills;
     ApiCallback apiCallback;
-    LinearLayout mainContainer, noInternetLayout;
-    TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount;
-
-    TextView tvTaxes, tvDeduction;
-    LinearLayout taxes_layout, deduction_layout;
-    TextView tvEmploye, tvSSN, tvDepartment, tvClockNo, tvPayType;
-    RecyclerView rvBillDetailEarning, rvBillDetailTaxes, rvBillDetailDeduction;
+    RecyclerView rvBills, rvBillDetailEarning, rvBillDetailTaxes, rvBillDetailDeduction;
+    LinearLayout mainContainer, noInternetLayout, taxes_layout, deduction_layout, layout;
     ArrayList<PayrollDetailTaxesModel> payrollDetailTaxesModelArrayList = new ArrayList<>();
     ArrayList<PayrollDetailEarningModel> payrollDetailEarningModelArrayList = new ArrayList<>();
     ArrayList<PayrollDetailDeductionsModel> payrollDetailDeductionsModelArrayList = new ArrayList<>();
-    TextView tvGrossPay, tvYTDGross, tvAmount, tvYearToDate, tvAmountDeduction, tvYearToDateDeduction, tvNetPay;
+    TextView tvBillNo, tvBillDate, tvBillStatus, tvBillAmount, tvTaxes, tvDeduction, tvClockNo, tvPayType, tvEmploye, tvSSN;
+    TextView tvGrossPay, tvYTDGross, tvAmount, tvYearToDate, tvAmountDeduction, tvYearToDateDeduction, tvNetPay, tvDepartment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payroll_detail);
 
+        layout = findViewById(R.id.layout);
         imgBack = findViewById(R.id.imgBack);
         tvBillNo = findViewById(R.id.tvBillNo);
         tvBillDate = findViewById(R.id.tvBillDate);
@@ -139,62 +136,66 @@ public class PayrollDetailActivity extends AppCompatActivity implements ApiCallb
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GET_BILL_DETAILS_BY_ID_V2)) {
-            try {
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                String EmployeeNo = jsonObject.getString("EmployeeNo");
-                String SSNNo = jsonObject.getString("SSNNo");
-                String ClockNo = jsonObject.getString("ClockNo");
-                String PayType = jsonObject.getString("PayType");
-                String NetPay = jsonObject.getString("NetTotal");
+        if (successOrFail == 1) {
+            if (apiName.equals(Const.GET_BILL_DETAILS_BY_ID_V2)) {
+                try {
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    String EmployeeNo = jsonObject.getString("EmployeeNo");
+                    String SSNNo = jsonObject.getString("SSNNo");
+                    String ClockNo = jsonObject.getString("ClockNo");
+                    String PayType = jsonObject.getString("PayType");
+                    String NetPay = jsonObject.getString("NetTotal");
 
-                tvEmploye.setText(EmployeeNo);
-                tvSSN.setText(SSNNo);
-                tvClockNo.setText(ClockNo);
-                tvPayType.setText(PayType);
-                tvNetPay.setText("$" + currencyFormatter(NetPay));
+                    tvEmploye.setText(EmployeeNo);
+                    tvSSN.setText(SSNNo);
+                    tvClockNo.setText(ClockNo);
+                    tvPayType.setText(PayType);
+                    tvNetPay.setText("$" + currencyFormatter(NetPay));
 
-                /* EARNINGS */
-                JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
-                payrollDetailEarningModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrollDetailEarningModel>>() {
-                }.getType());
-                rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
-                tvGrossPay.setText("$" + sumEarningAmount(payrollDetailEarningModelArrayList));
-                tvYTDGross.setText("$" + sumYTDGross(payrollDetailEarningModelArrayList));
+                    /* EARNINGS */
+                    JSONArray jsonArray = jsonObject.getJSONArray("CheckHoursList");
+                    payrollDetailEarningModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrollDetailEarningModel>>() {
+                    }.getType());
+                    rvBillDetailEarning.setAdapter(new PayrolDetailEarningsAdapter(this, payrollDetailEarningModelArrayList));
+                    tvGrossPay.setText("$" + sumEarningAmount(payrollDetailEarningModelArrayList));
+                    tvYTDGross.setText("$" + sumYTDGross(payrollDetailEarningModelArrayList));
 
-                /* TAXES */
-                JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList");
-                payrollDetailTaxesModelArrayList = new Gson().fromJson(jsonArray2 + "", new TypeToken<List<PayrollDetailTaxesModel>>() {
-                }.getType());
-                tvAmount.setText("$" + sumTaxAmount(payrollDetailTaxesModelArrayList));
-                tvYearToDate.setText("$" + sumYTD(payrollDetailTaxesModelArrayList));
-                rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
-                if (jsonArray2.length() == 0) {
-                    taxes_layout.setVisibility(View.GONE);
-                    tvTaxes.setVisibility(View.GONE);
-                } else {
-                    taxes_layout.setVisibility(View.VISIBLE);
-                    tvTaxes.setVisibility(View.VISIBLE);
+                    /* TAXES */
+                    JSONArray jsonArray2 = jsonObject.getJSONArray("CheckTaxesModelList");
+                    payrollDetailTaxesModelArrayList = new Gson().fromJson(jsonArray2 + "", new TypeToken<List<PayrollDetailTaxesModel>>() {
+                    }.getType());
+                    tvAmount.setText("$" + sumTaxAmount(payrollDetailTaxesModelArrayList));
+                    tvYearToDate.setText("$" + sumYTD(payrollDetailTaxesModelArrayList));
+                    rvBillDetailTaxes.setAdapter(new PayrolDetailTaxesAdapter(this, payrollDetailTaxesModelArrayList));
+                    if (jsonArray2.length() == 0) {
+                        taxes_layout.setVisibility(View.GONE);
+                        tvTaxes.setVisibility(View.GONE);
+                    } else {
+                        taxes_layout.setVisibility(View.VISIBLE);
+                        tvTaxes.setVisibility(View.VISIBLE);
+                    }
+
+                    /* DEDUCTIONS */
+                    JSONArray jsonArray3 = jsonObject.getJSONArray("CheckDeductionModelList");
+                    payrollDetailDeductionsModelArrayList = new Gson().fromJson(jsonArray3 + "", new TypeToken<List<PayrollDetailDeductionsModel>>() {
+                    }.getType());
+                    tvAmountDeduction.setText("$" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
+                    tvYearToDateDeduction.setText("$" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
+                    rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
+                    if (jsonArray3.length() == 0) {
+                        deduction_layout.setVisibility(View.GONE);
+                        tvDeduction.setVisibility(View.GONE);
+                    } else {
+                        deduction_layout.setVisibility(View.VISIBLE);
+                        tvDeduction.setVisibility(View.VISIBLE);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-
-                /* DEDUCTIONS */
-                JSONArray jsonArray3 = jsonObject.getJSONArray("CheckDeductionModelList");
-                payrollDetailDeductionsModelArrayList = new Gson().fromJson(jsonArray3 + "", new TypeToken<List<PayrollDetailDeductionsModel>>() {
-                }.getType());
-                tvAmountDeduction.setText("$" + sumDeductionAmount(payrollDetailDeductionsModelArrayList));
-                tvYearToDateDeduction.setText("$" + sumYTDAmountDeduction(payrollDetailDeductionsModelArrayList));
-                rvBillDetailDeduction.setAdapter(new PayrolDetailDeductionAdapter(this, payrollDetailDeductionsModelArrayList));
-                if (jsonArray3.length() == 0) {
-                    deduction_layout.setVisibility(View.GONE);
-                    tvDeduction.setVisibility(View.GONE);
-                } else {
-                    deduction_layout.setVisibility(View.VISIBLE);
-                    tvDeduction.setVisibility(View.VISIBLE);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } else {
+            ShowSnackbar.snackbar(layout, "Something went wrong, Please try again later");
         }
     }
 

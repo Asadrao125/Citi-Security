@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity implements
     String fcmToken;
     Database database;
     TextView tvVersionName;
-    CheckBox cbShowPassword;
     ApiCallback apiCallback;
     EditText edtEmail, edtPassword;
     public int REQUEST_CHECK_SETTING = 123;
@@ -92,23 +91,11 @@ public class LoginActivity extends AppCompatActivity implements
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         tvVersionName = findViewById(R.id.tvVersionName);
-        cbShowPassword = findViewById(R.id.cbShowPassword);
         database = new Database(this);
         database.createDatabase();
 
         FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(this, instanceIdResult -> {
             fcmToken = instanceIdResult.getToken();
-        });
-
-        cbShowPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    edtPassword.setTransformationMethod(new PasswordTransformationMethod());
-                } else {
-                    edtPassword.setTransformationMethod(null);
-                }
-            }
         });
 
         tvVersionName.setText("Version No: " + BuildConfig.VERSION_NAME);

@@ -34,6 +34,7 @@ import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.appsxone.citisecurity.utils.ShowSnackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -51,6 +52,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
+    int y1, m1, d1;
+    int y2, m2, d2;
+    TextView tvReset;
     ImageView imgBack;
     String facilityId;
     Button btnGo, btnRetry;
@@ -59,13 +63,10 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
     String loginResponse, userId;
     EditText edtStartDate, edtEndDate;
     AutoCompleteTextView actvFacility;
-    TextView tvReset;
-    LinearLayout noInternetLayout, mainContainer;
+    LinearLayout noInternetLayout, mainContainer, layout;
     ArrayList<String> stringArrayList = new ArrayList<>();
     ArrayList<TimeSheetModel> timeSheetModelArrayList = new ArrayList<>();
     ArrayList<FacilitiesModel> facilitiesModelArrayList = new ArrayList<>();
-    int y1, m1, d1;
-    int y2, m2, d2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
         setContentView(R.layout.activity_time_sheet);
 
         SharedPref.init(this);
+        layout = findViewById(R.id.layout);
         imgBack = findViewById(R.id.imgBack);
         apiCallback = TimeSheetActivity.this;
         loginResponse = SharedPref.read("login_responce", "");
@@ -215,112 +217,71 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GET_TIMESHEETS_BY_GUARD_ID)) {
-            /*try {
-                timeSheetModelMainArrayList.clear();
-                timeSheetModelArrayList.clear();
-                JSONObject mainObj = new JSONObject(apiResponce);
-                if (mainObj.getString("Status").equals("Success")) {
-                    JSONArray list = mainObj.getJSONArray("Timesheet");
-                    for (int i = 0; i < list.length(); i++) {
-                        JSONObject elem = list.getJSONObject(i);
-                        String BatchStartDate = elem.getString("BatchStartDate");
-                        String BatchEndDate = elem.getString("BatchEndDate");
-                        String RGTotalHours = elem.getString("RGTotalHours");
-                        String OTTotalHours = elem.getString("OTTotalHours");
-                        String BreakHours = elem.getString("BreakHours");
-                        String TotalHourss = elem.getString("TotalHours");
 
-                        timeSheetModelMainArrayList.add(new TimeSheetModelMain(BatchStartDate, BatchEndDate, BreakHours, RGTotalHours,
-                                OTTotalHours, TotalHourss));
-
-                        JSONArray prods = elem.getJSONArray("TimesheetDetail");
-
-                        for (int j = 0; j < prods.length(); j++) {
-                            JSONObject innerElem = prods.getJSONObject(j);
-
-                            String TimeSheetID = innerElem.getString("TimeSheetID");
-                            String GuardID = innerElem.getString("GuardID");
-                            String FacilityID = innerElem.getString("FacilityID");
-                            String FacilityName = innerElem.getString("FacilityName");
-                            String StartDateTime = innerElem.getString("StartTime");
-                            String EndDateTime = innerElem.getString("EndTime");
-                            String TotalHours = innerElem.getString("TotalHours");
-                            String TotalOverTimeHours = innerElem.getString("TotalOverTimeHours");
-                            String date = innerElem.getString("Date");
-                            String break_hours = innerElem.getString("BreakHours");
-                            String rg_hours = innerElem.getString("TotalRGHours");
-                            timeSheetModelArrayList.add(new TimeSheetModel(TimeSheetID, GuardID, FacilityID, FacilityName, StartDateTime,
-                                    EndDateTime, TotalHours, TotalOverTimeHours, date, break_hours, rg_hours));
-                        }
-                    }
-                    rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
-                    rvTimeSheet.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(this, "" + mainObj.getString("Message"), Toast.LENGTH_SHORT).show();
-                    rvTimeSheet.setVisibility(View.GONE);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-            try {
-                timeSheetModelArrayList.clear();
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    JSONArray prods = jsonObject.getJSONArray("Timesheet");
-                    timeSheetModelArrayList = new Gson().fromJson(prods + "", new TypeToken<List<TimeSheetModel>>() {
-                    }.getType());
-                    rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
-                    rvTimeSheet.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
-                    rvTimeSheet.setVisibility(View.GONE);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        } else if (apiName.equals(Const.GetFacilitiesByGuardId)) {
-            try {
-                facilitiesModelArrayList.clear();
-                stringArrayList.clear();
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-                        String facilityId = obj.getString("FacilityId");
-                        String facilityName = obj.getString("FacilityName");
-                        String facilityAddress = obj.getString("FacilityAddress");
-                        stringArrayList.add(facilityName);
-                        facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
+        if (successOrFail == 1) {
+            if (apiName.equals(Const.GET_TIMESHEETS_BY_GUARD_ID)) {
+                try {
+                    timeSheetModelArrayList.clear();
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        JSONArray prods = jsonObject.getJSONArray("Timesheet");
+                        timeSheetModelArrayList = new Gson().fromJson(prods + "", new TypeToken<List<TimeSheetModel>>() {
+                        }.getType());
+                        rvTimeSheet.setAdapter(new TimeSheetAdapter(this, timeSheetModelArrayList));
+                        rvTimeSheet.setVisibility(View.VISIBLE);
+                    } else {
+                        Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                        rvTimeSheet.setVisibility(View.GONE);
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
-                    actvFacility.setAdapter(adapter);
-                    actvFacility.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            actvFacility.showDropDown();
-                            return false;
-                        }
-                    });
-
-                    actvFacility.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            facilityId = facilitiesModelArrayList.get(position).FacilityId;
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } else if (apiName.equals(Const.GetFacilitiesByGuardId)) {
+                try {
+                    facilitiesModelArrayList.clear();
+                    stringArrayList.clear();
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("Facilities");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject obj = jsonArray.getJSONObject(i);
+                            String facilityId = obj.getString("FacilityId");
+                            String facilityName = obj.getString("FacilityName");
+                            String facilityAddress = obj.getString("FacilityAddress");
+                            stringArrayList.add(facilityName);
+                            facilitiesModelArrayList.add(new FacilitiesModel(facilityId, facilityName, facilityAddress));
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, stringArrayList);
+                        actvFacility.setAdapter(adapter);
+                        actvFacility.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                actvFacility.showDropDown();
+                                return false;
+                            }
+                        });
+
+                        actvFacility.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                facilityId = facilitiesModelArrayList.get(position).FacilityId;
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+        } else {
+            rvTimeSheet.setVisibility(View.GONE);
+            ShowSnackbar.snackbar(layout, "Something went wrong, Please try again later");
         }
     }
 

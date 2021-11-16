@@ -25,6 +25,7 @@ import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
 import com.appsxone.citisecurity.utils.SharedPref;
+import com.appsxone.citisecurity.utils.ShowSnackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.RequestParams;
@@ -41,6 +42,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class PayrollActivity extends AppCompatActivity implements ApiCallback {
+    int y1, m1, d1;
+    int y2, m2, d2;
     ImageView imgBack;
     RecyclerView rvBills;
     Spinner spinnerStatus;
@@ -48,10 +51,8 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
     ApiCallback apiCallback;
     EditText edtStartDate, edtEndDate;
     String loginResponse, userId, status;
-    LinearLayout noInternetLayout, mainContainer;
+    LinearLayout noInternetLayout, mainContainer, layout;
     ArrayList<PayrolModel> payrolModelArrayList = new ArrayList<>();
-    int y1, m1, d1;
-    int y2, m2, d2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
         setContentView(R.layout.activity_payroll);
 
         SharedPref.init(this);
+        layout = findViewById(R.id.layout);
         imgBack = findViewById(R.id.imgBack);
         apiCallback = PayrollActivity.this;
         loginResponse = SharedPref.read("login_responce", "");
@@ -178,23 +180,28 @@ public class PayrollActivity extends AppCompatActivity implements ApiCallback {
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-        if (apiName.equals(Const.GET_BILLS_BY_GUARD_ID)) {
-            try {
-                payrolModelArrayList.clear();
-                JSONObject jsonObject = new JSONObject(apiResponce);
-                if (jsonObject.getString("Status").equals("Success")) {
-                    JSONArray jsonArray = jsonObject.getJSONArray("BillsData");
-                    payrolModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrolModel>>() {
-                    }.getType());
-                    rvBills.setAdapter(new PayrolAdapter(PayrollActivity.this, payrolModelArrayList));
-                    rvBills.setVisibility(View.VISIBLE);
-                } else {
-                    rvBills.setVisibility(View.GONE);
-                    Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+        if (successOrFail == 1) {
+            if (apiName.equals(Const.GET_BILLS_BY_GUARD_ID)) {
+                try {
+                    payrolModelArrayList.clear();
+                    JSONObject jsonObject = new JSONObject(apiResponce);
+                    if (jsonObject.getString("Status").equals("Success")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("BillsData");
+                        payrolModelArrayList = new Gson().fromJson(jsonArray + "", new TypeToken<List<PayrolModel>>() {
+                        }.getType());
+                        rvBills.setAdapter(new PayrolAdapter(PayrollActivity.this, payrolModelArrayList));
+                        rvBills.setVisibility(View.VISIBLE);
+                    } else {
+                        rvBills.setVisibility(View.GONE);
+                        Toast.makeText(this, "" + jsonObject.getString("Message"), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
+        } else {
+            rvBills.setVisibility(View.GONE);
+            ShowSnackbar.snackbar(layout, "Something went wrong, Please try again later");
         }
     }
 }
