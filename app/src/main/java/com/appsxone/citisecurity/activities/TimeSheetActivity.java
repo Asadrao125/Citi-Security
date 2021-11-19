@@ -17,19 +17,15 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.appsxone.citisecurity.R;
-import com.appsxone.citisecurity.adapters.FacilitiesAdapter;
 import com.appsxone.citisecurity.adapters.TimeSheetAdapter;
-import com.appsxone.citisecurity.adapters.TimeSheetAdapterMain;
 import com.appsxone.citisecurity.api.ApiCallback;
 import com.appsxone.citisecurity.api.ApiManager;
 import com.appsxone.citisecurity.models.FacilitiesModel;
 import com.appsxone.citisecurity.models.TimeSheetModel;
-import com.appsxone.citisecurity.models.TimeSheetModelMain;
 import com.appsxone.citisecurity.utils.Const;
 import com.appsxone.citisecurity.utils.HandleDate;
 import com.appsxone.citisecurity.utils.InternetConnection;
@@ -43,13 +39,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.Guard;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class TimeSheetActivity extends AppCompatActivity implements ApiCallback {
     int y1, m1, d1;
@@ -217,7 +209,6 @@ public class TimeSheetActivity extends AppCompatActivity implements ApiCallback 
 
     @Override
     public void onApiResponce(int httpStatusCode, int successOrFail, String apiName, String apiResponce) {
-
         if (successOrFail == 1) {
             if (apiName.equals(Const.GET_TIMESHEETS_BY_GUARD_ID)) {
                 try {
