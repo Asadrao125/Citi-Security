@@ -293,11 +293,6 @@ public class LoginActivity extends AppCompatActivity implements
                 if (latitude.equals("no")) {
                     enableLocationPopup();
                 } else {
-                    /*if (SharedPref.read("login", "").equals("true")) {
-                        updateLocation(latitude, longitude, "Loggedin");
-                    } else {
-                        updateLocation(latitude, longitude, "Loggedout");
-                    }*/
                     if (InternetConnection.isNetworkConnected(LoginActivity.this)) {
                         try {
                             JSONObject jsonObject = new JSONObject(SharedPref.read("login_responce", ""));
