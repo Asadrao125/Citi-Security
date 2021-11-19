@@ -185,7 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="8">
+                        android:weightSum="6">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -250,34 +250,6 @@
                             android:layout_weight="1"
                             android:padding="8dp"
                             android:text="Break Hours"
-                            android:textColor="@color/black" />
-
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/black" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:padding="8dp"
-                            android:text="RG Hours"
-                            android:textColor="@color/black" />
-
-                        <View
-                            android:layout_width="1px"
-                            android:layout_height="match_parent"
-                            android:background="@color/black" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:padding="8dp"
-                            android:text="OT Hours"
                             android:textColor="@color/black" />
 
                         <View
