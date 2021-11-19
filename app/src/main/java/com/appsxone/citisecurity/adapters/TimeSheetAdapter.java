@@ -38,8 +38,6 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
         holder.tvStartDateTime.setText(timeSheetModel.StartTime);
         holder.tvEndDateTime.setText(timeSheetModel.EndTime);
         holder.tvBreakHours.setText(timeSheetModel.BreakHours);
-        holder.tvRgHours.setText(timeSheetModel.TotalRGHours);
-        holder.tvOverTimeHours.setText(timeSheetModel.TotalOverTimeHours);
         holder.tvTotalHours.setText(timeSheetModel.TotalHours);
         holder.tvFacilityName.setText(timeSheetModel.FacilityName);
     }
@@ -50,7 +48,7 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvDate, tvStartDateTime, tvEndDateTime, tvBreakHours, tvRgHours, tvOverTimeHours, tvTotalHours, tvFacilityName;
+        TextView tvDate, tvStartDateTime, tvEndDateTime, tvBreakHours, tvTotalHours, tvFacilityName;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,8 +56,6 @@ public class TimeSheetAdapter extends RecyclerView.Adapter<TimeSheetAdapter.MyVi
             tvStartDateTime = itemView.findViewById(R.id.tvStartDateTime);
             tvEndDateTime = itemView.findViewById(R.id.tvEndDateTime);
             tvBreakHours = itemView.findViewById(R.id.tvBreakHours);
-            tvRgHours = itemView.findViewById(R.id.tvRgHours);
-            tvOverTimeHours = itemView.findViewById(R.id.tvOverTimeHours);
             tvTotalHours = itemView.findViewById(R.id.tvTotalHours);
             tvFacilityName = itemView.findViewById(R.id.tvFacilityName);
         }
