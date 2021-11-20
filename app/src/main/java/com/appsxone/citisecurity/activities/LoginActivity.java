@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements
 
             } else {
                 String lat_lng_date_time = lat + "{|}" + lng + "{|}" + DateFunctions.getCompleteDate();
-                database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
+                //database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
             }
         }
     }
@@ -305,7 +305,7 @@ public class LoginActivity extends AppCompatActivity implements
                         }
                     } else {
                         String lat_lng_date_time = latitude + "{|}" + longitude + "{|}" + DateFunctions.getCompleteDate();
-                        database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
+                        //database.saveLocation(new OfflineLocationModel(0, Uid, getMacAddr(), lat_lng_date_time));
                     }
                 }
             } else {
