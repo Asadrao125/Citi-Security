@@ -112,7 +112,7 @@ public class BackgroundService extends Service {
             public void run() {
                 try {
                     for (int i = 0; i < 100; i++) {
-                        Thread.sleep(10000);
+                        Thread.sleep(30000);
                         if (gpsTracker.canGetLocation()) {
                             latitude = gpsTracker.getLatitude();
                             longitude = gpsTracker.getLongitude();
@@ -144,17 +144,14 @@ public class BackgroundService extends Service {
     }
 
     public void callToApi(double latitude, double longitude) {
-        Log.d("debug_ing1", "callToApi: incalltoapi");
         if (InternetConnection.isNetworkConnected2(getApplicationContext())) {
             Log.d("debug_ing1", "run: ");
             updateLocation(latitude + "", longitude + "", "Loggedin");
-
             ArrayList<OfflineLocationModel> offlineLocationModelArrayList =
                     database.getAllLocations();
             if (offlineLocationModelArrayList != null) {
                 updateOfflineLocation(userId, getMacAddr());
             }
-
         } else {
             Log.d("debug_ing2", "run: ");
             String lat_lng_date_time = latitude + "{|}" + longitude + "{|}" +
