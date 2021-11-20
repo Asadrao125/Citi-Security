@@ -124,15 +124,6 @@ public class LoginActivity extends AppCompatActivity implements
             }
         });
 
-        /*GPSTracker gpsTracker = new GPSTracker(this);
-        if (gpsTracker.canGetLocation()) {
-            String lat = String.valueOf(gpsTracker.getLatitude());
-            String lng = String.valueOf(gpsTracker.getLongitude());
-            updateLocation(lat, lng, "Loggedout");
-        } else {
-            enableLocationPopup();
-        }*/
-
         GPSTracker gpsTracker = new GPSTracker(this);
         if (gpsTracker.canGetLocation()) {
             String lat = String.valueOf(gpsTracker.getLatitude());
@@ -148,13 +139,13 @@ public class LoginActivity extends AppCompatActivity implements
                 }
 
                 if (SharedPref.read("login", "").equals("true")) {
-                    updateLocation(lat, lng, "Loggedin");
+                    //updateLocation(lat, lng, "Loggedin");
                 } else {
-                    updateLocation(lat, lng, "Loggedout");
+                    //updateLocation(lat, lng, "Loggedout");
                 }
 
                 if (database.getAllLocations() != null) {
-                    updateOfflineLocation(Uid, getMacAddr());
+                    //updateOfflineLocation(Uid, getMacAddr());
                 }
 
             } else {
@@ -293,11 +284,6 @@ public class LoginActivity extends AppCompatActivity implements
                 if (latitude.equals("no")) {
                     enableLocationPopup();
                 } else {
-                    /*if (SharedPref.read("login", "").equals("true")) {
-                        updateLocation(latitude, longitude, "Loggedin");
-                    } else {
-                        updateLocation(latitude, longitude, "Loggedout");
-                    }*/
                     if (InternetConnection.isNetworkConnected(LoginActivity.this)) {
                         try {
                             JSONObject jsonObject = new JSONObject(SharedPref.read("login_responce", ""));
@@ -308,14 +294,14 @@ public class LoginActivity extends AppCompatActivity implements
 
                         if (Uid != null) {
                             if (SharedPref.read("login", "").equals("true")) {
-                                updateLocation(latitude, longitude, "Loggedin");
+                                //updateLocation(latitude, longitude, "Loggedin");
                             }
                         } else {
-                            updateLocation(latitude, longitude, "Loggedout");
+                            //updateLocation(latitude, longitude, "Loggedout");
                         }
 
                         if (database.getAllLocations() != null) {
-                            updateOfflineLocation(Uid, getMacAddr());
+                            //updateOfflineLocation(Uid, getMacAddr());
                         }
                     } else {
                         String lat_lng_date_time = latitude + "{|}" + longitude + "{|}" + DateFunctions.getCompleteDate();
@@ -334,8 +320,6 @@ public class LoginActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
         if (states.isNetworkLocationPresent() && states.isGpsPresent() && states.isLocationPresent()) {
-            Log.d("gps_tag", "onActivityResult: RESULT_OK");
-
             GPSTracker gpsTracker = new GPSTracker(this);
             if (gpsTracker.canGetLocation()) {
                 String lat = String.valueOf(gpsTracker.getLatitude());
